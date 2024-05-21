@@ -73,11 +73,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+# Quick connect to test Db with terminal:
+# psql 'postgres://avnadmin:AVNS_oEf5QsHZypHi1gAudBu@pg-c3b2025-nefpcapstone.k.aivencloud.com:10763/defaultdb?sslmode=require'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': 'AVNS_oEf5QsHZypHi1gAudBu',
+        'HOST': 'pg-c3b2025-nefpcapstone.k.aivencloud.com',
+        'PORT': '10763',
     }
 }
 
