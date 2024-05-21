@@ -36,9 +36,8 @@ class ClientData(models.Model):
     ]
     language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
 
-    FAMILY_SIZE = [
-
-    ]
+    FAMILY_SIZE = [(str(i), str(i)) for i in range(1, 10)] + [('Other', 'Other')]
+    family_size = models.CharField(max_length=5, choices=MOUTHS_CHOICES)
 
     SNAP_BENEFITS_CHOICES = [
         ('YES', 'Yes'),
@@ -48,10 +47,24 @@ class ClientData(models.Model):
 
     ZIP_CODE_CHOICES = [
         ('97206', '97206')
-        ('97213', '')
-        ('', '')
-        ('', '')
-        ('', '')
-        ('', '')
+        ('97213', '97213')
+        ('97216', '97216')
+        ('97218', '97218')
+        ('97220', '97220')
+        ('97230', '97230')
+        ('97233', '97233')
+        ('97236', '97236')
+        ('97266', '97266')
+        ('Other', 'Other')
     ]
     zip_code = models.CharField(max_length=5, choices=ZIP_CODE_CHOICES)
+
+    #snap_benefits = models.BooleanField # require's renaming BooleanField's parameters
+
+    SNAP_BENEFITS_CHOICES = [
+        ('YES', 'Yes'),
+        ('NO', 'No'),
+    ]
+    snap_benefits = models.CharField(max_length=3, choices=SNAP_BENEFITS_CHOICES)
+
+    
