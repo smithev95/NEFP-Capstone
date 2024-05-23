@@ -4,11 +4,12 @@ Spring-Summer 2024
 
 ## Team members
 
-Evan Smith
-Devon Bedenbaugh
-Tyler Evans
-Ploy Nitipiyaroj
-Sean Hendrickson
+Evan Smith  
+Devon Bedenbaugh  
+Tyler Evans  
+Ploy Nitipiyaroj  
+Sean Hendrickson  
+.
 
 ## Setting up dev environment
 
