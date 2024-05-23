@@ -32,12 +32,12 @@ class ClientData(models.Model):
         ('AR', 'Arabic'),
         ('HT', 'Haitian Creole'),
         ('FA', 'Persian'),
-        ('LO', 'Lao')
+        ('LO', 'Lao'),
     ]
     language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
 
     FAMILY_SIZE = [(str(i), str(i)) for i in range(1, 10)] + [('Other', 'Other')]
-    family_size = models.CharField(max_length=5, choices=MOUTHS_CHOICES)
+    family_size = models.CharField(max_length=5, choices=FAMILY_SIZE)
 
     SNAP_BENEFITS_CHOICES = [
         ('YES', 'Yes'),
@@ -46,16 +46,16 @@ class ClientData(models.Model):
     snap_benefits = models.CharField(max_length=3, choices=SNAP_BENEFITS_CHOICES)
 
     ZIP_CODE_CHOICES = [
-        ('97206', '97206')
-        ('97213', '97213')
-        ('97216', '97216')
-        ('97218', '97218')
-        ('97220', '97220')
-        ('97230', '97230')
-        ('97233', '97233')
-        ('97236', '97236')
-        ('97266', '97266')
-        ('Other', 'Other')
+        ('97206', '97206'),
+        ('97213', '97213'),
+        ('97216', '97216'),
+        ('97218', '97218'),
+        ('97220', '97220'),
+        ('97230', '97230'),
+        ('97233', '97233'),
+        ('97236', '97236'),
+        ('97266', '97266'),
+        ('Other', 'Other'),
     ]
     zip_code = models.CharField(max_length=5, choices=ZIP_CODE_CHOICES)
 
