@@ -23,7 +23,7 @@ class ClientData(models.Model):
     completion_time = models.TimeField(auto_now_add=True)
 
     LANGUAGE_CHOICES = [
-*       ('ES', 'Spanish'),
+        ('ES', 'Spanish'),
         ('ZH', 'Traditional Chinese/Simplified Chinese'),
         ('VI', 'Vietnamese'),
         ('EN', 'English'),
