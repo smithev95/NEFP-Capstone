@@ -45,6 +45,14 @@ class ClientData(models.Model):
     ]
     snap_benefits = models.CharField(max_length=3, choices=SNAP_BENEFITS_CHOICES)
 
+    #snap_benefits = models.BooleanField # require's renaming BooleanField's parameters
+
+    TRAVEL_BY_CAR_CHOICES = [
+        ('YES', 'Yes'),
+        ('NO', 'No'),
+    ]
+    travel_by_car = models.CharField(max_length=3, choices=TRAVEL_BY_CAR_CHOICES)
+
     ZIP_CODE_CHOICES = [
         ('97206', '97206'),
         ('97213', '97213'),
@@ -58,13 +66,5 @@ class ClientData(models.Model):
         ('Other', 'Other'),
     ]
     zip_code = models.CharField(max_length=5, choices=ZIP_CODE_CHOICES)
-
-    #snap_benefits = models.BooleanField # require's renaming BooleanField's parameters
-
-    SNAP_BENEFITS_CHOICES = [
-        ('YES', 'Yes'),
-        ('NO', 'No'),
-    ]
-    snap_benefits = models.CharField(max_length=3, choices=SNAP_BENEFITS_CHOICES)
 
     
