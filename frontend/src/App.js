@@ -9,7 +9,7 @@ function App() {
   //Fetch data using axios
   useEffect(() => {
     console.log("App.js useEffect called.");
-    axios.get('http://127.0.0.1:8000/clientdata')
+    axios.get('http://127.0.0.1:8000/clientdata/')
       .then(response => {
         setData(response.data);
       })
@@ -26,7 +26,7 @@ function App() {
       <ul>
         {data.map(item => (
           <li key={item.id}>
-            <p>Date: {new DataTransfer(item.date).toLocaleDateString()}</p>
+            <p>Date: {new Date(item.date).toLocaleDateString()}</p>
             <p>Start Time: {item.start_time}</p>
             <p>Completion Time: {item.completion_time}</p>
             <p>Language: {item.language}</p>
