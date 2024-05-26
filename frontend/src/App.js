@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
-
+import './App.css'
 
 function App() {
   //Define component for axios
@@ -20,7 +20,43 @@ function App() {
 
 
   //html loop 'data.map' iterates through object and displays data
-  return (
+ 
+ return (
+  <div className="Handler">
+    <h1>Client Data List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Start Time</th>
+          <th>Completion Time</th>
+          <th>Language</th>
+          <th>Family Size</th>
+          <th>SNAP Benefits</th>
+          <th>Travel by Car</th>
+          <th>ZIP Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(item => (
+          <tr key ={item.id}>
+            <td>{new Date(item.date).toLocaleDateString()}</td>
+            <td>{item.start_time}</td>
+            <td>{item.completion_time}</td>
+            <td>{item.language}</td>
+            <td>{item.family_size}</td>
+            <td>{item.snap_benefits}</td>
+            <td>{item.travel_by_car}</td>
+            <td>{item.zip_code}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+ )
+ 
+ /* return (
     <div className="Handler">
       <h1>Client Data List</h1>
       <ul>
@@ -40,7 +76,7 @@ function App() {
     </div>
   );
 
-
+*/
 
 }
 
