@@ -23,13 +23,19 @@ const ClientDataForm = () => {
         const json_data = JSON.stringify(form_data_object)
 
         console.log(json_data)
-        const form_type = e.target.method
-        console.log(form_type)
-
-        console.log('form submitted');
+        
+        axios.post('http://127.0.0.1:8000/newsubmission/', json_data, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            console.log('Response', response.data)
+        })
+        .catch(error => {
+            console.error('Error sending data', error)
+        })
     }
-
-    //<form method="post" onSubmit={log_information}>
 
     return (
         <div>
@@ -45,7 +51,7 @@ const ClientDataForm = () => {
                 <label htmlFor="family_size">Family Size:</label><br />
                 {Array.from({ length: 9 }, (_, index) => (
                     <React.Fragment key={index}>
-                        <input type="radio" id={`family_size-${index + 1}`} name="family_size" value={`family_size-${index + 1}`} required />
+                        <input type="radio" id={`family_size-${index + 1}`} name="family_size" value={`${index + 1}`} required />
                         <label htmlFor={`family_size-${index + 1}`}>{index + 1}</label><br />
                     </React.Fragment>
                 ))}
@@ -62,7 +68,7 @@ const ClientDataForm = () => {
                 <label htmlFor="zip_code">ZIP Code:</label><br />
                 {zipCodes.map((code, index) => (
                     <React.Fragment key={index}>
-                        <input type="radio" id={`zip_code-${code}`} name="zip_code" value={`zip_code-${code}`} required />
+                        <input type="radio" id={`zip_code-${code}`} name="zip_code" value={`${code}`} required />
                         <label htmlFor={`zip_code-${code}`}>{`${code}`}</label><br />
                     </React.Fragment>
                 ))}
