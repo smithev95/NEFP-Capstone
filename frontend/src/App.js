@@ -1,22 +1,21 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import ClientDataForm from './ClientDataForm';
-
-import './App.css'
+import ClientDataForm from "./ClientDataForm";
+import ClientDataTable from "./ClientDataTable";
+import "./App.css";
 
 const App = () => {
   return (
-      <Router>
-          <Routes>
+    <Router>
+      <Routes>
+        <Route path="/form" element={<ClientDataForm />} />
+        <Route path="/table" element={<ClientDataTable />} />
 
-              <Route path="/form" element={<ClientDataForm />} />
-
-              {/* Add other routes here */}
-          </Routes>
-      </Router>
+        {/* Add other routes here */}
+      </Routes>
+    </Router>
   );
 };
 
 export default App;
-
