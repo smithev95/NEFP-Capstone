@@ -1,13 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 const ClientDataForm = () => {
     const languageCodes = ['EN', 'ES', 'ZH', 'VI', 'UK', 'RU', 'AR', 'HT', 'FA', 'LO'];
     const zipCodes = ['97206', '97213', '97216', '97218', '97220', '97230', '97233', '97236', '97266']
 
+    useEffect(() => {
+        console.log('form loaded')
+    })
+
+    const log_information = (e) => {
+        // prevents form from refreshing when submitting
+        e.preventDefault();
+
+        const form_data = new FormData(e.target)
+
+        const form_data_object = {};
+            form_data.forEach((value, key) => {
+                form_data_object[key] = value;
+        });
+
+        const json_data = JSON.stringify(form_data_object)
+
+        console.log(json_data)
+        const form_type = e.target.method
+        console.log(form_type)
+
+        console.log('form submitted');
+    }
+
+    //<form method="post" onSubmit={log_information}>
+
     return (
         <div>
             <h1>Client Form</h1>
-            <form method="post">
+            <form method="post" onSubmit={log_information}>
                 <label htmlFor="language">Language:</label><br />
                 {languageCodes.map((code,index) => (
                     <React.Fragment key={index}>
