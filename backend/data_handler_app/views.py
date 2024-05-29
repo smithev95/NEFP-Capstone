@@ -20,7 +20,6 @@ def client_data_form(request):
         model.save()
         return JsonResponse({'message': 'successfully submitted'})
     except:
-        print('not valid JSON data')
         return JsonResponse({'error': 'not valid JSON data'})  
       
 def client_data_list(request):
