@@ -44,7 +44,7 @@ const ClientDataForm = () => {
             <div class="row mb-2 border-bottom">
                 <h1>Client Form</h1>
             </div>
-            <form method="post">
+            <form method="post" onSubmit={log_information}>
                 <div class="row mb-2 border-bottom">
                     <div class="col mb-2">
                         <label class="fs-5 fw-normal" htmlFor="language">Language:</label>
@@ -123,20 +123,20 @@ const ClientDataForm = () => {
                                 zipCodes.map((code, index) => 
                                     (
                                         <Fragment key={index}>
-                                            <input class="form-check-input" type="radio" id={`zip_code-${code}`} name="zip_code" value={`zip_code-${code}`} required />
+                                            <input class="form-check-input" type="radio" id={`zip_code-${code}`} name="zip_code" value={`${code}`} required />
                                             <label class="form-check-label" htmlFor={`zip_code-${code}`}>{`${code}`}</label><br />
                                         </Fragment>
                                     ))
                             }
                         </div>
                         <div class="form-outline w-25">
-                            <input class="form-control" type="text" id="family_size-other" name="family_size" placeholder="Other"/>
+                            <input class="form-control" type="text" id="zip_code-other" name="family_size" placeholder="Other"/>
                         </div>
                     </div>
                 </div>
                 <div class="row my-2">
                     <div class="col mb-2" align="center">
-                        <button class="btn btn-primary btn-lg" type="button" value="Submit">Submit</button>
+                        <button class="btn btn-primary btn-lg" type="submit" value="Submit">Submit</button>
                     </div>
                 </div>
 
