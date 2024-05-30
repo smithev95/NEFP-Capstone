@@ -8,6 +8,7 @@ const ClientDataForm = () => {
         // Fetch the JSON data
         axios.get('/Questions.json')
             .then(response => {
+                console.log(response.data);
                 setQuestions(response.data);
             })
             .catch(error => {
@@ -50,7 +51,7 @@ const ClientDataForm = () => {
                 <div className="form-check">
                     {question.answers.map((answer, idx) => (
                         <Fragment key={idx}>
-                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.question} value={answer} required />
+                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.api_token} value={answer} required />
                             <label className="form-check-label" htmlFor={`${question.question}-${answer}`}>{answer}</label>
                             <br />
                         </Fragment>
