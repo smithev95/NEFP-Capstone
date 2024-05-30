@@ -2,13 +2,13 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from .forms import ClientDataForm
 from .models import ClientData
 import json
 # Create your views here.
 
-@csrf_exempt
+@ensure_csrf_cookie
 def client_data_form(request):
     if request.method == 'POST':
         data = json.loads(request.body)
