@@ -1,0 +1,12 @@
+[
+    {
+      "question": "ZIP Code",
+      "answers": ["29092", "24243", "23242", "24235"],
+      "hasOther": true
+    },
+    {
+      "question": "Drove here?",
+      "answers": ["yes", "no", "maybe"],
+      "hasOther": false
+    }
+  ]
