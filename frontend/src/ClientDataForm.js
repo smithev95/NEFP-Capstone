@@ -1,16 +1,48 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import axios from 'axios';
 
 const ClientDataForm = () => {
     const languageCodes = ['EN', 'ES', 'ZH', 'VI', 'UK', 'RU', 'AR', 'HT', 'FA', 'LO'];
     const zipCodes = ['97206', '97213', '97216', '97218', '97220', '97230', '97233', '97236', '97266'];
     const yesNo = ['Yes', 'No'];
+    
+    useEffect(() => {
+        console.log('form loaded')
+    })
 
+    const log_information = (e) => {
+        // prevents form from refreshing when submitting
+        e.preventDefault();
+
+        const form_data = new FormData(e.target)
+
+        const form_data_object = {};
+            form_data.forEach((value, key) => {
+                form_data_object[key] = value;
+        });
+
+        const json_data = JSON.stringify(form_data_object)
+
+        console.log(json_data)
+        
+        axios.post('http://127.0.0.1:8000/newsubmission/', json_data, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            console.log('Response', response.data)
+        })
+        .catch(error => {
+            console.error('Error sending data', error)
+        })
+    }
     return (
         <div class="container">
             <div class="row mb-2 border-bottom">
                 <h1>Client Form</h1>
             </div>
-            <form method="post">
+            <form method="post" onSubmit={log_information}>
                 <div class="row mb-2 border-bottom">
                     <div class="col mb-2">
                         <label class="fs-5 fw-normal" htmlFor="language">Language:</label>
@@ -102,7 +134,7 @@ const ClientDataForm = () => {
                 </div>
                 <div class="row my-2">
                     <div class="col mb-2" align="center">
-                        <button class="btn btn-primary btn-lg" type="button">Submit</button>
+                        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
                     </div>
                 </div>
             </form>
