@@ -1,8 +1,10 @@
 from django.urls import path
 from .views import client_data_list
+from .views import client_data_form
 from django.views.generic import TemplateView
 
 urlpatterns = [
     path('clientdata/', client_data_list, name='client_data_list'),
-    path('', TemplateView.as_view(template_name='index.html'))
+    path('newsubmission/', client_data_form, name='new_submission'),
+    path('', TemplateView.as_view(template_name='index.html')),
 ]
