@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ClientDataForm
-from .models import ClientData
+from .models import ClientData, Questions
 import json
 # Create your views here.
 
@@ -26,3 +26,7 @@ def client_data_list(request):
     #This converts a 'QuerySet' to a list of dictionaries. 
     data = list(ClientData.objects.values())
     return JsonResponse(data, safe=False)
+
+def get_questions(request):
+    questions = list(Questions.objects.values())
+    return JsonResponse(questions, safe=False)
