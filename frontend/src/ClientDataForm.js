@@ -6,7 +6,7 @@ const ClientDataForm = () => {
 
     useEffect(() => {
         // Fetch the JSON data
-        axios.get('/Questions.json')
+        axios.get('http://127.0.0.1:8000/questions/')
             .then(response => {
                 console.log(response.data);
                 setQuestions(response.data);
@@ -47,16 +47,16 @@ const ClientDataForm = () => {
     const renderQuestion = (question, index) => (
         <div className="row mb-2 border-bottom" key={index}>
             <div className="col mb-2">
-                <label className="fs-5 fw-normal" htmlFor={question.question}>{question.question}:</label>
+                <label className="fs-5 fw-normal">{question.question}:</label>
                 <div className="form-check">
-                    {question.answers.map((answer, idx) => (
+                    {question.answer_choices.map((answer, idx) => (
                         <Fragment key={idx}>
-                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.api_token} value={answer} required />
-                            <label className="form-check-label" htmlFor={`${question.question}-${answer}`}>{answer}</label>
+                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.question} value={answer} required />
+                            <label className="form-check-label">{answer}</label>
                             <br />
                         </Fragment>
                     ))}
-                    {question.hasOther && (
+                    {question.has_other && (
                         <div className="form-outline w-25 mb-2">
                             <input className="form-control" type="text" id={`${question.question}-other`} name={`${question.question}-other`} placeholder="Other"/>
                         </div>
