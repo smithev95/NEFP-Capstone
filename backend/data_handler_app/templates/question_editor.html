@@ -1,0 +1,21 @@
+<form action="/updatequestion/submit/update" method="post">
+    {% csrf_token %}
+    <label for="api_token">Api Token for table:</label><br>
+    <input type="text" id="api_token" name="api_token" value="{{ selected_data.api_token }}"><br><br>
+
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question" value="{{ selected_data.question }}"><br><br>
+
+    <label for="answers">Answers (comma-separated):</label><br>
+    <input type="text" id="answers" name="answers" value="{% for answers in selected_data.answers %}{{ answers }}{% if not forloop.last %}, {% endif %}{% endfor %}"><br>
+    
+    <label for="hasOther">Has Other:</label><br>
+    <input type="radio" id="has_other_true" name="has_other" value="true" {% if selected_data.has_other %}checked{% endif %}>
+    <label for="has_other_true">True</label>
+    <input type="radio" id="has_other_false" name="has_other" value="false" {% if not selected_data.has_other %}checked{% endif %}>
+    <label for="has_other_false">False</label><br><br>
+
+    <button type="submit">Submit</button>
+    Selected Data: {{ selected_data.answers }}
+
+</form>
