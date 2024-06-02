@@ -15,13 +15,11 @@ def add_question_handler(request):
 def add_question(request):
     if request.method == 'POST':
         try:
-            # api_token = request.POST.get('api_token')
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = request.POST.get('has_other') == 'true'
 
             data = {
-                # 'api_token': api_token,
                 'deleted': False,
                 'question': question,
                 'answer_choices': answer_choices,
