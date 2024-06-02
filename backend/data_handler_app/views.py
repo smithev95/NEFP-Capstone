@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import ClientDataForm
-from .models import ClientData
+from .models import ClientData1
 import json
 # Create your views here.
 
@@ -15,7 +15,7 @@ def client_data_form(request):
     else:
         return JsonResponse({'error': 'not POST request'}, status=400)
         
-    model = ClientData(**data)
+    model = ClientData1(**data)
     try: 
         model.save()
         return JsonResponse({'message': 'successfully submitted'})
@@ -24,6 +24,6 @@ def client_data_form(request):
       
 def client_data_list(request):
     #This converts a 'QuerySet' to a list of dictionaries. 
-    data = list(ClientData.objects.values())
+    data = list(ClientData1.objects.values())
     return JsonResponse(data, safe=False)
 
