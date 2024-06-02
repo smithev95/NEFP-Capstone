@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import TestAddTable
+from .models import AddTester
 import os
 import json
 from django.conf import settings
@@ -17,3 +17,7 @@ class ParseJSONTest(TestCase):
                     if key == 'api_token':
                         col_names.append(value)     #save values in list of question names
         print(col_names)
+
+    def test_addtester_func(self):
+        list = AddTester.parse_json()
+        print (list)

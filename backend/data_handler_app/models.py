@@ -2,6 +2,7 @@ from django.db import models
 import json
 import os
 from django.conf import settings
+from django.core.exceptions import FieldDoesNotExist
 # Create your models here.
 '''
 class ClientData:
@@ -91,52 +92,25 @@ class ClientData1(models.Model):
 
     zip_code = models.CharField(max_length=5)
 
-class TestAddTable:
-    date = models.DateTimeField(auto_now_add=True)
-    start_time = models.TimeField(auto_now_add=True)
-    completion_time = models.TimeField(auto_now_add=True)
-
-    LANGUAGE_CHOICES = [
-        ('ES', 'Spanish'),
-        ('ZH', 'Traditional Chinese/Simplified Chinese'),
-        ('VI', 'Vietnamese'),
-        ('EN', 'English'),
-        ('UK', 'Ukrainian'),
-        ('RU', 'Russian'),
-        ('AR', 'Arabic'),
-        ('HT', 'Haitian Creole'),
-        ('FA', 'Persian'),
-        ('LO', 'Lao'),
-    ]
-    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES)
-
-    family_size = models.PositiveIntegerField()
-
-    SNAP_BENEFITS_CHOICES = [
-        ('YES', 'Yes'),
-        ('NO', 'No'),
-    ]
-    snap_benefits = models.CharField(max_length=3, choices=SNAP_BENEFITS_CHOICES)
-
-    TRAVEL_BY_CAR_CHOICES = [
-        ('YES', 'Yes'),
-        ('NO', 'No'),
-    ]
-    travel_by_car = models.CharField(max_length=3, choices=TRAVEL_BY_CAR_CHOICES)
-
-    zip_code = models.CharField(max_length=5)
+class AddTester(ClientData1):
      
-
-
-'''
-def test_parse_json(self):
-    file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
-    col_names = []  #names of table's data fields
-    with open (file, 'r') as question_file:
-        questions = json.load(question_file)    #loading json from file
-        for field in questions:     #iterate through dict, get key/value pairs from each json obj
-            for key, value in field.items():
-                if key == 'api_token':
-                    col_names.append(value)     #save values in list of question names
-    print(col_names)
-'''
+    def parse_json():
+        file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
+        field_names = []  #names of table's data fields
+        with open (file, 'r') as question_file:
+            questions = json.load(question_file)    #loading json from file
+            for field in questions:     #iterate through dict, get key/value pairs from each json obj
+                for key, value in field.items():
+                    if key == 'api_token':
+                        field_names.append(value)     #save values in list of question names
+        return field_names #return array of data field names
+    
+    def __init__(self) -> None:
+        field_names = self.parse_json(self) 
+        for field in field_names:
+            try:
+                self._meta.get_field(field)
+            except FieldDoesNotExist:
+                #models.CharField().contribute_to_class(AddTester, field)
+                AddTester.add_to_class(field, models.CharField())
+                print(field)
