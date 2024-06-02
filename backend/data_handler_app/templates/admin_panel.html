@@ -1,29 +1,16 @@
-{% block content %}
-<div class="container mt-5">
-    <h1>Admin Panel</h1>
-    <div class="row">
-        <div class="col-md-12">
-            <button class="btn btn-primary mr-2" onclick="callFunction('add_question')">Add Question</button>
-            <button class="btn btn-secondary mr-2" onclick="callFunction('delete_question')">Delete Question</button>
-            <button class="btn btn-success" onclick="callFunction('update_question')">Update Question</button>
+<script>
+    function redirectToForm(formName) {
+        window.location.href = `/${formName}/`;
+    }
+    </script>
+    
+    <div class="container mt-5">
+        <h1>Admin Panel</h1>
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-primary mr-2" onclick="redirectToForm('addquestion/form')">Add Question</button>
+                <button class="btn btn-secondary mr-2" onclick="redirectToForm('delete_question_form')">Delete Question</button>
+                <button class="btn btn-success" onclick="redirectToForm('update_question_form')">Update Question</button>
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-function callFunction(buttonName) {
-    fetch(`/${buttonName}/`, {
-        method: 'GET',
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-</script>
-{% endblock %}

@@ -1,0 +1,19 @@
+<form action="/addquestion/submit/" method="post">
+    {% csrf_token %}
+    <label for="api_token">Api Token for table:</label><br>
+    <input type="text" id="api_token" name="api_token"><br><br>
+
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question"><br><br>
+
+    <label for="answers">Answers (comma-separated):</label><br>
+    <input type="text" id="answers" name="answers"><br><br>
+
+    <label for="hasOther">Has Other:</label><br>
+    <input type="radio" id="has_other_true" name="has_other" value="true">
+    <label for="has_other_true">True</label>
+    <input type="radio" id="has_other_false" name="has_other" value="false" checked>
+    <label for="has_other_false">False</label><br><br>
+
+    <button type="submit">Submit</button>
+</form>

@@ -52,4 +52,3 @@ class ClientData(models.Model):
 
     zip_code = models.CharField(max_length=5)
 
-    
