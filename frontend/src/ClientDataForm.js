@@ -27,6 +27,21 @@ const ClientDataForm = () => {
         form_data.forEach((value, key) => {
             form_data_object[key] = value;
         });
+        
+        // Loop through to check for has_other option
+        questions.forEach((question) => {
+            console.log(question.question);
+            if (question.has_other) {
+                console.log(form_data_object[question.question]);
+                // If radio value is "Other", use the value from the text field
+                if (form_data_object[question.question] === "Other") {
+                    form_data_object[question.question] = form_data_object[`${question.question}-other`];
+                }
+
+                // Remove other field from dict
+                delete form_data_object[`${question.question}-other`];
+            }
+        });
 
         const json_data = JSON.stringify(form_data_object);
         console.log(json_data);
@@ -47,18 +62,19 @@ const ClientDataForm = () => {
     const renderQuestion = (question, index) => (
         <div className="row mb-2 border-bottom" key={index}>
             <div className="col mb-2">
-                <label className="fs-5 fw-normal">{question.question}:</label>
+                <p className="fs-5 fw-normal">{question.question}:</p>
                 <div className="form-check">
                     {question.answer_choices.map((answer, idx) => (
                         <Fragment key={idx}>
-                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.question} value={answer} required />
-                            <label className="form-check-label">{answer}</label>
+                            <input className="form-check-input" type="radio" id={`${question.question}-${answer}`} name={question.question} value={answer} required/>
+                            <label className="form-check-label" htmlFor={`${question.question}-${answer}`}>{answer}</label>
                             <br />
                         </Fragment>
                     ))}
                     {question.has_other && (
                         <div className="form-outline w-25 mb-2">
-                            <input className="form-control" type="text" id={`${question.question}-other`} name={`${question.question}-other`} placeholder="Other"/>
+                            <input className="form-check-input" type="radio" id={`${question.question}-other`} name={question.question} value="Other"/>
+                            <input className="form-control" type="text" id={`${question.question}-other-text`} name={`${question.question}-other`} placeholder="Other"/>
                         </div>
                     )}
                 </div>

@@ -14,13 +14,16 @@ def client_data_form(request):
         print(data)
     else:
         return JsonResponse({'error': 'not POST request'}, status=400)
-        
-    model = ClientData(**data)
-    try: 
-        model.save()
-        return JsonResponse({'message': 'successfully submitted'})
-    except:
-        return JsonResponse({'error': 'not valid JSON data'})  
+    
+    for key, value in data.items():
+        try: 
+            question = Questions.objects.get(question=key)
+            new_answer = ClientData(answer=value, question_fk=question)
+            new_answer.save()
+        except:
+            return JsonResponse({'error': 'not valid JSON data'})
+    
+    return JsonResponse({'message': 'successfully submitted'})  
       
 def client_data_list(request):
     #This converts a 'QuerySet' to a list of dictionaries. 
