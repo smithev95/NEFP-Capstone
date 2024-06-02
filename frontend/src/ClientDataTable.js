@@ -23,27 +23,17 @@ const ClientDataList = () => {
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Start Time</th>
-            <th>Completion Time</th>
-            <th>Language</th>
-            <th>Family Size</th>
-            <th>SNAP Benefits</th>
-            <th>Travel by Car</th>
-            <th>ZIP Code</th>
+            <th>Created Timestamp</th>
+            <th>Question</th>
+            <th>Answer</th>
           </tr>
         </thead>
         <tbody>
           {data.map(item => (
             <tr key={item.id}>
-              <td>{new Date(item.date).toLocaleDateString()}</td>
-              <td>{item.start_time}</td>
-              <td>{item.completion_time}</td>
-              <td>{item.language}</td>
-              <td>{item.family_size}</td>
-              <td>{item.snap_benefits}</td>
-              <td>{item.travel_by_car}</td>
-              <td>{item.zip_code}</td>
+              <td>{item.created_timestamp}</td>
+              <td>{item.question_value}</td>
+              <td>{item.answer}</td>
             </tr>
           ))}
         </tbody>

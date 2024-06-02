@@ -26,8 +26,16 @@ def client_data_form(request):
     return JsonResponse({'message': 'successfully submitted'})  
       
 def client_data_list(request):
-    #This converts a 'QuerySet' to a list of dictionaries. 
+    # This converts a 'QuerySet' to a list of dictionaries.
+    questions_fk_values = list(Questions.objects.values_list("id", "question")) 
     data = list(ClientData.objects.values())
+    
+    # Map question foreign key to its value
+    for row in data:
+        for key, val in questions_fk_values:
+            if (key == row["question_fk_id"]):
+                row["question_value"] = val
+
     return JsonResponse(data, safe=False)
 
 def get_questions(request):

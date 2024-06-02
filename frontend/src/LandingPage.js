@@ -2,9 +2,16 @@ import {Link} from 'react-router-dom'
 
 function AdminButton() {
     return(
-        // TODO: switch /table to admin page when created
-        <Link to="/table">
+        <Link to="http://localhost:8000/adminpanel">
             <button>Admin Page</button>
+        </Link>
+    );
+}
+
+function TableButton() {
+    return(
+        <Link to="/table">
+            <button>Open Client Table</button>
         </Link>
     );
 }
@@ -22,6 +29,7 @@ const LandingPage = () => {
         <div>
             <h1>APPLICATION NAME: TBD</h1>
             <AdminButton />
+            <TableButton />
             <QuestionnaireButton />
         </div>
     );
