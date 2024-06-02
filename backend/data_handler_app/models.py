@@ -93,7 +93,7 @@ class ClientData1(models.Model):
     zip_code = models.CharField(max_length=5)
 
 class AddTester(ClientData1):
-     
+
     def parse_json():
         file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
         field_names = []  #names of table's data fields
@@ -105,7 +105,7 @@ class AddTester(ClientData1):
                         field_names.append(value)     #save values in list of question names
         return field_names #return array of data field names
     
-    def __init__(self) -> None:
+    '''def __init__(self) -> None:
         field_names = self.parse_json(self) 
         for field in field_names:
             try:
@@ -113,4 +113,13 @@ class AddTester(ClientData1):
             except FieldDoesNotExist:
                 #models.CharField().contribute_to_class(AddTester, field)
                 AddTester.add_to_class(field, models.CharField())
-                print(field)
+                print(field)'''
+
+field_names = AddTester.parse_json() 
+for field in field_names:
+        try:
+            AddTester._meta.get_field(field)
+        except FieldDoesNotExist:
+            models.CharField(max_length=50, default="test").contribute_to_class(AddTester, field)
+            #print (field)
+            #AddTester.add_to_class(field, models.CharField())

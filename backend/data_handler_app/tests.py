@@ -6,7 +6,7 @@ from django.conf import settings
 
 # Create your tests here.
 
-class ParseJSONTest(TestCase):
+class ParseJSONTests(TestCase):
     def test_parse_json(self):
         file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
         col_names = []  #names of table's data fields
