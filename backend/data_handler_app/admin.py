@@ -44,11 +44,11 @@ def update_question_handler(request):
 
 def update_question(request):
     if request.method == 'GET':
-            try:
-                question_obj = Questions.objects.get(pk=request.GET["question"])
-                return render(request, 'question_editor.html', {"question": question_obj})
-            except Exception as e:
-                return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
+        try:
+            question_obj = Questions.objects.get(pk=request.GET["question"])
+            return render(request, 'question_editor.html', {"question": question_obj})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
     return HttpResponse("Incorrect request method: failed to update question")
 
 def submit_update(request, question_id):
