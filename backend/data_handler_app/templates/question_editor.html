@@ -1,8 +1,5 @@
-<form action="/updatequestion/submit/update/" method="post">
+<form action="{% url 'submit_update' question.id %}" method="post">
     {% csrf_token %}
-    <!-- TODO: This is hacky way to pass the object ID, need to refactor! -->
-    <input type="text" id="id" name="id" value="{{ question.id }}" hidden><br><br>
-
     <label for="question">Question:</label><br>
     <input type="text" id="question" name="question" value="{{ question.question }}"><br><br>
 

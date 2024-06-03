@@ -42,26 +42,22 @@ def update_question_handler(request):
     questions = list(Questions.objects.values())
     return render(request, 'update_question_form.html', {"data": questions})
 
-# TODO: Pass question id as an argument to update_question
 def update_question(request):
     if request.method == 'GET':
             try:
-                question_id = request.GET.get('selected_data')
-                question_obj = Questions.objects.get(pk=question_id)
+                question_obj = Questions.objects.get(pk=request.GET["question"])
                 return render(request, 'question_editor.html', {"question": question_obj})
             except Exception as e:
                 return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
     return HttpResponse("Incorrect request method: failed to update question")
 
-# TODO: Pass question id as an argument to submit_update
-def submit_update(request):
+def submit_update(request, question_id):
     if request.method == 'POST':
         try:
-            id = request.POST.get('id')
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = False if request.POST.get('has_other') == "false" else True
-            Questions.objects.filter(id=id).update(question=question, answer_choices=answer_choices, has_other=has_other)
+            Questions.objects.filter(id=question_id).update(question=question, answer_choices=answer_choices, has_other=has_other)
         except Exception as e:
             return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
     

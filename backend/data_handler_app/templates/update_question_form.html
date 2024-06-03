@@ -2,40 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Display Data</title>
 </head>
 <body>
     <h1>Question List</h1>
-    <form method="get" action="/updatequestion/form/update/">
+    <form method="get" action="{% url 'update_question' %}">
         {% csrf_token %}
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Select</th>
-                    <th>Questions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in data %}
-                <tr>
-                    <td>
-                        <input type="radio" name="selected_item" value="{{ forloop.counter }}" onclick="setSelectedData('{{ item.id }}');">
-                    </td>
-                    <td>{{ item }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <input type="hidden" name="selected_data" id="selectedData">
+        {% for question in data %}
+            <input type="radio" name="question" id="question{{ forloop.counter }}" 
+                value="{{ question.id }}">
+            <label for="question{{ forloop.counter }}"> {{ question.question }}</label><br>
+        {% endfor %}
         <button type="submit">Submit</button>
     </form>
-
-    <script>
-        function setSelectedData(item) {
-            document.getElementById('selectedData').value = item;
-        }
-    </script>
 </body>
 </html>

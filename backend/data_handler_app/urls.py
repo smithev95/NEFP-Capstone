@@ -10,7 +10,6 @@ urlpatterns = [
     path('addquestion/form/', add_question_handler, name = 'add_question_handler'),
     path('addquestion/submit/', add_question, name='add_question'),
     path('updatequestion/form/', update_question_handler, name='update_question_handler'),
-    # TODO: Pass question id to updatequestion urls
     path('updatequestion/form/update/', update_question, name='update_question'),
-    path('updatequestion/submit/update/', submit_update, name='submit_update'),
+    path('updatequestion/submit/update/<int:question_id>/', submit_update, name='submit_update'),
 ]
