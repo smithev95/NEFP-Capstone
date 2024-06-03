@@ -1,0 +1,19 @@
+<form action="/updatequestion/submit/update/" method="post">
+    {% csrf_token %}
+    <!-- TODO: This is hacky way to pass the object ID, need to refactor! -->
+    <input type="text" id="id" name="id" value="{{ question.id }}" hidden><br><br>
+
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question" value="{{ question.question }}"><br><br>
+
+    <label for="answers">Answers (comma-separated):</label><br>
+    <input type="text" id="answers" name="answers" value="{% for answers in question.answer_choices %}{{ answers }}{% if not forloop.last %}, {% endif %}{% endfor %}"><br>
+
+    <label for="hasOther">Has Other:</label><br>
+    <input type="radio" id="has_other_true" name="has_other" value="true" {% if question.has_other %}checked{% endif %}>
+    <label for="has_other_true">True</label>
+    <input type="radio" id="has_other_false" name="has_other" value="false" {% if not question.has_other %}checked{% endif %}>
+    <label for="has_other_false">False</label><br><br>
+
+    <button type="submit">Submit</button>
+</form>
