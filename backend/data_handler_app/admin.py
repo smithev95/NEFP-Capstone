@@ -53,12 +53,20 @@ def update_question(request):
 
 def submit_update(request, question_id):
     if request.method == 'POST':
+        button_pressed = request.POST["button"]
+        if (button_pressed == "delete"):
+            try:
+                Questions.objects.filter(id=question_id).delete()
+            except Exception as e:
+                 return JsonResponse({"status": "error", "message": f"Error deleting data: {str(e)}"}, status=400)
+            return JsonResponse({'message': 'successfully deleted question'})  
+        
         try:
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = False if request.POST.get('has_other') == "false" else True
             Questions.objects.filter(id=question_id).update(question=question, answer_choices=answer_choices, has_other=has_other)
         except Exception as e:
-            return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
-    
-    return JsonResponse({'message': 'successfully updated question'})  
+            return JsonResponse({"status": "error", "message": f"Error updating data: {str(e)}"}, status=400)
+        return JsonResponse({'message': 'successfully updated question'})
+    return HttpResponse("Incorrect request method: failed to update question")
