@@ -99,21 +99,12 @@ class AddTester(ClientData1):
         field_names = []  #names of table's data fields
         with open (file, 'r') as question_file:
             questions = json.load(question_file)    #loading json from file
-            for field in questions:     #iterate through dict, get key/value pairs from each json obj
+            for field in questions:    #iterate through dict, get key/value pairs from each json obj
                 for key, value in field.items():
                     if key == 'api_token':
                         field_names.append(value)     #save values in list of question names
         return field_names #return array of data field names
     
-    '''def __init__(self) -> None:
-        field_names = self.parse_json(self) 
-        for field in field_names:
-            try:
-                self._meta.get_field(field)
-            except FieldDoesNotExist:
-                #models.CharField().contribute_to_class(AddTester, field)
-                AddTester.add_to_class(field, models.CharField())
-                print(field)'''
 
 field_names = AddTester.parse_json() 
 for field in field_names:
@@ -121,5 +112,4 @@ for field in field_names:
             AddTester._meta.get_field(field)
         except FieldDoesNotExist:
             models.CharField(max_length=50, default="test").contribute_to_class(AddTester, field)
-            #print (field)
-            #AddTester.add_to_class(field, models.CharField())
+            #AddTester.add_to_class(field, models.CharField(max_length=50, default="test"))
