@@ -93,20 +93,20 @@ class ClientData1(models.Model):
     zip_code = models.CharField(max_length=5)
 
 class AddTester(ClientData1):
+    pass
 
-    def parse_json():
-        file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
-        field_names = []  #names of table's data fields
-        with open (file, 'r') as question_file:
-            questions = json.load(question_file)    #loading json from file
-            for field in questions:    #iterate through dict, get key/value pairs from each json obj
-                for key, value in field.items():
-                    if key == 'api_token':
-                        field_names.append(value)     #save values in list of question names
-        return field_names #return array of data field names
+def parse_json():
+    file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
+    field_names = []  #names of table's data fields
+    with open (file, 'r') as question_file:
+        questions = json.load(question_file)    #loading json from file
+        for field in questions:    #iterate through dict, get key/value pairs from each json obj
+            for key, value in field.items():
+                if key == 'api_token':
+                    field_names.append(value)     #save values in list of question names
+    return field_names #return array of data field names
     
-
-field_names = AddTester.parse_json() 
+field_names = parse_json() 
 for field in field_names:
         try:
             AddTester._meta.get_field(field)
