@@ -95,6 +95,7 @@ class ClientData1(models.Model):
 class AddTester(ClientData1):
     pass
 
+
 def parse_json():
     file = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
     field_names = []  #names of table's data fields
