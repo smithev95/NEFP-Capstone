@@ -17,25 +17,35 @@ const ClientDataList = () => {
       });
   }, []);
 
+  // `map` over the first object in the array and get an array of keys and add them to TH elements
+  function getHeaders(data) {
+    if (data.length !== 0) {
+      return Object.keys(data[0]).map(key => {return <th>{key}</th>;});
+    }
+  }
+
+  // `map` over the data to return row data, passing in each mapped object to `getCells`
+  function getRows(data) {
+    if (data.length !== 0) {
+      return data.map(obj => {return <tr>{getCells(obj)}</tr>;});
+    }
+  }
+
+  function getCells(obj) {
+    return Object.values(obj).map(value => {return <td>{value}</td>;});
+  }
+
   return (
     <div className="Handler">
       <h1>Client Data List</h1>
       <table>
         <thead>
           <tr>
-            <th>Created Timestamp</th>
-            <th>Question</th>
-            <th>Answer</th>
+            {getHeaders(data)}
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
-              <td>{item.created_timestamp}</td>
-              <td>{item.question_value}</td>
-              <td>{item.answer}</td>
-            </tr>
-          ))}
+          {getRows(data)}
         </tbody>
       </table>
     </div>

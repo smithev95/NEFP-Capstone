@@ -37,14 +37,26 @@ def client_data_list(request):
     questions_fk_values = list(Questions.objects.values_list("id", "question")) 
     data = list(ClientData.objects.values())
     client_ids =  ClientData.objects.order_by("client_id").values("client_id").distinct()
-    
+
     # Map question foreign key to its value
     for row in data:
         for key, val in questions_fk_values:
             if (key == row["question_fk_id"]):
                 row["question_value"] = val
 
-    return JsonResponse(data, safe=False)
+    # Group data by client id
+    client_data = []
+    for id in client_ids:
+        client_id = id["client_id"]
+        client_dict = {}
+        for row in data:
+            if (row["client_id"] == client_id):
+                client_dict["client_id"] = client_id
+                client_dict[row["question_value"]] = row["answer"]
+                client_dict["created_timestamp"] = row["created_timestamp"]
+        client_data.append(client_dict)
+
+    return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
     questions = list(Questions.objects.values())
