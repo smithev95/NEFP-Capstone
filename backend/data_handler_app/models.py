@@ -108,9 +108,9 @@ def parse_json():
     return field_names #return array of data field names
     
 field_names = parse_json() 
-for field in field_names:
-        try:
-            AddTester._meta.get_field(field)
-        except FieldDoesNotExist:
-            models.CharField(max_length=50, default="test").contribute_to_class(AddTester, field)
-            #AddTester.add_to_class(field, models.CharField(max_length=50, default="test"))
+for field in field_names: 
+    try:
+        AddTester._meta.get_field(field) #This updates the AddTester testing table,                                         
+    except FieldDoesNotExist:            #replace AddTester with realtable to update when working
+        models.CharField(max_length=50, default="test").contribute_to_class(AddTester, field)
+        #AddTester.add_to_class(field, models.CharField(max_length=50, default="test"))
