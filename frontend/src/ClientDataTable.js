@@ -20,19 +20,19 @@ const ClientDataList = () => {
   // `map` over the first object in the array and get an array of keys and add them to TH elements
   function getHeaders(data) {
     if (data.length !== 0) {
-      return Object.keys(data[0]).map(key => {return <th>{key}</th>;});
+      return Object.keys(data[0]).map(key => {return <th key={key}>{key}</th>;});
     }
   }
 
   // `map` over the data to return row data, passing in each mapped object to `getCells`
   function getRows(data) {
     if (data.length !== 0) {
-      return data.map(obj => {return <tr>{getCells(obj)}</tr>;});
+      return data.map(obj => {return <tr key={`${obj.client_id}`}>{getCells(obj)}</tr>;});
     }
   }
 
   function getCells(obj) {
-    return Object.values(obj).map(value => {return <td>{value}</td>;});
+    return Object.values(obj).map((key, value) => {return <td key={`${obj.client_id}-${key}-${value}`}>{value}</td>;});
   }
 
   return (
