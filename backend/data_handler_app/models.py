@@ -19,6 +19,7 @@ class ClientData(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
     question_fk = models.ForeignKey("Questions", on_delete=models.SET_NULL, null=True)
     answer = models.CharField(max_length=255)
+    client_id = models.IntegerField()
 
     def __str__(self):
         return self.answer
