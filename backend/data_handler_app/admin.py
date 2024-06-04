@@ -49,8 +49,36 @@ def add_question(request):
 def add_question_handler(request):
     return render(request, 'add_question_form.html')
 
+
+def delete_question_handler(request):
+    return render(request, 'delete.html')
+
 def delete_question(request):
     return HttpResponse("Attempting to delete question")
 
+def update_question_handler(request):
+    question_file_path = os.path.join(settings.BASE_DIR, 'frontend', 'public', 'Questions.json')
+    with open(question_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    return render(request, 'update_question_form.html', {'data': json_data})
+
+
 def update_question(request):
+    if request.method == 'POST':
+        print("POST data:")
+        for key, value in request.POST.items():
+            print(f"{key}: {value}")
+        
+        selected_item = request.POST.get('selected_data')
+        print("selected item:",selected_item)
+        if selected_item:
+            selected_data = json.loads(selected_item)
+            print("selected data: ",selected_data)
+            return render(request, 'question_editor.html', {'selected_data': selected_data})
+        else:
+            return HttpResponse("No data received: failed to update question")
+    return HttpResponse("Incorrect request method: failed to update question")
+
+def submit_update(request):
     return HttpResponse("Attempting to update question")
