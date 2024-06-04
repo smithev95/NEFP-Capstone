@@ -32,7 +32,7 @@ const ClientDataList = () => {
   }
 
   function getCells(obj) {
-    return Object.values(obj).map((key, value) => {return <td key={`${obj.client_id}-${key}-${value}`}>{value}</td>;});
+    return Object.values(obj).map((value, idx) => {return <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>;});
   }
 
   return (

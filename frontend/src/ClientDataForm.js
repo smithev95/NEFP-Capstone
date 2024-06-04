@@ -8,7 +8,6 @@ const ClientDataForm = () => {
         // Fetch the JSON data
         axios.get('http://127.0.0.1:8000/questions/')
             .then(response => {
-                console.log(response.data);
                 setQuestions(response.data);
             })
             .catch(error => {
@@ -30,9 +29,7 @@ const ClientDataForm = () => {
         
         // Loop through to check for has_other option
         questions.forEach((question) => {
-            console.log(question.question);
             if (question.has_other) {
-                console.log(form_data_object[question.question]);
                 // If radio value is "Other", use the value from the text field
                 if (form_data_object[question.question] === "Other") {
                     form_data_object[question.question] = form_data_object[`${question.question}-other`];
@@ -44,7 +41,6 @@ const ClientDataForm = () => {
         });
 
         const json_data = JSON.stringify(form_data_object);
-        console.log(json_data);
 
         axios.post('http://127.0.0.1:8000/newsubmission/', json_data, {
             headers: {
