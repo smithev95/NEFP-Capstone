@@ -31,8 +31,8 @@ def client_data_form(request):
       
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
-    questions_fk_values = list(Questions.objects.values_list("id", "question")) 
-    data = list(Answer.objects.values())
+    questions_fk_values = list(Questions.objects.order_by("id").values_list("id", "question")) 
+    data = list(Answer.objects.filter(question_fk__isnull=False).order_by("client_id", "question_fk").values())
     client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
 
     # Map question foreign key to its value
@@ -44,14 +44,21 @@ def client_data_list(request):
     # Group data by client id
     client_data = []
     for id in client_ids:
-        client_id = id["client_id"]
         client_dict = {}
+        client_id = id["client_id"]
+        client_dict["client_id"] = client_id
         for row in data:
             if (row["client_id"] == client_id):
-                client_dict["client_id"] = client_id
                 client_dict[row["question_value"]] = row["answer"]
                 client_dict["created_timestamp"] = row["created_timestamp"]
         client_data.append(client_dict)
+
+    # Fill in None value for new columns
+    for row in client_data:
+        keys = row.keys()
+        for key, val in questions_fk_values:
+            if (val not in keys):
+                row[val] = None
 
     return JsonResponse(client_data, safe=False)
 
