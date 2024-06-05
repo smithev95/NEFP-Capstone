@@ -57,9 +57,12 @@ def submit_update(request, question_id):
         button_pressed = request.POST["button"]
         if (button_pressed == "delete"):
             try:
-                Questions.objects.filter(id=question_id).delete()
+                #Questions.objects.filter(id=question_id).delete()
+                q = Questions.objects.get(id=question_id)
+                q.deleted = True
+                q.save()
             except Exception as e:
-                 return JsonResponse({"status": "error", "message": f"Error deleting data: {str(e)}"}, status=400)
+                return JsonResponse({"status": "error", "message": f"Error deleting data: {str(e)}"}, status=400)
             return JsonResponse({'message': 'successfully deleted question'})  
         
         try:
