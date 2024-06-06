@@ -48,7 +48,20 @@ const ClientDataForm = () => {
             },
         })
         .then(response => {
-            console.log('Response', response.data);
+            if (response.status === 200) {
+                //alert('Form successfully submitted');
+                var result = window.confirm("Form successfully submitted")
+                if (result) {
+                    window.location.reload();
+                }
+                else {
+                    window.location.reload();
+                }
+                console.log('status', response.status)
+            }
+            else {
+                console.log('unsuccessful')
+            }
         })
         .catch(error => {
             console.error('Error sending data', error);
