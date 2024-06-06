@@ -28,7 +28,8 @@ def add_question(request):
             }
             print(data)
         except Exception as e:
-            return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
+            return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
+                                status=400)
         
         try:
             # Save new question
@@ -49,7 +50,8 @@ def update_question(request):
             question_obj = Questions.objects.get(pk=request.GET["question"])
             return render(request, 'question_editor.html', {"question": question_obj})
         except Exception as e:
-            return JsonResponse({"status": "error", "message": f"Error parsing form data: {str(e)}"}, status=400)
+            return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
+                                status=400)
     return HttpResponse("Incorrect request method: failed to update question")
 
 def submit_update(request, question_id):
@@ -68,16 +70,19 @@ def submit_update(request, question_id):
                     a.save()
                 
             except Exception as e:
-                return JsonResponse({"status": "error", "message": f"Error deleting data: {str(e)}"}, status=400)
+                return JsonResponse({"status": "error", "message":f"Error deleting data: {str(e)}"}, 
+                                    status=400)
             return JsonResponse({'message': 'successfully deleted question'})  
         
         try:
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = False if request.POST.get('has_other') == "false" else True
-            Questions.objects.filter(id=question_id).update(question=question, answer_choices=answer_choices, has_other=has_other, deleted=False)
+            Questions.objects.filter(id=question_id).update(question=question, 
+                                answer_choices=answer_choices, has_other=has_other, deleted=False)
             Answer.objects.filter(question_fk=question_id).update(deleted=False)
         except Exception as e:
-            return JsonResponse({"status": "error", "message": f"Error updating data: {str(e)}"}, status=400)
+            return JsonResponse({"status": "error", "message": f"Error updating data: {str(e)}"}, 
+                                status=400)
         return JsonResponse({'message': 'successfully updated question'})
     return HttpResponse("Incorrect request method: failed to update question")
