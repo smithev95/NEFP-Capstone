@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Answer, Questions
 import json
@@ -25,9 +26,9 @@ def client_data_form(request):
             question = Questions.objects.get(question=key)
             new_answer = Answer(answer=value, question_fk=question, client_id=new_id)
             new_answer.save()
-        return JsonResponse({'message': 'successfully submitted response'})  
+        return HttpResponse({'successfull'}, status=200)  
     except Exception as e:
-        return JsonResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, status=400)
+        return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, status=400)
       
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
