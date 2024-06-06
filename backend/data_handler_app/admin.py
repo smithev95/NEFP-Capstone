@@ -61,6 +61,12 @@ def submit_update(request, question_id):
                 q = Questions.objects.get(id=question_id)
                 q.deleted = True
                 q.save()
+                
+                del_answers = list(Answer.objects.filter(question_fk=q.id))
+                for a in del_answers:
+                    a.deleted = True
+                    a.save()
+                
             except Exception as e:
                 return JsonResponse({"status": "error", "message": f"Error deleting data: {str(e)}"}, status=400)
             return JsonResponse({'message': 'successfully deleted question'})  
@@ -69,7 +75,8 @@ def submit_update(request, question_id):
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = False if request.POST.get('has_other') == "false" else True
-            Questions.objects.filter(id=question_id).update(question=question, answer_choices=answer_choices, has_other=has_other)
+            Questions.objects.filter(id=question_id).update(question=question, answer_choices=answer_choices, has_other=has_other, deleted=False)
+            Answer.objects.filter(question_fk=question_id).update(deleted=False)
         except Exception as e:
             return JsonResponse({"status": "error", "message": f"Error updating data: {str(e)}"}, status=400)
         return JsonResponse({'message': 'successfully updated question'})

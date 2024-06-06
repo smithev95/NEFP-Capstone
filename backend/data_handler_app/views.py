@@ -34,7 +34,8 @@ def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
     #questions_fk_values = list(Questions.objects.order_by("id").values_list("id", "question"))
     questions_fk_values = list(Questions.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question")) 
-    data = list(Answer.objects.filter(question_fk__isnull=False).order_by("client_id", "question_fk").values())    
+    #data = list(Answer.objects.filter(question_fk__isnull=False).order_by("client_id", "question_fk").values())    
+    data = list(Answer.objects.filter(question_fk__isnull=False, deleted__exact=False).order_by("client_id", "question_fk").values()) 
     client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
 
     # Map question foreign key to its value

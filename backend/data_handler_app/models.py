@@ -17,6 +17,7 @@ class Answer(models.Model):
     question_fk = models.ForeignKey("Questions", on_delete=models.SET_NULL, null=True)
     answer = models.CharField(max_length=255)
     client_id = models.IntegerField()
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.answer
