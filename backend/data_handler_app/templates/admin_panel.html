@@ -1,0 +1,16 @@
+<script>
+    function redirectToForm(formName) {
+        window.location.href = `/${formName}/`;
+    }
+</script>
+
+<div class="container mt-5">
+    <h1>Admin Panel</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-primary mr-2" onclick="redirectToForm('addquestion/form')">Add Question</button>
+            <button class="btn btn-secondary mr-2" onclick="redirectToForm('updatequestion/form')">Delete Question</button>
+            <button class="btn btn-success" onclick="redirectToForm('updatequestion/form')">Update Question</button>
+        </div>
+    </div>
+</div>

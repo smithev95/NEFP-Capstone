@@ -1,7 +1,7 @@
 from django import forms
-from .models import ClientData
+from .models import Answer
 
 class ClientDataForm(forms.ModelForm):
     class Meta:
-        model = ClientData
+        model = Answer
         fields = '__all__'

@@ -1,0 +1,17 @@
+<form action="{% url 'submit_update' question.id %}" method="post">
+    {% csrf_token %}
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question" value="{{ question.question }}"><br><br>
+
+    <label for="answers">Answers (comma-separated):</label><br>
+    <input type="text" id="answers" name="answers" value="{% for answers in question.answer_choices %}{{ answers }}{% if not forloop.last %}, {% endif %}{% endfor %}"><br><br>
+
+    <label for="hasOther">Has Other:</label><br>
+    <input type="radio" id="has_other_true" name="has_other" value="true" {% if question.has_other %}checked{% endif %}>
+    <label for="has_other_true">True</label>
+    <input type="radio" id="has_other_false" name="has_other" value="false" {% if not question.has_other %}checked{% endif %}>
+    <label for="has_other_false">False</label><br><br>
+
+    <button type="submit" name="button" value="update">Update</button>
+    <button type="submit" name="button" value="delete">Delete</button>
+</form>

@@ -17,35 +17,35 @@ const ClientDataList = () => {
       });
   }, []);
 
+  // `map` over the first object in the array and get an array of keys and add them to TH elements
+  function getHeaders(data) {
+    if (data.length !== 0) {
+      return Object.keys(data[0]).map(key => {return <th key={key}>{key}</th>;});
+    }
+  }
+
+  // `map` over the data to return row data, passing in each mapped object to `getCells`
+  function getRows(data) {
+    if (data.length !== 0) {
+      return data.map(obj => {return <tr key={`${obj.client_id}`}>{getCells(obj)}</tr>;});
+    }
+  }
+
+  function getCells(obj) {
+    return Object.values(obj).map((value, idx) => {return <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>;});
+  }
+
   return (
     <div className="Handler">
       <h1>Client Data List</h1>
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Start Time</th>
-            <th>Completion Time</th>
-            <th>Language</th>
-            <th>Family Size</th>
-            <th>SNAP Benefits</th>
-            <th>Travel by Car</th>
-            <th>ZIP Code</th>
+            {getHeaders(data)}
           </tr>
         </thead>
         <tbody>
-          {data.map(item => (
-            <tr key={item.id}>
-              <td>{new Date(item.date).toLocaleDateString()}</td>
-              <td>{item.start_time}</td>
-              <td>{item.completion_time}</td>
-              <td>{item.language}</td>
-              <td>{item.family_size}</td>
-              <td>{item.snap_benefits}</td>
-              <td>{item.travel_by_car}</td>
-              <td>{item.zip_code}</td>
-            </tr>
-          ))}
+          {getRows(data)}
         </tbody>
       </table>
     </div>

@@ -1,0 +1,19 @@
+<!-- display_data.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Display Data</title>
+</head>
+<body>
+    <h1>Question List</h1>
+    <form method="get" action="{% url 'update_question' %}">
+        {% csrf_token %}
+        {% for question in data %}
+            <input type="radio" name="question" id="question{{ forloop.counter }}" 
+                value="{{ question.id }}">
+            <label for="question{{ forloop.counter }}"> {{ question.question }}</label><br>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
