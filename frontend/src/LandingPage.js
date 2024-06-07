@@ -1,38 +1,70 @@
-import {Link} from 'react-router-dom'
-
-function AdminButton() {
-    return(
-        <Link to="http://localhost:8000/adminpanel">
-            <button>Admin Page</button>
-        </Link>
-    );
-}
-
-function TableButton() {
-    return(
-        <Link to="/table">
-            <button>Open Client Table</button>
-        </Link>
-    );
-}
-
-function QuestionnaireButton() {
-    return (
-        <Link to="/form">
-            <button>Open Questionnaire</button>
-        </Link>
-    );
-}
+import { Link } from "react-router-dom";
+import React from "react";
+import CompanyLogo from "./companyLogo.png";
 
 const LandingPage = () => {
-    return (
-        <div>
-            <h1>APPLICATION NAME: TBD</h1>
-            <AdminButton />
-            <TableButton />
-            <QuestionnaireButton />
-        </div>
-    );
-}
+  return (
+    <>
+      <div
+        style={{ display: "flex", justifyContent: "center" }}
+        className="mt-5"
+      >
+        <img
+          src={CompanyLogo}
+          style={{ height: "30vh", marginBottom: "5vh" }}
+        ></img>
+      </div>
+      {/* <hr className="mt-5 mb-5" style={{ width: "40%", margin: "0 auto" }} /> */}
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <p style={{ color: "rgba(1,86,138,216)" }}>Place holder text</p>
+      </div>
+      <hr className="mt-5 mb-5" style={{ width: "40%", margin: "0 auto" }} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          height: "50vh",
+        }}
+      >
+        <Link to="http://localhost:8000/adminpanel">
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+              marginRight: "10px",
+              backgroundColor: "rgba(1,86,138,216)",
+            }}
+          >
+            Admin Page
+          </button>
+        </Link>
+        <Link to="/table">
+          <button
+            type="button"
+            className="btn btn-primary"
+            style={{
+              marginRight: "10px",
+              backgroundColor: "rgba(1,86,138,216)",
+            }}
+          >
+            Open Client Table
+          </button>
+        </Link>
+        <Link to="/form">
+          <button
+            type="button"
+            className={"btn btn-primary"}
+            style={{
+              marginRight: "10px",
+              backgroundColor: "rgba(1,86,138,216)",
+            }}
+          >
+            Open Questionnaire
+          </button>
+        </Link>
+      </div>
+    </>
+  );
+};
 
 export default LandingPage;
