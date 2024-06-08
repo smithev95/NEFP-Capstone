@@ -23,16 +23,18 @@ const LandingPage = () => {
         style={{
           display: "flex",
           justifyContent: "center",
-          height: "50vh",
+          //height: "50vh",
         }}
       >
         <Link to="http://localhost:8000/adminpanel">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn"
             style={{
               marginRight: "10px",
               backgroundColor: "rgba(1,86,138,216)",
+              outlineColor: "rgba(1,86,138,216)",
+              color: "white",
             }}
           >
             Admin Page
@@ -41,10 +43,12 @@ const LandingPage = () => {
         <Link to="/table">
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn"
             style={{
               marginRight: "10px",
-              backgroundColor: "rgba(1,86,138,216)",
+              backgroundColor: "rgba(6,154,190,255)",
+              outlineColor: "rgba(6,154,190,255)",
+              color: "white",
             }}
           >
             Open Client Table
@@ -53,10 +57,12 @@ const LandingPage = () => {
         <Link to="/form">
           <button
             type="button"
-            className={"btn btn-primary"}
+            className={"btn"}
             style={{
               marginRight: "10px",
-              backgroundColor: "rgba(1,86,138,216)",
+              backgroundColor: "rgba(114,170,79,255)",
+              outlineColor: "rgba(114,170,79,255)",
+              color: "white",
             }}
           >
             Open Questionnaire
