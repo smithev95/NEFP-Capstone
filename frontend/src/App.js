@@ -5,6 +5,7 @@ import ClientDataForm from "./ClientDataForm";
 import ClientDataTable from "./ClientDataTable";
 import LandingPage from "./LandingPage";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
 
 const App = () => {
   return (
