@@ -17,11 +17,7 @@ function SigninButton() {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const closeAndLink = () => {
-        setShow(false);
-        <Link to="http://localhost:8000/adminpanel" />
-    }
-
+    
     return(
         <>
         <Button className="float-end" variant="outline-primary" size="sm" onClick={handleShow}>
@@ -47,7 +43,6 @@ function SigninButton() {
                 <Form.Control
                 type="password"
                 placeholder="password"
-                autoFocus
                 />
             </Form.Group>
             </Form>
@@ -56,7 +51,7 @@ function SigninButton() {
             <Button variant="secondary" onClick={handleClose}>
             Close
             </Button>
-            <Link to="http://localhost:8000/adminpanel">
+            <Link to="/admin">
                 <Button variant="primary" onClick={handleClose}>
                     Sign in
                 </Button>
