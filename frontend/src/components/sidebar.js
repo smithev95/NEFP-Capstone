@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/js/dist/dropdown';
@@ -8,10 +8,6 @@ import './sidebar.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 
 
 const style = {

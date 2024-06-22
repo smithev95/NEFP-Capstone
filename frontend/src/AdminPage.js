@@ -5,7 +5,6 @@ import NavbarMenu from './components/Navbar.js';
 
 const AdminPage = () => {
     return (
-        //<SidebarMenu />
         <NavbarMenu />
     );
 }
