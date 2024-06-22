@@ -59,4 +59,70 @@ class ClientData(models.Model):
     travel_by_car = models.CharField(max_length=3, choices=TRAVEL_BY_CAR_CHOICES)
 
     zip_code = models.CharField(max_length=5)
+
+
+class Language(models.Model):
+    language_id = models.BigIntegerField(primary_key=True)
+    language_abreviation = models.CharField()
+    language_name = models.CharField()
+    language_prompt = models.CharField()
+
+    def __str__(self):
+        return self.language_name
+    
+class Client(models.Model):
+    client_id = models.BigIntegerField(primary_key=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    language_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.client_id   
+    
+class AnswerType(models.Model):
+    answer_type_id = models.BigIntegerField(primary_key=True)
+    type_name = models.CharField()
+
+    def __str__(self):
+        return self.type_name
+    
+class QuestionType(models.Model):
+    question_type_id = models.BigIntegerField(primary_key=True)
+    answer_type_id = models.ForeignKey(AnswerType, on_delete=models.CASCADE)
+    question_name = models.CharField()
+    display_on_questionnaire = models.BooleanField(default=True)
+    display_order = models.IntegerField()
+
+    def __str__(self):
+        return self.question_name
+    
+class ClientAnswer(models.Model):
+    client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
+    question_type_id = models.ForeignKey(QuestionType, on_delete=models.CASCADE)
+    client_answer = models.CharField()
+
+    def __str__(self):
+        return self.client_answer  
+
+class QuestionTranslation(models.Model):
+    question_id = models.BigIntegerField(primary_key=True)
+    question_type_id = models.ForeignKey(QuestionType, on_delete=models.CASCADE)
+    language_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+    question_text = models.CharField()
+
+    def __str__(self):
+        return self.question_text 
+
+class AnswerTranslation(models.Model):
+    answer_id = models.BigIntegerField(primary_key=True)
+    question_type_id = models.ForeignKey(QuestionType, on_delete=models.CASCADE)
+    language_id = models.ForeignKey(Language, on_delete=models.CASCADE)
+    associated_boolean = models.BooleanField(null=True)
+    associated_integer = models.IntegerField(null=True)
+    associated_text = models.CharField(null=True)
+    answer_text = models.CharField()
+
+    def __str__(self):
+        return self.answer_text        
+
+    
     
