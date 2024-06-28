@@ -20,14 +20,15 @@ class Clients(models.Model):
     def __str__(self):
         return self.id  
     
-class ClientData(models.Model):
-    client_id = models.ForeignKey(Clients, on_delete=models.CASCADE)
-    question_id = models.ForeignKey(Questions, on_delete=models.CASCADE)
-    data = models.CharField()
+class Answers(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now_add=True)
+    name = models.CharField()
 
     def __str__(self):
-        return self.data
-    
+        return self.name
+
 class Questions(models.Model):
     id = models.BigIntegerField(primary_key=True)
     answer_id = models.ForeignKey(Answers, on_delete=models.CASCADE)
@@ -40,14 +41,13 @@ class Questions(models.Model):
     def __str__(self):
         return self.name
 
-class Answers(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now_add=True)
-    name = models.CharField()
+class ClientData(models.Model):
+    client_id = models.ForeignKey(Clients, on_delete=models.CASCADE)
+    question_id = models.ForeignKey(Questions, on_delete=models.CASCADE)
+    data = models.CharField()
 
     def __str__(self):
-        return self.type_name
+        return self.data
     
 class QuestionTranslations(models.Model):
     id = models.BigIntegerField(primary_key=True)
