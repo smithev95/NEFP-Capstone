@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import client_data_list, client_data_form, get_questions
 from .admin import admin_panel, add_question_handler, add_question, update_question_handler, update_question, submit_update
 
@@ -12,4 +13,5 @@ urlpatterns = [
     path('updatequestion/form/', update_question_handler, name='update_question_handler'),
     path('updatequestion/form/update/', update_question, name='update_question'),
     path('updatequestion/submit/update/<int:question_id>/', submit_update, name='submit_update'),
+    path('clients', views.get_client),
 ]

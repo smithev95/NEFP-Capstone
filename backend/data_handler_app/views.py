@@ -71,3 +71,6 @@ def client_data_list(request):
 def get_questions(request):
     questions = list(Questions.objects.values())
     return JsonResponse(questions, safe=False)
+
+def get_client(request):
+    return JsonResponse("empty", safe=False)
