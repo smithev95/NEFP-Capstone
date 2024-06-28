@@ -14,7 +14,7 @@ class Languages(models.Model):
     
 class Clients(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE)
+    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE, db_column="language_id")
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -31,7 +31,7 @@ class AnswerTypes(models.Model):
 
 class QuestionTypes(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    answer_type_id = models.ForeignKey(AnswerTypes, on_delete=models.CASCADE)
+    answer_type_id = models.ForeignKey(AnswerTypes, on_delete=models.CASCADE, db_column="answer_type_id")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
     name = models.CharField()
@@ -42,8 +42,8 @@ class QuestionTypes(models.Model):
         return self.name
 
 class ClientAnswers(models.Model):
-    client_id = models.ForeignKey(Clients, on_delete=models.CASCADE)
-    question_type_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE)
+    client_id = models.ForeignKey(Clients, on_delete=models.CASCADE, db_column="client_id")
+    question_type_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE, db_column="question_type_id")
     data = models.CharField()
 
     def __str__(self):
@@ -51,8 +51,8 @@ class ClientAnswers(models.Model):
     
 class QuestionTranslations(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    question_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE)
-    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE)
+    question_type_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE, db_column="question_type_id")
+    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE, db_column="language_id")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
     translation = models.CharField()
@@ -62,8 +62,8 @@ class QuestionTranslations(models.Model):
 
 class AnswerTranslations(models.Model):
     id = models.BigIntegerField(primary_key=True)
-    question_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE)
-    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE)
+    question_type_id = models.ForeignKey(QuestionTypes, on_delete=models.CASCADE, db_column="question_type_id")
+    language_id = models.ForeignKey(Languages, on_delete=models.CASCADE, db_column="language_id")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
     associated_boolean = models.BooleanField(null=True)

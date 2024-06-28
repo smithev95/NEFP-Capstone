@@ -3,9 +3,11 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Clients
 from .models import Answer, Questions
 import json
 # Create your views here.
+
 
 @csrf_exempt
 def client_data_form(request):
@@ -72,5 +74,6 @@ def get_questions(request):
     questions = list(Questions.objects.values())
     return JsonResponse(questions, safe=False)
 
-def get_client(request):
-    return JsonResponse("empty", safe=False)
+def get_clients(request):
+    clients = list(Clients.objects.values())
+    return JsonResponse(clients, safe=False)

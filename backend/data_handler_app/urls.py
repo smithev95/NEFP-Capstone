@@ -1,9 +1,11 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
-from .views import client_data_list, client_data_form, get_questions
+from .views import get_clients, client_data_list, client_data_form, get_questions
 from .admin import admin_panel, add_question_handler, add_question, update_question_handler, update_question, submit_update
 
+
 urlpatterns = [
+    path('clients/', get_clients, name='get_clients'),
     path('clientdata/', client_data_list, name='client_data_list'),
     path('newsubmission/', client_data_form, name='new_submission'),
     path('questions/', get_questions, name='questions'),
@@ -13,5 +15,4 @@ urlpatterns = [
     path('updatequestion/form/', update_question_handler, name='update_question_handler'),
     path('updatequestion/form/update/', update_question, name='update_question'),
     path('updatequestion/submit/update/<int:question_id>/', submit_update, name='submit_update'),
-    path('clients', views.get_client),
 ]
