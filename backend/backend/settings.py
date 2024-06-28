@@ -83,12 +83,22 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': BASE_DIR / 'db.sqlite3',
+
+        # REMOTE DATABASE CONNECTION
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'defaultdb',
+        #'USER': 'avnadmin',
+        #'PASSWORD': 'AVNS_oEf5QsHZypHi1gAudBu',
+        #'HOST': 'pg-c3b2025-nefpcapstone.k.aivencloud.com',
+        #'PORT': '10763',
+
+        #LOCAL DATABASE CONNECTION
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'defaultdb',
-        'USER': 'avnadmin',
-        'PASSWORD': 'AVNS_oEf5QsHZypHi1gAudBu',
-        'HOST': 'pg-c3b2025-nefpcapstone.k.aivencloud.com',
-        'PORT': '10763',
+        'NAME': 'TestDB',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
