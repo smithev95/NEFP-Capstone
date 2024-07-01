@@ -6,8 +6,10 @@ import ClientsPage from "./Clients";
 import LandingPage from "./LandingPage";
 import LanguagesTable from "./LanguagesTable";
 import AdminPage from "./AdminPage";
+import AddQuestionPage from "./AddQuestionPage";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+
 
 const App = () => {
   return (
@@ -15,6 +17,7 @@ const App = () => {
       <Routes> 
         <Route path="/" element={<LandingPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/addQuestion" element={<AddQuestionPage />} />
         <Route path="/form" element={<ClientDataForm />} />
         <Route path="/clients" element={<ClientsPage />} />
         <Route path="/languages" element={<LanguagesTable />} />

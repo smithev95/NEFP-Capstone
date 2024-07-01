@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -29,7 +28,9 @@ function NavbarMenu() {
                         <NavDropdown title="Editor" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/1.1">Adjust Questionnaire</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/1.2">Add Question</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/1.2">
+                                <Link to="/addQuestion">Add Question</Link>
+                            </NavDropdown.Item>
                             <NavDropdown.Item href="#action/1.3">Update Question</NavDropdown.Item>
                             <NavDropdown.Item href="#action/1.4">Delete Question</NavDropdown.Item>
                             <NavDropdown.Divider />
