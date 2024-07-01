@@ -40,9 +40,11 @@ function NavbarMenu() {
                             <NavDropdown.Item href="#action/2.1">Custom Data Viewer</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/2.2">
-                                <Link to="/table">Client Data</Link>
+                                <Link to="/clients">Client Data</Link>
                             </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/2.3">Languages</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/2.3">
+                                <Link to="/languages">Languages</Link>
+                            </NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Forms" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">View Form 1</NavDropdown.Item>
