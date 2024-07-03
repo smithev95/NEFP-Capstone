@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from .models import Question, Answer, Language, TranslatedQuestion
 
-
 admin.site.register(Question)
 admin.site.register(Answer)
 admin.site.register(Language)
