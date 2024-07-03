@@ -1,11 +1,10 @@
 from django.contrib import admin
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .models import Questions, Answer, ClientData 
+from .models import Questions, Answer 
 
 admin.site.register(Questions)
 admin.site.register(Answer)
-admin.site.register(ClientData)
 
 def admin_panel(request):
     return render(request, 'admin_panel.html')

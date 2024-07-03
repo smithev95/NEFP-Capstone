@@ -27,7 +27,7 @@ class Languages(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now_add=True)
     name = models.CharField()
-    abreviation = models.CharField()
+    language_abbr = models.CharField()
     prompt = models.CharField()
 
     def __str__(self):
@@ -38,7 +38,8 @@ class TranslatedQuestions(models.Model):
     modified_timestamp = models.DateTimeField(auto_now_add=True)
     question_fk = models.ForeignKey("Questions", on_delete=models.SET_NULL, null=True)
     language_fk = models.ForeignKey("Languages", on_delete=models.SET_NULL, null=True)
-    question = models.TextField()
+    # translated questions and answers
+    question = models.TextField() 
     answer_choices = ArrayField(models.CharField(blank=False))
     '''
     # maybe not needed since they exist in corresponding row in 'Questions'?
