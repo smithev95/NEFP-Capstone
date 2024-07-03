@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Questions
+from .models import Answer, Question
 import json
 # Create your views here.
 
@@ -23,7 +23,7 @@ def client_data_form(request):
             new_id = current_id + 1
         
         for key, value in data.items():
-            question = Questions.objects.get(question=key)
+            question = Question.objects.get(question=key)
             new_answer = Answer(answer=value, question_fk=question, client_id=new_id)
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
@@ -32,8 +32,8 @@ def client_data_form(request):
       
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
-    #questions_fk_values = list(Questions.objects.order_by("id").values_list("id", "question"))
-    questions_fk_values = list(Questions.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question")) 
+    #questions_fk_values = list(Question.objects.order_by("id").values_list("id", "question"))
+    questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question")) 
     #data = list(Answer.objects.filter(question_fk__isnull=False).order_by("client_id", "question_fk").values())    
     data = list(Answer.objects.filter(question_fk__isnull=False, deleted__exact=False).order_by("client_id", "question_fk").values()) 
     client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
@@ -69,5 +69,5 @@ def client_data_list(request):
     return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
-    questions = list(Questions.objects.values())
+    questions = list(Question.objects.values())
     return JsonResponse(questions, safe=False)
