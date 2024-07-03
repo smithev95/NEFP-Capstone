@@ -36,12 +36,15 @@ class Languages(models.Model):
 class TranslatedQuestions(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
     modified_timestamp = models.DateTimeField(auto_now_add=True)
-    # does this need 'deleted' if the question row in 'Questions' has it?
     question_fk = models.ForeignKey("Questions", on_delete=models.SET_NULL, null=True)
-    language_id = models.ForeignKey("Languages", on_delete=models.SET_NULL, null=True)
+    language_fk = models.ForeignKey("Languages", on_delete=models.SET_NULL, null=True)
     question = models.TextField()
     answer_choices = ArrayField(models.CharField(blank=False))
-
+    '''
+    # maybe not needed since they exist in corresponding row in 'Questions'?
+    deleted = models.BooleanField(default=False)
+    has_other = models.BooleanField()
+    '''
     def __str__(self):
         return self.question
     
