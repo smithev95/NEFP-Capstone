@@ -1,10 +1,14 @@
 from django.contrib import admin
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .models import Questions, Answer 
+from .models import Question, Answer, Language, TranslatedQuestion
 
-admin.site.register(Questions)
+
+admin.site.register(Question)
 admin.site.register(Answer)
+admin.site.register(Language)
+admin.site.register(TranslatedQuestion)
+
 
 def admin_panel(request):
     return render(request, 'admin_panel.html')
@@ -32,7 +36,7 @@ def add_question(request):
         
         try:
             # Save new question
-            question = Questions(**data)
+            question = Question(**data)
             question.save()
         except:
             return JsonResponse({'error': 'not valid JSON data'})
@@ -40,13 +44,13 @@ def add_question(request):
     return JsonResponse({'message': 'successfully added a new question'})  
 
 def update_question_handler(request):
-    questions = list(Questions.objects.values())
+    questions = list(Question.objects.values())
     return render(request, 'update_question_form.html', {"data": questions})
 
 def update_question(request):
     if request.method == 'GET':
         try:
-            question_obj = Questions.objects.get(pk=request.GET["question"])
+            question_obj = Question.objects.get(pk=request.GET["question"])
             return render(request, 'question_editor.html', {"question": question_obj})
         except Exception as e:
             return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
@@ -58,8 +62,8 @@ def submit_update(request, question_id):
         button_pressed = request.POST["button"]
         if (button_pressed == "delete"):
             try:
-                #Questions.objects.filter(id=question_id).delete()
-                q = Questions.objects.get(id=question_id)
+                #Question.objects.filter(id=question_id).delete()
+                q = Question.objects.get(id=question_id)
                 q.deleted = True
                 q.save()
                 
@@ -77,7 +81,7 @@ def submit_update(request, question_id):
             question = request.POST.get('question')
             answer_choices = request.POST.get('answers').split(',')
             has_other = False if request.POST.get('has_other') == "false" else True
-            Questions.objects.filter(id=question_id).update(question=question, 
+            Question.objects.filter(id=question_id).update(question=question, 
                                 answer_choices=answer_choices, has_other=has_other, deleted=False)
             Answer.objects.filter(question_fk=question_id).update(deleted=False)
         except Exception as e:
