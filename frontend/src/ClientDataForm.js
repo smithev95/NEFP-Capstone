@@ -1,9 +1,11 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Fetch the JSON data
@@ -14,6 +16,9 @@ const ClientDataForm = () => {
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
 
     console.log("form loaded");
@@ -117,6 +122,36 @@ const ClientDataForm = () => {
     </div>
   );
 
+  if (loading) {
+    return (
+      <>
+        <div className="container d-flex justify-content-center align-items-center min-vh-100">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-secondary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-dark" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="container">
@@ -130,15 +165,10 @@ const ClientDataForm = () => {
               <Link to="/form">
                 <button
                   type="button"
-                  className={"btn"}
-                  style={{
-                    marginRight: "10px",
-                    backgroundColor: "rgba(114,170,79,255)",
-                    outlineColor: "rgba(114,170,79,255)",
-                    color: "white",
-                  }}
+                  className={"btn btn-primary"}
+                  style={{ minWidth: "150px" }}
                 >
-                  Submit
+                  <i className="bi bi-arrow-right"></i>
                 </button>
               </Link>
             </div>
