@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import NavbarMenu from './components/Navbar';
 import './App.css';
 
 const ClientDataList = () => {
@@ -36,6 +37,8 @@ const ClientDataList = () => {
   }
 
   return (
+    <>
+    <NavbarMenu />
     <div className="Handler">
       <h1>Client Data List</h1>
       <table>
@@ -49,6 +52,7 @@ const ClientDataList = () => {
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 
