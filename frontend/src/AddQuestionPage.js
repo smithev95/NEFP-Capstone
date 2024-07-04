@@ -3,10 +3,11 @@ import axios from 'axios';
 
 const AddQuestionPage = () => {
     const [allLanguages, setallLanguages] = useState([]);
-    // const [question, setQuestion] = useState("");
-    // const [answers, setAnswers] = useState("");
+    const [question, setQuestion] = useState("");
+    const [answers, setAnswers] = useState("");
     const [translatedQuestions, setTranslatedQuestions] = useState({});
     const [translatedAnswers, setTranslatedAnswers] = useState({});
+    const [translatedOthers, setTranslatedOther] = useState({});
 
     // Fetch language data
     useEffect(() => {
@@ -21,8 +22,7 @@ const AddQuestionPage = () => {
     }, []);
 
     // A function to fetch the translations after user enters a question
-    const getQuestionTranslations = (e) => {
-        const question = e.target.value;
+    const getQuestionTranslations = () => {
         axios.get(`http://127.0.0.1:8000/translations/question/${question}/`)
         .then(response => {
             setTranslatedQuestions(response.data);
@@ -33,9 +33,7 @@ const AddQuestionPage = () => {
       };
 
     // A function to fetch the translations after user enters answer choices
-    const getAnswersTranslations = (e) => {
-        const answers = e.target.value;
-        // const data = {question: question, answers: answers}
+    const getAnswersTranslations = () => {
         axios.get(`http://127.0.0.1:8000/translations/answers/${answers}/`)
         .then(response => {
             setTranslatedAnswers(response.data);
@@ -45,15 +43,72 @@ const AddQuestionPage = () => {
         });
     };
 
-    function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers) {
+    // A function to fetch the translations for the word "Other"
+    const getOtherTranslations = () => {
+        axios.get(`http://127.0.0.1:8000/translations/question/other/`)
+        .then(response => {
+            setTranslatedOther(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    };
+
+    // A function to handle whether to translate "Other" or not
+    const handleHasOtherClick = (e) => {
+        const val = e.target.value;
+        
+        if (val === "true") {
+            getOtherTranslations();
+        }
+        else {
+            setTranslatedOther({});
+        }
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+
+        const form_data = new FormData(e.target);
+        const form_data_object = {};
+
+        form_data.forEach((value, key) => {
+            form_data_object[key] = value;
+        });
+
+        const json_data = JSON.stringify(form_data_object);
+
+        axios.post("http://127.0.0.1:8000/addquestion/submit/", json_data, 
+        {
+            headers: {
+            "Content-Type": "application/json",
+            },
+        })
+        .then((response) => {
+            if (response.status === 200) {
+                console.log("status", response.status);
+            } 
+            else {
+                console.log("unsuccessful");
+            }
+        })
+        .catch((error) => {
+            console.error("Error sending data", error);
+        });
+    }
+
+    function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
         if (allLanguages.length !== 0) {
             return allLanguages.map(obj => {
-                return <div className="row" key={`lang-${obj.abbreviation}`}>
-                            <label htmlFor={`lang-${obj.abbreviation}-question`}>{`${obj.name} Question:`}</label>
-                            <input type="text" id={`lang-${obj.abbreviation}-question`} name={`lang-${obj.abbreviation}-question`}
+                return <div className="row py-3" key={`${obj.abbreviation}`}>
+                            <label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</label>
+                            <input type="text" id={`${obj.abbreviation}-question`} name={`${obj.abbreviation}-question`}
                             defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}/>
-                            <label htmlFor={`lang-${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</label>
-                            <input type="text" id={`lang-${obj.abbreviation}-answers`} name={`lang-${obj.abbreviation}-answers`}
+                            <label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</label>
+                            <input type="text" id={`${obj.abbreviation}-other`} name={`${obj.abbreviation}-other`}
+                            defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}/>
+                            <label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</label>
+                            <input type="text" id={`${obj.abbreviation}-answers`} name={`${obj.abbreviation}-answers`}
                             defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}/>
                        </div>
             })
@@ -62,47 +117,50 @@ const AddQuestionPage = () => {
 
     return (
         <div className="container">
-            <form action="/addquestion/submit/" method="post">
+            <form method="post" onSubmit={handleSubmit}>
                 <div className="row gap-5">
                     <div className="col">
-                        <div className="row">
+                        <div className="row py-3">
                             <label htmlFor="question">Question:</label>
-                            <input type="text" id="question" name="question" onBlur={getQuestionTranslations}/>
+                            <input type="text" id="question" name="question" onBlur={(e) => setQuestion(e.target.value)}/>
+                            <div className="col py-3">
+                                <button onClick={getQuestionTranslations}>Get Translation</button>
+                            </div>
                         </div>
-                        <div className="row">
+                        <div className="row py-3">
                             <label htmlFor="answers">Answers (comma-separated):</label>
-                            <input type="text" id="answers" name="answers" onBlur={getAnswersTranslations}/>
+                            <input type="text" id="answers" name="answers" onBlur={(e) => setAnswers(e.target.value)}/>
+                            <div className="col py-3">
+                                <button onClick={getAnswersTranslations}>Get Translation</button>
+                            </div>
                         </div>
-                        <div className="row">
+                        <div className="row py-3">
                             <div className="col">
                                 <div className="row">
                                     <label htmlFor="hasOther">Has Other:</label>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <input type="radio" id="has_other_true" name="has_other" value="true" />
+                                        <input type="radio" id="has_other_true" name="has_other" value="true" onClick={handleHasOtherClick}/>
                                         <label htmlFor="has_other_true">True</label>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <input type="radio" id="has_other_false" name="has_other" value="false" />
+                                        <input type="radio" id="has_other_false" name="has_other" value="false" onClick={handleHasOtherClick}/>
                                         <label htmlFor="has_other_false">False</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row py-3">
                             <div className="col">
                                 <button type="submit">Submit</button>
                             </div>
-                            {/* <div className="col">
-                                <button type="button" onClick={getTranslations}>Get Translation</button>
-                            </div> */}
                         </div>
                     </div>
                     <div className="col">
-                        {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers)}
+                        {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
                     </div>
                 </div>
             </form>
