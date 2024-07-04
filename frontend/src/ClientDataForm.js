@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
@@ -126,9 +127,20 @@ const ClientDataForm = () => {
           {questions.map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
-              <button className="btn btn-primary btn-lg" type="submit">
-                Submit
-              </button>
+              <Link to="/form">
+                <button
+                  type="button"
+                  className={"btn"}
+                  style={{
+                    marginRight: "10px",
+                    backgroundColor: "rgba(114,170,79,255)",
+                    outlineColor: "rgba(114,170,79,255)",
+                    color: "white",
+                  }}
+                >
+                  Submit
+                </button>
+              </Link>
             </div>
           </div>
         </form>
