@@ -16,29 +16,30 @@ def add_question_handler(request):
     return render(request, 'add_question_form.html')
 
 def add_question(request):
-    if request.method == 'POST':
-        try:
-            question = request.POST.get('question')
-            answer_choices = request.POST.get('answers').split(',')
-            has_other = False if request.POST.get('has_other') == 'false' else True
+    print(request.POST)
+    # if request.method == 'POST':
+    #     try:
+    #         question = request.POST.get('question')
+    #         answer_choices = request.POST.get('answers').split(',')
+    #         has_other = False if request.POST.get('has_other') == 'false' else True
 
-            data = {
-                'deleted': False,
-                'question': question,
-                'answer_choices': answer_choices,
-                'has_other': has_other,
-            }
-            print(data)
-        except Exception as e:
-            return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
-                                status=400)
+    #         data = {
+    #             'deleted': False,
+    #             'question': question,
+    #             'answer_choices': answer_choices,
+    #             'has_other': has_other,
+    #         }
+    #         print(data)
+    #     except Exception as e:
+    #         return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
+    #                             status=400)
         
-        try:
-            # Save new question
-            question = Question(**data)
-            question.save()
-        except:
-            return JsonResponse({'error': 'not valid JSON data'})
+    #     try:
+    #         # Save new question
+    #         question = Question(**data)
+    #         question.save()
+    #     except:
+    #         return JsonResponse({'error': 'not valid JSON data'})
     
     return JsonResponse({'message': 'successfully added a new question'})  
 
