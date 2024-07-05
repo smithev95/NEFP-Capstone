@@ -23,24 +23,28 @@ const AddQuestionPage = () => {
 
     // A function to fetch the translations after user enters a question
     const getQuestionTranslations = () => {
-        axios.get(`http://127.0.0.1:8000/translations/question/${question}/`)
-        .then(response => {
-            setTranslatedQuestions(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+        if (question !== "") {
+            axios.get(`http://127.0.0.1:8000/translations/question/${question}/`)
+            .then(response => {
+                setTranslatedQuestions(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        }
       };
 
     // A function to fetch the translations after user enters answer choices
     const getAnswersTranslations = () => {
-        axios.get(`http://127.0.0.1:8000/translations/answers/${answers}/`)
-        .then(response => {
-            setTranslatedAnswers(response.data);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+        if (answers !== "") {
+            axios.get(`http://127.0.0.1:8000/translations/answers/${answers}/`)
+            .then(response => {
+                setTranslatedAnswers(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        }
     };
 
     // A function to fetch the translations for the word "Other"
