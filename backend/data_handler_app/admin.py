@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from .models import Question, Answer, Language, TranslatedQuestion
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 admin.site.register(Question)
 admin.site.register(Answer)
@@ -15,33 +17,52 @@ def admin_panel(request):
 def add_question_handler(request):
     return render(request, 'add_question_form.html')
 
+@csrf_exempt
 def add_question(request):
-    print(request.POST)
-    # if request.method == 'POST':
-    #     try:
-    #         question = request.POST.get('question')
-    #         answer_choices = request.POST.get('answers').split(',')
-    #         has_other = False if request.POST.get('has_other') == 'false' else True
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            # Add a Question object to Question table
+            question = data['question']
+            answer_choices = data['answers'].split(',')
+            has_other = False if data['has_other'] == 'false' else True
 
-    #         data = {
-    #             'deleted': False,
-    #             'question': question,
-    #             'answer_choices': answer_choices,
-    #             'has_other': has_other,
-    #         }
-    #         print(data)
-    #     except Exception as e:
-    #         return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
-    #                             status=400)
-        
-    #     try:
-    #         # Save new question
-    #         question = Question(**data)
-    #         question.save()
-    #     except:
-    #         return JsonResponse({'error': 'not valid JSON data'})
-    
-    return JsonResponse({'message': 'successfully added a new question'})  
+            fields = {
+                'deleted': False,
+                'question': question,
+                'answer_choices': answer_choices,
+                'has_other': has_other,
+            }
+            question = Question(**fields)
+            question.save()
+
+            # Add translations to Question to TranslatedQuestion table
+            lang_abbrev = list(Language.objects.values("abbreviation", "id"))
+            
+            for lang in lang_abbrev:
+                abbreviation = lang["abbreviation"]
+                lang_fk = Language.objects.get(pk=int(lang["id"]))
+                translated_q = data[f"{abbreviation}-question"]
+                translated_ans = data[f"{abbreviation}-answers"].split(',')
+                translated_other = data[f"{abbreviation}-other"]
+
+                translated_fields = {
+                    'question_fk': question,
+                    'language_fk': lang_fk,
+                    'question': translated_q,
+                    'answer_choices': translated_ans,
+                    'other': translated_other
+                }
+
+                translation = TranslatedQuestion(**translated_fields)
+                translation.save()
+        except Exception as e:
+            return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
+                                status=400)
+        except:
+            return JsonResponse({'error': 'not valid JSON data'})
+        return JsonResponse({'message': 'successfully added a new question'})
+    return JsonResponse({'error': 'not POST request'}, status=400)  
 
 def update_question_handler(request):
     questions = list(Question.objects.values())

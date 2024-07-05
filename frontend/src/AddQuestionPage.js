@@ -69,21 +69,21 @@ const AddQuestionPage = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        const form_data = new FormData(e.target);
-        const form_data_object = {};
+        const formData = new FormData(e.target);
+        const formDataObj = {};
 
-        form_data.forEach((value, key) => {
-            form_data_object[key] = value;
+        formData.forEach((value, key) => {
+            formDataObj[key] = value;
         });
+        const jsonData = JSON.stringify(formDataObj);
 
-        const json_data = JSON.stringify(form_data_object);
-
-        axios.post("http://127.0.0.1:8000/addquestion/submit/", json_data, 
-        {
-            headers: {
-            "Content-Type": "application/json",
-            },
-        })
+        axios.post("http://127.0.0.1:8000/addquestion/submit/", jsonData,
+            {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }
+        )
         .then((response) => {
             if (response.status === 200) {
                 console.log("status", response.status);
@@ -124,14 +124,14 @@ const AddQuestionPage = () => {
                             <label htmlFor="question">Question:</label>
                             <input type="text" id="question" name="question" onBlur={(e) => setQuestion(e.target.value)}/>
                             <div className="col py-3">
-                                <button onClick={getQuestionTranslations}>Get Translation</button>
+                                <button type="button" onClick={getQuestionTranslations}>Get Translation</button>
                             </div>
                         </div>
                         <div className="row py-3">
                             <label htmlFor="answers">Answers (comma-separated):</label>
                             <input type="text" id="answers" name="answers" onBlur={(e) => setAnswers(e.target.value)}/>
                             <div className="col py-3">
-                                <button onClick={getAnswersTranslations}>Get Translation</button>
+                                <button type="button" onClick={getAnswersTranslations}>Get Translation</button>
                             </div>
                         </div>
                         <div className="row py-3">
