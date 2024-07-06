@@ -13,8 +13,7 @@ function NavbarMenu() {
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <Link to="/">
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand href="/">
                         <img 
                             src={CompanyLogo}
                             width="80"
@@ -23,7 +22,6 @@ function NavbarMenu() {
                             alt="NEFP logo"
                         />
                     </Navbar.Brand>
-                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -40,9 +38,7 @@ function NavbarMenu() {
                         <NavDropdown title="Dataviewer" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/2.1">Custom Data Viewer</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/2.2">
-                                <Link to="/table">Client Data</Link>
-                            </NavDropdown.Item>
+                            <NavDropdown.Item href="/table">Client Data</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
