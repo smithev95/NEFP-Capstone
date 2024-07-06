@@ -13,8 +13,7 @@ function LogoNavbar() {
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <Link to="/">
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand href="/">
                         <img 
                             src={CompanyLogo}
                             width="80"
@@ -23,7 +22,6 @@ function LogoNavbar() {
                             alt="NEFP logo"
                         />
                     </Navbar.Brand>
-                </Link>
             </Container>
         </Navbar>
     );
