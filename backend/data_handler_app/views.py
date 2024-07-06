@@ -78,27 +78,27 @@ def get_languages(request):
     languages = list(Language.objects.values())
     return JsonResponse(languages, safe=False)
 
-def get_question_translations(request, question):
+def get_question_and_answers_translations(request):
+    question = request.GET.get('question')
+    answers = request.GET.get('answers')
+
     lang_abbrev = list(Language.objects.values("abbreviation"))
     translation_dict = {}
 
-    for lang in lang_abbrev:
-        translation = ts.translate_text(question, translator="google", to_language=lang['abbreviation'].lower())
-        translation_dict[lang['abbreviation']] = translation
+    if (question):
+        for lang in lang_abbrev:
+            translation = ts.translate_text(question, translator="google", to_language=lang['abbreviation'].lower())
+            translation_dict[lang['abbreviation']] = translation
     
-    return JsonResponse(translation_dict, safe=False)
+    elif (answers):
+        answers = answers.strip().split(",")
 
-def get_answers_translations(request, answers):
-    lang_abbrev = list(Language.objects.values("abbreviation"))
-    translation_dict = {}
-    answers = answers.strip().split(",")
+        for lang in lang_abbrev:
+            translation_arr = []
+            for answer in answers:
+                translation = ts.translate_text(answer, translator="google", to_language=lang['abbreviation'].lower())
+                translation_arr.append(translation)
+            translation_str = ','.join(translation_arr)
+            translation_dict[lang['abbreviation']] = translation_str
 
-    for lang in lang_abbrev:
-        translation_arr = []
-        for answer in answers:
-            translation = ts.translate_text(answer, translator="google", to_language=lang['abbreviation'].lower())
-            translation_arr.append(translation)
-        translation_str = ','.join(translation_arr)
-        translation_dict[lang['abbreviation']] = translation_str
-    
     return JsonResponse(translation_dict, safe=False)

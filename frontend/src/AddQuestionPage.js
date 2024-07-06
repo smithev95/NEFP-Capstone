@@ -24,7 +24,7 @@ const AddQuestionPage = () => {
     // A function to fetch the translations after user enters a question
     const getQuestionTranslations = () => {
         if (question !== "") {
-            axios.get(`http://127.0.0.1:8000/translations/question/${question}/`)
+            axios.get(`http://127.0.0.1:8000/translations/?question=${question}`)
             .then(response => {
                 setTranslatedQuestions(response.data);
             })
@@ -37,7 +37,7 @@ const AddQuestionPage = () => {
     // A function to fetch the translations after user enters answer choices
     const getAnswersTranslations = () => {
         if (answers !== "") {
-            axios.get(`http://127.0.0.1:8000/translations/answers/${answers}/`)
+            axios.get(`http://127.0.0.1:8000/translations/?answers=${answers}`)
             .then(response => {
                 setTranslatedAnswers(response.data);
             })
@@ -49,7 +49,7 @@ const AddQuestionPage = () => {
 
     // A function to fetch the translations for the word "Other"
     const getOtherTranslations = () => {
-        axios.get(`http://127.0.0.1:8000/translations/question/other/`)
+        axios.get(`http://127.0.0.1:8000/translations/?question=other`)
         .then(response => {
             setTranslatedOther(response.data);
         })
@@ -151,7 +151,7 @@ const AddQuestionPage = () => {
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <input type="radio" id="has_other_false" name="has_other" value="false" onClick={handleHasOtherClick}/>
+                                        <input type="radio" id="has_other_false" name="has_other" value="false" onClick={handleHasOtherClick} defaultChecked/>
                                         <label htmlFor="has_other_false">False</label>
                                     </div>
                                 </div>
