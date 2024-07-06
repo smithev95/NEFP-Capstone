@@ -78,7 +78,12 @@ def get_languages(request):
     languages = list(Language.objects.values())
     return JsonResponse(languages, safe=False)
 
-def get_question_and_answers_translations(request):
+"""
+This endpoint gets translations for questions and answer choices in
+AddQuestionPage.js
+"""
+def get_translations(request):
+    # Fetch the query parameters
     question = request.GET.get('question')
     answers = request.GET.get('answers')
 
