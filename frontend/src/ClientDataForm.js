@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
+import LogoNavbar from "./components/LogoNavbar";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
@@ -118,6 +119,7 @@ const ClientDataForm = () => {
 
   return (
     <>
+      <LogoNavbar />
       <div className="container">
         <div className="row mb-2 border-bottom">
           <h1>Client Form</h1>
