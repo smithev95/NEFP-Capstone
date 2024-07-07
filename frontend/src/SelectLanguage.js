@@ -1,11 +1,13 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 const SelectLanguage = () => {
   const [languages, setLanguages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     axios
@@ -20,6 +22,10 @@ const SelectLanguage = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleRadioChange = (event) => {
+    setLanguage(event.target.value);
+  };
 
   if (loading) {
     return (
@@ -54,21 +60,23 @@ const SelectLanguage = () => {
   return (
     <>
       <div className="container border-top border-bottom mt-5 d-flex justify-content-center">
-        <form>
+        <form method="post">
           {languages.map((language, index) => (
-            <div key={index} className="form-outline">
+            <Fragment key={index}>
               <input
                 type="radio"
                 id={`language-${index}`}
                 name="language"
-                value={language.prompt}
                 className="mt-3 mr-3"
+                value={language.id}
+                onChange={handleRadioChange}
               />
               <label htmlFor={`language-${index}`}>{language.prompt}</label>
-            </div>
+              <br />
+            </Fragment>
           ))}
           <div className="d-flex justify-content-center mt-4 mb-4">
-            <Link to="/form/questionaire">
+            <Link to="/questionaire">
               <button
                 type="button"
                 className="btn btn-primary"

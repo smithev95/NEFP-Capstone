@@ -12,8 +12,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/form" element={<SelectLanguage />} />
-        <Route path="/form/questionaire" element={<ClientDataForm />} />
+        <Route path="/selectlanguage" element={<SelectLanguage />} />
+        <Route path="/questionaire" element={<ClientDataForm />} />
         <Route path="/table" element={<ClientDataTable />} />
         {/* Add other routes here */}
       </Routes>

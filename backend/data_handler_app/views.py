@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Question, Language
+from .models import Answer, Question, Language, TranslatedQuestion
 import json
 # Create your views here.
 
@@ -69,7 +69,7 @@ def client_data_list(request):
     return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
-    questions = list(Question.objects.values())
+    questions = list(TranslatedQuestion.objects.values())
     return JsonResponse(questions, safe=False)
 
 def get_languages(request):

@@ -1,4 +1,5 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
+import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -6,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     // Fetch the JSON data
@@ -19,15 +21,14 @@ const ClientDataForm = () => {
       })
       .finally(() => {
         setLoading(false);
+        console.log("Selected language:", language);
       });
-
-    console.log("form loaded");
   }, []);
 
-  const log_information = (e) => {
-    e.preventDefault();
+  const log_information = (event) => {
+    event.preventDefault();
 
-    const form_data = new FormData(e.target);
+    const form_data = new FormData(event.target);
     const form_data_object = {};
 
     form_data.forEach((value, key) => {
@@ -159,10 +160,12 @@ const ClientDataForm = () => {
           <h1>Client Form</h1>
         </div>
         <form method="post" onSubmit={log_information}>
-          {questions.map((question, index) => renderQuestion(question, index))}
+          {questions
+            .filter((question) => question.language_fk_id == language)
+            .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
-              <Link to="/form">
+              <Link to="/selectlanguage">
                 <button
                   type="button"
                   className={"btn btn-primary"}
