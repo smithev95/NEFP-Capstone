@@ -3,8 +3,10 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Question
+from .models import Answer, Question, Language
 import json
+import translators as ts
+
 # Create your views here.
 
 @csrf_exempt
@@ -71,3 +73,37 @@ def client_data_list(request):
 def get_questions(request):
     questions = list(Question.objects.values())
     return JsonResponse(questions, safe=False)
+
+def get_languages(request):
+    languages = list(Language.objects.values())
+    return JsonResponse(languages, safe=False)
+
+"""
+This endpoint gets translations for questions and answer choices in
+AddQuestionPage.js
+"""
+def get_translations(request):
+    # Fetch the query parameters
+    question = request.GET.get('question')
+    answers = request.GET.get('answers')
+
+    lang_abbrev = list(Language.objects.values("abbreviation"))
+    translation_dict = {}
+
+    if (question):
+        for lang in lang_abbrev:
+            translation = ts.translate_text(question, translator="google", to_language=lang['abbreviation'].lower())
+            translation_dict[lang['abbreviation']] = translation
+    
+    elif (answers):
+        answers = answers.strip().split(",")
+
+        for lang in lang_abbrev:
+            translation_arr = []
+            for answer in answers:
+                translation = ts.translate_text(answer, translator="google", to_language=lang['abbreviation'].lower())
+                translation_arr.append(translation)
+            translation_str = ','.join(translation_arr)
+            translation_dict[lang['abbreviation']] = translation_str
+
+    return JsonResponse(translation_dict, safe=False)
