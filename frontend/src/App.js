@@ -5,6 +5,8 @@ import ClientDataForm from "./ClientDataForm";
 import ClientDataTable from "./ClientDataTable";
 import LandingPage from "./LandingPage";
 import SelectLanguage from "./SelectLanguage";
+import AdminPanel from "./AdminPanel";
+import UpdateLanguages from "./UpdateLanguages";
 import "bootstrap/dist/css/bootstrap.css";
 
 const App = () => {
@@ -15,6 +17,8 @@ const App = () => {
         <Route path="/selectlanguage" element={<SelectLanguage />} />
         <Route path="/questionaire" element={<ClientDataForm />} />
         <Route path="/table" element={<ClientDataTable />} />
+        <Route path="/adminpanel" element={<AdminPanel />} />
+        <Route path="/updatelanguage" element={<UpdateLanguages />} />
         {/* Add other routes here */}
       </Routes>
     </Router>

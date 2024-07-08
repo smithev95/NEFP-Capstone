@@ -26,7 +26,8 @@ const LandingPage = () => {
           //height: "50vh",
         }}
       >
-        <Link to="http://localhost:8000/adminpanel">
+        {/* <Link to="http://localhost:8000/adminpanel"> */}
+        <Link to={"/adminpanel"}>
           <button
             type="button"
             className="btn"

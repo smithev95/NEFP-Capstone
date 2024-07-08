@@ -21,7 +21,6 @@ const ClientDataForm = () => {
       })
       .finally(() => {
         setLoading(false);
-        console.log("Selected language:", language);
       });
   }, []);
 
