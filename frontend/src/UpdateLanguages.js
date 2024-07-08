@@ -47,7 +47,7 @@ const UpdateLanguages = () => {
       {updating ? (
         <div
           className="d-flex justify-content-center input-group mt-5 border shadow container"
-          style={{ maxWidth: "50vw" }}
+          style={{ maxWidth: "40vw", borderRadius: "15px" }}
         >
           <form>
             <label htmlFor="name" className="mt-3">
@@ -58,6 +58,7 @@ const UpdateLanguages = () => {
               type="text"
               className="input-group-text start mb-3"
               placeholder="English"
+              style={{ textAlign: "left" }}
             ></input>
             <label htmlFor="name" className="mt-3">
               Language abbreviation:{" "}
@@ -66,7 +67,8 @@ const UpdateLanguages = () => {
               id="name"
               type="text"
               className="input-group-text start mb-3"
-              placeholder="English"
+              placeholder="En"
+              style={{ textAlign: "left" }}
             ></input>
             <label htmlFor="name" className="mt-3">
               Language prompt:{" "}
@@ -75,7 +77,8 @@ const UpdateLanguages = () => {
               id="name"
               type="text"
               className="input-group-text start mb-3"
-              placeholder="English"
+              placeholder="This is my language"
+              style={{ textAlign: "left" }}
             ></input>
             <div className="d-flex justify-content-center">
               <button className="btn btn-primary mb-3">Submit</button>
