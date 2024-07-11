@@ -8,6 +8,7 @@ const UpdateQuestionPage = () => {
     const [allLanguages, setallLanguages] = useState([]);
     const [question, setQuestion] = useState("");
     const [answers, setAnswers] = useState("");
+    const [hasOther, setHasOther] = useState(false);
     const [translatedQuestions, setTranslatedQuestions] = useState({});
     const [translatedAnswers, setTranslatedAnswers] = useState({});
     const [translatedOthers, setTranslatedOther] = useState({});
@@ -26,9 +27,10 @@ const UpdateQuestionPage = () => {
         axios.get(`http://127.0.0.1:8000/question/${questionID}`)
         .then(response => {
             const data = response.data;
-            console.log(data);
+            // Set data states
             setQuestion(data.question);
             setAnswers(data.answer_choices);
+            setHasOther(data.has_other);
             setTranslatedQuestions(data.translated_questions);
             setTranslatedAnswers(data.translated_answers);
             setTranslatedOther(data.translated_others);
@@ -81,9 +83,11 @@ const UpdateQuestionPage = () => {
         
         if (val === "true") {
             getOtherTranslations();
+            setHasOther(true);
         }
         else {
             setTranslatedOther({});
+            setHasOther(false);
         }
     }
 
@@ -164,13 +168,17 @@ const UpdateQuestionPage = () => {
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <input type="radio" id="has_other_true" name="has_other" value="true" onClick={handleHasOtherClick}/>
+                                        <input type="radio" id="has_other_true" name="has_other" value="true" 
+                                        onChange={handleHasOtherClick}
+                                        checked={hasOther}/>
                                         <label htmlFor="has_other_true">True</label>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col">
-                                        <input type="radio" id="has_other_false" name="has_other" value="false" onClick={handleHasOtherClick} defaultChecked/>
+                                        <input type="radio" id="has_other_false" name="has_other" value="false" 
+                                        onChange={handleHasOtherClick} 
+                                        checked={!hasOther}/>
                                         <label htmlFor="has_other_false">False</label>
                                     </div>
                                 </div>
