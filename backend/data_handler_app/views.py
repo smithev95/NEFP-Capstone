@@ -69,7 +69,7 @@ def client_data_list(request):
     return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
-    questions = list(Question.objects.values())
+    questions = list(Question.objects.values().filter(deleted__exact=False))
     return JsonResponse(questions, safe=False)
 
 def get_languages(request):
