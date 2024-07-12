@@ -68,22 +68,27 @@ def update_question_handler(request):
     questions = list(Question.objects.values())
     return render(request, 'update_question_form.html', {"data": questions})
 
-def update_question(request):
-    if request.method == 'GET':
+@csrf_exempt
+def delete_question(request, question_id):
+    if request.method == 'POST':
         try:
-            question_obj = Question.objects.get(pk=request.GET["question"])
-            return render(request, 'question_editor.html', {"question": question_obj})
+            # Mark delete field of Question as True
+            Question.objects.filter(id=question_id).update(deleted=True)
+            
+            # Mark delete field of Answers with fk to the Question as True
+            Answer.objects.filter(question_fk=question_id).update(deleted=True)
+                    
         except Exception as e:
-            return JsonResponse({"status": "error", "message":f"Error parsing form data: {str(e)}"}, 
+            return JsonResponse({"status": "error", "message":f"Error deleting data: {str(e)}"}, 
                                 status=400)
-    return HttpResponse("Incorrect request method: failed to update question")
+        return JsonResponse({'message': 'successfully deleted question'})  
+    return HttpResponse("Incorrect request method: failed to delete question")
 
 @csrf_exempt
-def submit_update(request, question_id):
+def update_question(request, question_id):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            print(data)
 
             # Update question object in Question
             question = data['question']

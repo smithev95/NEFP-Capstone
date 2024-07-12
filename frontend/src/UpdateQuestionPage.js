@@ -102,6 +102,8 @@ const UpdateQuestionPage = () => {
             formDataObj[key] = value;
         });
         const jsonData = JSON.stringify(formDataObj);
+        
+        // Update question
         if (button === "update") {
             axios.post(`http://127.0.0.1:8000/updatequestion/submit/${questionID}`, jsonData,
                 {
@@ -122,9 +124,28 @@ const UpdateQuestionPage = () => {
                 console.error("Error sending data", error);
             });
         }
-        // else if (button === "delete") {
 
-        // }
+        // Delete question
+        else if (button === "delete") {
+            axios.post(`http://127.0.0.1:8000/deletequestion/submit/${questionID}`, jsonData,
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("status", response.status);
+                } 
+                else {
+                    console.log("unsuccessful");
+                }
+            })
+            .catch((error) => {
+                console.error("Error sending data", error);
+            });
+        }
     }
 
     function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
