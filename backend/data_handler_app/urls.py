@@ -12,7 +12,8 @@ urlpatterns = [
     path('adminpanel/', admin_panel, name='admin_panel'),
     path('addquestion/form/', add_question_handler, name = 'add_question_handler'),
     path('addquestion/submit/', add_question, name='add_question'),
-    path('updatequestion/form/', update_question_handler, name='update_question_handler'),
-    path('updatequestion/form/update/', update_question, name='update_question'),
-    path('updatequestion/submit/update/<int:question_id>/', submit_update, name='submit_update'),
+    # path('updatequestion/form/', update_question_handler, name='update_question_handler'),
+    # path('updatequestion/form/update/', update_question, name='update_question'),
+    # path('updatequestion/submit/update/<int:question_id>/', submit_update, name='submit_update'),
+    path('updatequestion/submit/<int:question_id>', submit_update, name='submit_update'),
 ]

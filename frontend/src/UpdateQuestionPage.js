@@ -94,6 +94,7 @@ const UpdateQuestionPage = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
+        const button = e.nativeEvent.submitter.value;
         const formData = new FormData(e.target);
         const formDataObj = {};
 
@@ -101,25 +102,29 @@ const UpdateQuestionPage = () => {
             formDataObj[key] = value;
         });
         const jsonData = JSON.stringify(formDataObj);
+        if (button === "update") {
+            axios.post(`http://127.0.0.1:8000/updatequestion/submit/${questionID}`, jsonData,
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("status", response.status);
+                } 
+                else {
+                    console.log("unsuccessful");
+                }
+            })
+            .catch((error) => {
+                console.error("Error sending data", error);
+            });
+        }
+        // else if (button === "delete") {
 
-        axios.post("http://127.0.0.1:8000/updatequestion/submit/", jsonData,
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            }
-        )
-        .then((response) => {
-            if (response.status === 200) {
-                console.log("status", response.status);
-            } 
-            else {
-                console.log("unsuccessful");
-            }
-        })
-        .catch((error) => {
-            console.error("Error sending data", error);
-        });
+        // }
     }
 
     function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
@@ -186,7 +191,8 @@ const UpdateQuestionPage = () => {
                         </div>
                         <div className="row py-3">
                             <div className="col">
-                                <button type="submit">Submit</button>
+                                <button type="submit" value="update">Update</button>
+                                <button type="submit" value="delete">Delete</button>
                             </div>
                         </div>
                     </div>

@@ -78,35 +78,50 @@ def update_question(request):
                                 status=400)
     return HttpResponse("Incorrect request method: failed to update question")
 
+@csrf_exempt
 def submit_update(request, question_id):
     if request.method == 'POST':
-        button_pressed = request.POST["button"]
-        if (button_pressed == "delete"):
-            try:
-                #Question.objects.filter(id=question_id).delete()
-                q = Question.objects.get(id=question_id)
-                q.deleted = True
-                q.save()
-                
-                del_answers = list(Answer.objects.filter(question_fk=q.id))
-                for a in del_answers:
-                    a.deleted = True
-                    a.save()
-                
-            except Exception as e:
-                return JsonResponse({"status": "error", "message":f"Error deleting data: {str(e)}"}, 
-                                    status=400)
-            return JsonResponse({'message': 'successfully deleted question'})  
-        
         try:
-            question = request.POST.get('question')
-            answer_choices = request.POST.get('answers').split(',')
-            has_other = False if request.POST.get('has_other') == "false" else True
-            Question.objects.filter(id=question_id).update(question=question, 
-                                answer_choices=answer_choices, has_other=has_other, deleted=False)
-            Answer.objects.filter(question_fk=question_id).update(deleted=False)
+            data = json.loads(request.body)
+            print(data)
+
+            # Update question object in Question
+            question = data['question']
+            answer_choices = data['answers'].split(',')
+            has_other = False if data['has_other'] == 'false' else True
+
+            fields = {
+                'question': question,
+                'answer_choices': answer_choices,
+                'has_other': has_other,
+            }
+        
+            Question.objects.filter(id=question_id).update(**fields)
+
+            # TOCHECK: Not sure if we need to update the Answers since they should already be deleted=False
+            # Answer.objects.filter(question_fk=question_id).update(deleted=False)
+            
+            # Update translated texts
+            lang_abbrev = list(Language.objects.values("abbreviation", "id"))
+            
+            for lang in lang_abbrev:
+                abbreviation = lang["abbreviation"]
+                translated_q = data[f"{abbreviation}-question"]
+                translated_ans = data[f"{abbreviation}-answers"].split(',')
+                translated_other = data[f"{abbreviation}-other"]
+
+                translated_fields = {
+                    'question': translated_q,
+                    'answer_choices': translated_ans,
+                    'other': translated_other
+                }
+                
+                # Filter the translated question based on question_fk and language_fk
+                TranslatedQuestion.objects.filter(question_fk=question_id, 
+                language_fk=lang["id"]).update(**translated_fields)
+
         except Exception as e:
             return JsonResponse({"status": "error", "message": f"Error updating data: {str(e)}"}, 
                                 status=400)
-        return JsonResponse({'message': 'successfully updated question'})
+        return JsonResponse({'message': 'successfully updated the question and its translations'})
     return HttpResponse("Incorrect request method: failed to update question")
