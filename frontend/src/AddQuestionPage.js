@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Card from 'react-bootstrap/Card';
 
 const AddQuestionPage = () => {
     const [allLanguages, setallLanguages] = useState([]);
@@ -171,29 +172,32 @@ const AddQuestionPage = () => {
     function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
         if (allLanguages.length !== 0) {
             return allLanguages.map(obj => {
-                return <Row className="py-3" key={`${obj.abbreviation}`}>
-                            <Form.Label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                id={`${obj.abbreviation}-question`}
-                                name={`${obj.abbreviation}-question`}
-                                defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}
-                            />
-                            <Form.Label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                id={`${obj.abbreviation}-other`}
-                                name={`${obj.abbreviation}-other`}
-                                defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}
-                            />
-                            <Form.Label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                id={`${obj.abbreviation}-answers`}
-                                name={`${obj.abbreviation}-answers`}
-                                defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}
-                            />
-                       </Row>
+                return  <Card border="primary" key={`${obj.abbreviation}`}>
+                            <Card.Title className="text-center">{`${obj.name}`}</Card.Title>
+                            <Card.Body>
+                                <Form.Label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-question`}
+                                    name={`${obj.abbreviation}-question`}
+                                    defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}
+                                />
+                                <Form.Label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-other`}
+                                    name={`${obj.abbreviation}-other`}
+                                    defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}
+                                />
+                                <Form.Label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-answers`}
+                                    name={`${obj.abbreviation}-answers`}
+                                    defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}
+                                />
+                            </Card.Body>
+                        </Card>
             })
         }
     }
@@ -202,11 +206,11 @@ const AddQuestionPage = () => {
         <>
         <NavbarMenu />
         <Container>
-            <Form method="post" onSubmit={handleSubmit}>
-                <Row className="gap-5">
-                    <Col>
-                        <Row className="py-3">
-                            <Form.Label htmlFor="question">Question:</Form.Label>
+            <Form method="post" onSubmit={handleSubmit}> 
+                <Row className="py-3">
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label htmlFor="question" column sm="2" lg="1">Question:</Form.Label>
+                        <Col sm="10" lg="6">
                             <Form.Control className="mb-3"
                                 type="text"
                                 id="question"
@@ -214,60 +218,60 @@ const AddQuestionPage = () => {
                                 placeholder="Please enter question here"
                                 onBlur={(e) => setQuestion(e.target.value)}   
                             />
-                            <Col className="py-3">
+                        </Col>
+                        <Row>
+                            <Col sm="6">
                                 {translateQuestionButton()}
                             </Col>
-                        </Row>
-                        <Row className="py-3">
-                            <Form.Label htmlFor="answers">Answers (comma-separated):</Form.Label>
+                        </Row>                                
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label htmlFor="answers" column sm="2" lg="1">Answers:</Form.Label>
+                        <Col sm="10" lg="6">
                             <Form.Control className="mb-3"
                                 type="text"
                                 id="answers"
                                 name="answers"
-                                placeholder="example: yes, no, maybe"
+                                placeholder="comma separated: yes, no, maybe"
                                 onBlur={(e) => setAnswers(e.target.value)}   
                             />
-                            <Col className="py-3">
+                        </Col>
+                        <Row>
+                            <Col sm="6">
                                 {translateAnswersButton()}
                             </Col>
-                        </Row>
-                        <Row className="py-3">
-                            <Col>
-                                <Row>
-                                    <Form.Label htmlFor="hasOther">Has Other:</Form.Label>
-                                </Row>
-                                <Col>
-                                    <Form.Check
-                                        type="radio"
-                                        htmlFor="has_other_true"
-                                        id="has_other_true"
-                                        name="has_other"
-                                        value="true"
-                                        label="True"
-                                        onClick={handleHasOtherClick}  
-                                    />
-                                    <Form.Check
-                                        defaultChecked
-                                        type="radio"
-                                        htmlFor="has_other_false"
-                                        id="has_other_false"
-                                        name="has_other"
-                                        value="false"
-                                        label="False"
-                                        onClick={handleHasOtherClick}  
-                                    />
-                                </Col>
-                            </Col>
-                        </Row>
-                        <Row className="py-3">
-                            <Col md>
-                                <Button type="submit">Submit</Button>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col>
-                        {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
-                    </Col>
+                        </Row>                                
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label htmlFor="hasOther" column sm="4">Has Other:</Form.Label>
+                        <Form.Check
+                            type="radio"
+                            htmlFor="has_other_true"
+                            id="has_other_true"
+                            name="has_other"
+                            value="true"
+                            label="True"
+                            onClick={handleHasOtherClick}  
+                        />
+                        <Form.Check
+                            defaultChecked
+                            type="radio"
+                            htmlFor="has_other_false"
+                            id="has_other_false"
+                            name="has_other"
+                            value="false"
+                            label="False"
+                            onClick={handleHasOtherClick}  
+                        />                              
+                    </Form.Group>
+                    <Row>
+                        <Col sm="6">
+                            <Button type="submit">Submit</Button>
+                        </Col>
+                    </Row>
+                </Row>
+                <Row className="g-4" xs={1} lg={2} xxl={3}>
+                    {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
                 </Row>
             </Form>
         </Container>
