@@ -26,7 +26,7 @@ const SelectQuestionPage = () => {
     
     // Navigate to EditQuestionPage and passing the questionID to the component
     const handleSelect = () => {
-        navigate(`/editQuestion`, {state:{id:questionID}});
+        navigate("/editQuestion", {state:{id:questionID}});
     }
 
     function displayQuestions(questions) {

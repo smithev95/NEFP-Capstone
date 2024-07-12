@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useLocation} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const EditQuestionPage = () => {
@@ -12,6 +12,7 @@ const EditQuestionPage = () => {
     const [translatedQuestions, setTranslatedQuestions] = useState({});
     const [translatedAnswers, setTranslatedAnswers] = useState({});
     const [translatedOthers, setTranslatedOther] = useState({});
+    let navigate = useNavigate();
 
     // Fetch language data
     useEffect(() => {
@@ -115,6 +116,7 @@ const EditQuestionPage = () => {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("status", response.status);
+                    navigate("/selectQuestion");
                 } 
                 else {
                     console.log("unsuccessful");
@@ -137,6 +139,7 @@ const EditQuestionPage = () => {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("status", response.status);
+                    navigate("/selectQuestion");
                 } 
                 else {
                     console.log("unsuccessful");
