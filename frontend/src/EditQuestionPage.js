@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {useLocation} from 'react-router-dom';
 import axios from 'axios';
 
-const UpdateQuestionPage = () => {
+const EditQuestionPage = () => {
     const location = useLocation();
     const questionID = location.state.id;
     const [allLanguages, setallLanguages] = useState([]);
@@ -226,4 +226,4 @@ const UpdateQuestionPage = () => {
     );
 }
 
-export default UpdateQuestionPage;
+export default EditQuestionPage;

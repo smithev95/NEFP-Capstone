@@ -8,7 +8,7 @@ import LandingPage from "./LandingPage";
 import AdminPage from "./AdminPage";
 import "bootstrap/dist/css/bootstrap.css";
 import SelectQuestionPage from "./SelectQuestionPage";
-import UpdateQuestionPage from "./UpdateQuestionPage";
+import EditQuestionPage from "./EditQuestionPage";
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/table" element={<ClientDataTable />} />
         <Route path="/addQuestion" element={<AddQuestionPage />} />
         <Route path="/selectQuestion" element={<SelectQuestionPage />} />
-        <Route path="/updateQuestion" element={<UpdateQuestionPage />} />
+        <Route path="/editQuestion" element={<EditQuestionPage />} />
         {/* Add other routes here */}
       </Routes>
     </Router>
