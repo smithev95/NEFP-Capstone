@@ -10,13 +10,6 @@ admin.site.register(Answer)
 admin.site.register(Language)
 admin.site.register(TranslatedQuestion)
 
-
-def admin_panel(request):
-    return render(request, 'admin_panel.html')
-
-def add_question_handler(request):
-    return render(request, 'add_question_form.html')
-
 @csrf_exempt
 def add_question(request):
     if request.method == 'POST':
@@ -63,10 +56,6 @@ def add_question(request):
             return JsonResponse({'error': 'not valid JSON data'})
         return JsonResponse({'message': 'successfully added a new question'})
     return JsonResponse({'error': 'not POST request'}, status=400)  
-
-def update_question_handler(request):
-    questions = list(Question.objects.values())
-    return render(request, 'update_question_form.html', {"data": questions})
 
 @csrf_exempt
 def delete_question(request, question_id):
