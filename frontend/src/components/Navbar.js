@@ -28,8 +28,7 @@ function NavbarMenu() {
                             <NavDropdown.Item href="#action/1.1">Adjust Questionnaire</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="/addQuestion">Add Question</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/1.3">Edit Question</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/1.4">Delete Question</NavDropdown.Item>
+                            <NavDropdown.Item href="/selectQuestion">Edit Question</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item href="#action/1.5">Add Language</NavDropdown.Item>
                             <NavDropdown.Item href="#action/1.6">Delete Language</NavDropdown.Item>
