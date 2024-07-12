@@ -213,6 +213,8 @@ const EditQuestionPage = () => {
                         <div className="row py-3">
                             <div className="col">
                                 <button type="submit" value="update">Update</button>
+                            </div>
+                            <div className="col">
                                 <button type="submit" value="delete">Delete</button>
                             </div>
                         </div>
