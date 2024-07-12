@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import CompanyLogo from "../img/companyLogo50Year.png";
+import CompanyLogo from "../img/NEFPLogo.png";
 
 // source: https://react-bootstrap.netlify.app/docs/components/navbar/
 function NavbarMenu() {
@@ -15,8 +15,7 @@ function NavbarMenu() {
                     <Navbar.Brand href="/">
                         <img 
                             src={CompanyLogo}
-                            width="80"
-                            height="39"
+                            width="40"
                             className="d-inline-block aligh-top"
                             alt="NEFP logo"
                         />
