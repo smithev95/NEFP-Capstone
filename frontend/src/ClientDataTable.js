@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarMenu from './components/Navbar';
+import { saveAs } from 'file-saver'
 import './App.css';
 
 const ClientDataList = () => {
@@ -36,11 +37,25 @@ const ClientDataList = () => {
     return Object.values(obj).map((value, idx) => {return <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>;});
   }
 
+  const exportToCSV = () => {
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
+    const rows = data.map(obj => headers.map(header => obj[header]));
+
+    const csvContent = [
+      headers.join(','), // Headers for CSV file
+      ...rows.map(row=> row.join(',')) // CSV Rows
+    ].join('\n');
+
+    const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8;'});
+    saveAs(blob, 'client_data.csv')
+  };
+
   return (
     <>
     <NavbarMenu />
     <div className="Handler">
       <h1>Client Data List</h1>
+      <button onClick={exportToCSV}>Export to CSV</button>
       <table>
         <thead>
           <tr>
