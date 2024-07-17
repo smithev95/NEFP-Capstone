@@ -34,37 +34,32 @@ def client_data_form(request):
       
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
-    questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question"))    
-    data = list(Answer.objects.filter(question_fk__isnull=False, deleted__exact=False).order_by("client_id", "question_fk").values()) 
+    questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question"))
     client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
 
-    # Map question foreign key to its value
-    for row in data:
-        for key, val in questions_fk_values:
-            if (key == row["question_fk_id"]):
-                row["question_value"] = val
-
-    # Group data by client id
     client_data = []
     for id in client_ids:
         client_dict = {}
-        client_id = id["client_id"]
-        client_dict["client_id"] = client_id
-        for row in data:
-            if (row["client_id"] == client_id):
-                try: 
-                    client_dict[row["question_value"]] = row["answer"]
-                    client_dict["created_timestamp"] = row["created_timestamp"]
-                except Exception as e:
-                    print (f"Error: {str(e)} key not in client_dict")
-        client_data.append(client_dict)
+        client_dict["client_id"] = id["client_id"]
+        client_answers = Answer.objects.filter(client_id=id["client_id"], deleted=False).values()
 
-    # Fill in None value for new columns
-    for row in client_data:
-        keys = row.keys()
-        for key, val in questions_fk_values:
-            if (val not in keys):
-                row[val] = None
+        # Add created_timestamp col using the first answer's created_timestamp 
+        # of the client if the queryset is not empty
+        client_dict["created_timestamp"] = None
+        if (client_answers):
+            client_dict["created_timestamp"] = client_answers[0]["created_timestamp"]
+
+        for q_id, question in questions_fk_values:
+            for answer in client_answers:
+                if (answer["question_fk_id"] == q_id):
+                    client_dict[question] = answer["answer"]
+            
+            # If the question wasn't found in the client_answers, we add a None value to it
+            # This fixes the misaligned display of questions in ClientDataTable
+            if (question not in client_dict.keys()):
+                client_dict[question] = None
+        
+        client_data.append(client_dict)
 
     return JsonResponse(client_data, safe=False)
 
