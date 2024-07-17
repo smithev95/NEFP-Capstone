@@ -25,7 +25,7 @@ def client_data_form(request):
             new_id = current_id + 1
         
         for key, value in data.items():
-            question = Question.objects.get(question=key)
+            question = Question.objects.filter(deleted__exact=False).get(question=key)
             new_answer = Answer(answer=value, question_fk=question, client_id=new_id)
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
