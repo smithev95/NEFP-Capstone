@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Question, Language
+from .models import Answer, Question, Language, TranslatedQuestion
 import json
 import translators as ts
 
@@ -25,7 +25,7 @@ def client_data_form(request):
             new_id = current_id + 1
         
         for key, value in data.items():
-            question = Question.objects.get(question=key)
+            question = Question.objects.filter(deleted__exact=False).get(question=key)
             new_answer = Answer(answer=value, question_fk=question, client_id=new_id)
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
@@ -69,9 +69,47 @@ def client_data_list(request):
     return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
-    questions = list(Question.objects.values())
+    questions = list(Question.objects.values().filter(deleted__exact=False))
     return JsonResponse(questions, safe=False)
 
+def get_question(request, question_id):
+    try:
+        data = {}
+
+        # Get the question object with the id
+        question_obj = Question.objects.get(pk=question_id)
+
+        data["question"] = question_obj.question
+        data["answer_choices"] = question_obj.answer_choices
+        data["has_other"] = question_obj.has_other
+
+        # Get the translated texts of the question
+        translations = TranslatedQuestion.objects.filter(question_fk=question_obj)
+        
+        translated_questions = {}
+        translated_answers = {}
+        translated_others = {}
+
+        for obj in translations:
+            # Get language abbreviation
+            abbreviation = Language.objects.get(name=obj.language_fk).abbreviation
+
+            translated_questions[abbreviation] = obj.question
+            translated_answers[abbreviation] = obj.answer_choices
+
+            if (data["has_other"]):
+                # translated_others[abbreviation] = fields_dict["other"]
+                translated_others[abbreviation] = obj.other
+        
+        data["translated_questions"] = translated_questions
+        data["translated_answers"] = translated_answers
+        data["translated_others"] = translated_others
+
+        return JsonResponse(data, safe=False)
+    except Exception as e:
+        return JsonResponse({"status": "error", "message":f"Error fetching question and its translations: {str(e)}"}, 
+                            status=400)
+    
 def get_languages(request):
     languages = list(Language.objects.values())
     return JsonResponse(languages, safe=False)
