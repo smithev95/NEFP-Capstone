@@ -85,6 +85,7 @@ const ClientDataList = () => {
     return Object.values(obj).map((value, idx) => { return <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>; });
   };
 
+  //
 
   const exportToCSV = () => {
     const headers = filteredData.length > 0 ? Object.keys(data[0]) : [];
@@ -115,16 +116,16 @@ const ClientDataList = () => {
           <option value="week">This Week</option>
           <option value="month">This Month</option>
         </select>
-      </div>
-      <button onClick={exportToCSV}>Export to CSV</button>
+        <button onClick={exportToCSV}>Export to CSV</button>
+      </div> 
       <table>
         <thead>
           <tr>
-            {getHeaders(data)}
+            {getHeaders(filteredData)}
           </tr>
         </thead>
         <tbody>
-          {getRows(data)}
+          {getRows(filteredData)}
         </tbody>
       </table>
     </div>
