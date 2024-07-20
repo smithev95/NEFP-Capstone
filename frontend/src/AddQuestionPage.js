@@ -18,7 +18,7 @@ const AddQuestionPage = () => {
     const [translatedAnswers, setTranslatedAnswers] = useState({});
     const [translatedOthers, setTranslatedOther] = useState({});
     const [areQuestionsLoading, setQuestionsLoading] = useState(false);
-    const [areAnswerssLoading, setAnswersLoading] = useState(false);
+    const [areAnswersLoading, setAnswersLoading] = useState(false);
 
     // Fetch language data
     useEffect(() => {
@@ -131,21 +131,21 @@ const AddQuestionPage = () => {
                         role="status"
                         aria-hidden="true"
                     />
-                    Loading...
+                    &nbsp;&nbsp;Loading...
                 </Button>
             );
         }
         else
         {
             return (
-                <Button type="button" onClick={() => getQuestionTranslations()}>Get Translation</Button>
+                <Button type="button" onClick={getQuestionTranslations}>Get Translation</Button>
             );
         }
     }
 
     const translateAnswersButton = () =>
         {
-            if(areAnswerssLoading)
+            if(areAnswersLoading)
             {
                 return (
                     <Button variant="primary" disabled>
@@ -156,14 +156,14 @@ const AddQuestionPage = () => {
                             role="status"
                             aria-hidden="true"
                         />
-                        Loading...
+                        &nbsp;&nbsp;Loading...
                     </Button>
                 );
             }
             else
             {
                 return (
-                    <Button type="button" onClick={() => getAnswersTranslations()}>Get Translation</Button>
+                    <Button type="button" onClick={getAnswersTranslations}>Get Translation</Button>
                 );
             }
         }
