@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import CompanyLogo from "../img/companyLogo50Year.png";
+import CompanyLogo from "../img/NEFPLogo.png";
 
 // source: https://react-bootstrap.netlify.app/docs/components/navbar/
 function LogoNavbar() {
@@ -13,8 +13,7 @@ function LogoNavbar() {
                     <Navbar.Brand href="/">
                         <img 
                             src={CompanyLogo}
-                            width="80"
-                            height="39"
+                            width="40"
                             className="d-inline-block aligh-top"
                             alt="NEFP logo"
                         />
