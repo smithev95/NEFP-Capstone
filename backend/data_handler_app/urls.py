@@ -5,6 +5,7 @@ from .admin import add_question, update_question, delete_question
 urlpatterns = [
     path('clientdata/', client_data_list, name='client_data_list'),
     path('newsubmission/', client_data_form, name='new_submission'),
+    path('languages/', get_languages, name='languages'),
     path('questions/', get_questions, name='questions'),
     path('question/<int:question_id>', get_question, name='get_question'),
     path('languages/', get_languages, name='get_languages'),

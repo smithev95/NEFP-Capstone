@@ -1,9 +1,14 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
+import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import LogoNavbar from "./components/LogoNavbar";
+import { Link } from "react-router-dom";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { language, setLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     // Fetch the JSON data
@@ -14,15 +19,16 @@ const ClientDataForm = () => {
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-    console.log("form loaded");
   }, []);
 
-  const log_information = (e) => {
-    e.preventDefault();
+  const log_information = (event) => {
+    event.preventDefault();
 
-    const form_data = new FormData(e.target);
+    const form_data = new FormData(event.target);
     const form_data_object = {};
 
     form_data.forEach((value, key) => {
@@ -117,6 +123,36 @@ const ClientDataForm = () => {
     </div>
   );
 
+  if (loading) {
+    return (
+      <>
+        <div className="container d-flex justify-content-center align-items-center min-vh-100">
+          <div className="spinner-grow text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-secondary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-success" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-danger" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-warning" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-info" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <div className="spinner-grow text-dark" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <LogoNavbar />
@@ -125,12 +161,20 @@ const ClientDataForm = () => {
           <h1>Client Form</h1>
         </div>
         <form method="post" onSubmit={log_information}>
-          {questions.map((question, index) => renderQuestion(question, index))}
+          {questions
+            .filter((question) => question.language_fk_id == language)
+            .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
-              <button className="btn btn-primary btn-lg" type="submit">
-                Submit
-              </button>
+              <Link to="/selectlanguage">
+                <button
+                  type="button"
+                  className={"btn btn-primary"}
+                  style={{ minWidth: "150px" }}
+                >
+                  <i className="bi bi-arrow-right"></i>
+                </button>
+              </Link>
             </div>
           </div>
         </form>

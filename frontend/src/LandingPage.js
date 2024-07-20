@@ -54,7 +54,7 @@ const LandingPage = () => {
             Open Client Table
           </button>
         </Link>
-        <Link to="/form">
+        <Link to="/selectlanguage">
           <button
             type="button"
             className={"btn"}

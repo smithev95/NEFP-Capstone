@@ -65,76 +65,9 @@ def client_data_list(request):
 
 def get_questions(request):
     questions = list(Question.objects.order_by("id").filter(deleted__exact=False).values())
+    questions = list(TranslatedQuestion.objects.values())
     return JsonResponse(questions, safe=False)
 
-def get_question(request, question_id):
-    try:
-        data = {}
-
-        # Get the question object with the id
-        question_obj = Question.objects.get(pk=question_id)
-
-        data["question"] = question_obj.question
-        data["answer_choices"] = question_obj.answer_choices
-        data["has_other"] = question_obj.has_other
-
-        # Get the translated texts of the question
-        translations = TranslatedQuestion.objects.filter(question_fk=question_obj)
-        
-        translated_questions = {}
-        translated_answers = {}
-        translated_others = {}
-
-        for obj in translations:
-            # Get language abbreviation
-            abbreviation = Language.objects.get(name=obj.language_fk).abbreviation
-
-            translated_questions[abbreviation] = obj.question
-            translated_answers[abbreviation] = obj.answer_choices
-
-            if (data["has_other"]):
-                # translated_others[abbreviation] = fields_dict["other"]
-                translated_others[abbreviation] = obj.other
-        
-        data["translated_questions"] = translated_questions
-        data["translated_answers"] = translated_answers
-        data["translated_others"] = translated_others
-
-        return JsonResponse(data, safe=False)
-    except Exception as e:
-        return JsonResponse({"status": "error", "message":f"Error fetching question and its translations: {str(e)}"}, 
-                            status=400)
-    
 def get_languages(request):
     languages = list(Language.objects.values())
     return JsonResponse(languages, safe=False)
-
-"""
-This endpoint gets translations for questions and answer choices in
-AddQuestionPage.js
-"""
-def get_translations(request):
-    # Fetch the query parameters
-    question = request.GET.get('question')
-    answers = request.GET.get('answers')
-
-    lang_abbrev = list(Language.objects.values("abbreviation"))
-    translation_dict = {}
-
-    if (question):
-        for lang in lang_abbrev:
-            translation = ts.translate_text(question, translator="google", to_language=lang['abbreviation'].lower())
-            translation_dict[lang['abbreviation']] = translation
-    
-    elif (answers):
-        answers = answers.strip().split(",")
-
-        for lang in lang_abbrev:
-            translation_arr = []
-            for answer in answers:
-                translation = ts.translate_text(answer, translator="google", to_language=lang['abbreviation'].lower())
-                translation_arr.append(translation)
-            translation_str = ','.join(translation_arr)
-            translation_dict[lang['abbreviation']] = translation_str
-
-    return JsonResponse(translation_dict, safe=False)
