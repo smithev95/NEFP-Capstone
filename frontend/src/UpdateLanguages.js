@@ -4,6 +4,7 @@ import axios from "axios";
 const UpdateLanguages = () => {
   const [languages, setLanguages] = useState([]);
   const [updating, setUpdating] = useState(false);
+  
 
   useEffect(() => {
     axios

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { LanguageContext } from "./Contexts/Contexts";
 
 const SelectQuestionPage = () => {
     const [questions, setQuestions] = useState([]);
     const [questionID, setQuestionID] = useState();
     let navigate = useNavigate();
-
+    const { language} = useContext(LanguageContext);
     // Fetch questions from database
     useEffect(() => {
         console.log("App.js useEffect called.");
@@ -31,7 +32,8 @@ const SelectQuestionPage = () => {
 
     function displayQuestions(questions) {
         if (questions.length !== 0) {
-            return questions.map(obj => {
+            return questions.filter((question) => question.language_fk_id == language).
+            map(obj => {
                 return  <div className="row py-1" key={`${obj.id}`}>
                             <div className="col">
                                 <input type="radio" name="question" id={`${obj.id}`} value={`${obj.id}`} onChange={onOptionChange}/>
