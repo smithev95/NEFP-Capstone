@@ -12,6 +12,7 @@ const LandingPage = () => {
         <img
           src={CompanyLogo}
           style={{ height: "30vh", marginBottom: "5vh" }}
+          alt="EMO logo"
         ></img>
       </div>
       {/* <hr className="mt-5 mb-5" style={{ width: "40%", margin: "0 auto" }} /> */}

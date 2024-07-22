@@ -7,7 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const SelectLanguage = () => {
   const [languages, setLanguages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { language, setLanguage } = useContext(LanguageContext);
+  const { setLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     axios

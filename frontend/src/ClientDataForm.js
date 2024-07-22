@@ -8,7 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { language, setLanguage } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     // Fetch the JSON data
@@ -162,7 +162,7 @@ const ClientDataForm = () => {
         </div>
         <form method="post" onSubmit={log_information}>
           {questions
-            .filter((question) => question.language_fk_id == language)
+            .filter((question) => question.language_fk_id === Number(language))
             .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
