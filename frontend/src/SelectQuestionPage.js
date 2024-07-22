@@ -36,7 +36,8 @@ const SelectQuestionPage = () => {
             map(obj => {
                 return  <div className="row py-1" key={`${obj.id}`}>
                             <div className="col">
-                                <input type="radio" name="question" id={`${obj.id}`} value={`${obj.id}`} onChange={onOptionChange}/>
+                                <input type="radio" name="question" id={`${obj.id}`} 
+                                    value={`${obj.id}`} onChange={onOptionChange}/>
                                 <label htmlFor={`${obj.id}`}> {`${obj.question}`}</label>
                             </div>
                         </div>
