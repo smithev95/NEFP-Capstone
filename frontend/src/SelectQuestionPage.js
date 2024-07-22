@@ -32,8 +32,7 @@ const SelectQuestionPage = () => {
 
     function displayQuestions(questions) {
         if (questions.length !== 0) {
-            return questions.filter((question) => question.language_fk_id == language).
-            map(obj => {
+            return questions.filter((question) => question.language_fk_id === Number(language)).map(obj => {
                 return  <div className="row py-1" key={`${obj.id}`}>
                             <div className="col">
                                 <input type="radio" name="question" id={`${obj.id}`} 
