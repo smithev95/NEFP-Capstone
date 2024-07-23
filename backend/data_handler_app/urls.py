@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import client_data_list, client_data_form, get_questions, get_question, get_languages, get_translations
+from .views import client_data_list, client_data_form, get_questions, get_question, get_languages, get_translations, get_translated_questions
 from .admin import add_question, update_question, delete_question
 
 urlpatterns = [
@@ -7,6 +7,7 @@ urlpatterns = [
     path('newsubmission/', client_data_form, name='new_submission'),
     path('languages/', get_languages, name='languages'),
     path('questions/', get_questions, name='questions'),
+    path('translated_questions/', get_translated_questions, name='translated_questions'),
     path('question/<int:question_id>', get_question, name='get_question'),
     path('languages/', get_languages, name='get_languages'),
     path('translations/', get_translations, name='get_translations'),
