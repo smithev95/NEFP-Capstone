@@ -3,12 +3,19 @@ import axios from 'axios';
 import NavbarMenu from './components/Navbar';
 import { saveAs } from 'file-saver'
 import './App.css';
+import SummaryDropdown from './components/SummaryDropdown'
 
 
 const ClientDataList = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filterPeriod, setFilterPeriod] = useState('all');
+
+  const summaryData = [
+    'summary',
+    'data',
+    'example',
+  ]
 
 
   // Fetch data using axios
@@ -103,6 +110,7 @@ const ClientDataList = () => {
   };
 
 
+
   return (
     <>
     <NavbarMenu />
@@ -118,6 +126,9 @@ const ClientDataList = () => {
         </select>
         <button onClick={exportToCSV}>Export to CSV</button>
       </div> 
+      <div>
+      <SummaryDropdown summaryData={summaryData} />
+      </div>
       <table>
         <thead>
           <tr>
