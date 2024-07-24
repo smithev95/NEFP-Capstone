@@ -25,16 +25,24 @@ def client_data_form(request):
             new_id = current_id + 1
         
         for key, value in data.items():
-            question = Question.objects.filter(deleted__exact=False).get(question=key)
-            new_answer = Answer(answer=value, question_fk=question, client_id=new_id)
+            # Get the fk to OG question from the translated question
+            eng_id = TranslatedQuestion.objects.get(question=key).question_fk
+            question = Question.objects.filter(deleted__exact=False).get(id=eng_id)
+            # Get index of answer from translated answer choices
+            index = TranslatedQuestion.objects.get(question=key).answer_choices.index(value)
+            # Get english answer using same index
+            new_answer = Answer(answer=question.answer_choices[index], question_fk=question, 
+                                client_id=new_id)
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
     except Exception as e:
-        return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, status=400)
+        return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, 
+                            status=400)
       
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
-    questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).values_list("id", "question"))
+    questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).
+                               values_list("id", "question"))
     client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
 
     client_data = []
@@ -107,8 +115,8 @@ def get_question(request, question_id):
 
         return JsonResponse(data, safe=False)
     except Exception as e:
-        return JsonResponse({"status": "error", "message":f"Error fetching question and its translations: {str(e)}"}, 
-                            status=400)
+        return JsonResponse({"status": "error", 
+                "message":f"Error fetching question and its translations: {str(e)}"}, status=400)
     
 def get_languages(request):
     languages = list(Language.objects.values())
@@ -128,7 +136,8 @@ def get_translations(request):
 
     if (question):
         for lang in lang_abbrev:
-            translation = ts.translate_text(question, translator="google", to_language=lang['abbreviation'].lower())
+            translation = ts.translate_text(question, translator="google", 
+                                            to_language=lang['abbreviation'].lower())
             translation_dict[lang['abbreviation']] = translation
     
     elif (answers):
@@ -137,7 +146,8 @@ def get_translations(request):
         for lang in lang_abbrev:
             translation_arr = []
             for answer in answers:
-                translation = ts.translate_text(answer, translator="google", to_language=lang['abbreviation'].lower())
+                translation = ts.translate_text(answer, translator="google", 
+                                                to_language=lang['abbreviation'].lower())
                 translation_arr.append(translation)
             translation_str = ','.join(translation_arr)
             translation_dict[lang['abbreviation']] = translation_str
