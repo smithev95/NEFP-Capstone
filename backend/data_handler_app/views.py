@@ -64,8 +64,7 @@ def client_data_list(request):
     return JsonResponse(client_data, safe=False)
 
 def get_questions(request):
-    questions = list(Question.objects.order_by("id"). #Switch this back to Question table #PR 63
-                     filter(question_fk__deleted__exact=False).values())
+    questions = list(Question.objects.order_by("id").filter(deleted__exact=False).values())
     return JsonResponse(questions, safe=False)
 
 def get_translated_questions(request):
