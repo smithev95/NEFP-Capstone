@@ -25,10 +25,10 @@ const ClientDataForm = () => {
       });
   }, []);
 
-  const log_information = (event) => {
-    event.preventDefault();
+  const log_information = (e) => {
+    e.preventDefault();
 
-    const form_data = new FormData(event.target);
+    const form_data = new FormData(e.target);
     const form_data_object = {};
 
     form_data.forEach((value, key) => {
@@ -166,13 +166,13 @@ const ClientDataForm = () => {
             .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
-              <Link to="/selectlanguage">
+              <Link to="/selectlanguage"> 
                 <button
-                  type="button"
+                  type="submit"
                   className={"btn btn-primary"}
                   style={{ minWidth: "150px" }}
                 >
-                  <i className="bi bi-arrow-right"></i>
+                  Submit
                 </button>
               </Link>
             </div>

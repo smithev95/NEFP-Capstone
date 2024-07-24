@@ -23,12 +23,11 @@ def client_data_form(request):
             # Get latest client_id from Answer
             current_id = Answer.objects.latest("client_id").client_id
             new_id = current_id + 1
-        
-        for key, value in data.items():
-            # Get the fk to OG question from the translated question
-            eng_id = TranslatedQuestion.objects.get(question=key).question_fk
-            question = Question.objects.filter(deleted__exact=False).get(id=eng_id)
 
+        for key, value in data.items():
+            # Get the OG question from the translated question
+            eng_question = TranslatedQuestion.objects.get(question=key).question_fk
+            question = Question.objects.get(question=eng_question)
             # Get index of answer from translated answer choices
             answer_index = TranslatedQuestion.objects.get(question=key).answer_choices.index(value)
             # Get english answer using same index
