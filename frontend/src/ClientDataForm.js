@@ -62,9 +62,9 @@ const ClientDataForm = () => {
           //alert('Form successfully submitted');
           var result = window.confirm("Form successfully submitted");
           if (result) {
-            window.location.reload();
+            window.location.href='/selectlanguage';
           } else {
-            window.location.reload();
+            window.location.href='/selectlanguage';
           }
           console.log("status", response.status);
         } else {
@@ -165,8 +165,7 @@ const ClientDataForm = () => {
             .filter((question) => question.language_fk_id === Number(language))
             .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
-            <div className="col mb-2" align="center">
-              <Link to="/selectlanguage"> 
+            <div className="col mb-2" align="center">            
                 <button
                   type="submit"
                   className={"btn btn-primary"}
@@ -174,7 +173,6 @@ const ClientDataForm = () => {
                 >
                   Submit
                 </button>
-              </Link>
             </div>
           </div>
         </form>
