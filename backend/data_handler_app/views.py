@@ -28,10 +28,11 @@ def client_data_form(request):
             # Get the fk to OG question from the translated question
             eng_id = TranslatedQuestion.objects.get(question=key).question_fk
             question = Question.objects.filter(deleted__exact=False).get(id=eng_id)
+
             # Get index of answer from translated answer choices
-            index = TranslatedQuestion.objects.get(question=key).answer_choices.index(value)
+            answer_index = TranslatedQuestion.objects.get(question=key).answer_choices.index(value)
             # Get english answer using same index
-            new_answer = Answer(answer=question.answer_choices[index], question_fk=question, 
+            new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                 client_id=new_id)
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
