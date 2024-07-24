@@ -26,10 +26,10 @@ def client_data_form(request):
 
         for key, value in data.items():
             # Get the OG question from the translated question
-            eng_question = TranslatedQuestion.objects.get(question=key).question_fk
-            question = Question.objects.get(question=eng_question)
+            translated_question = TranslatedQuestion.objects.get(question=key)
+            question = Question.objects.get(question=translated_question.question_fk)
             # Get index of answer from translated answer choices
-            answer_index = TranslatedQuestion.objects.get(question=key).answer_choices.index(value)
+            answer_index = translated_question.answer_choices.index(value)
             # Get english answer using same index
             new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                 client_id=new_id)
