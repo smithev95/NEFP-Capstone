@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Loading from "./components/Loading";
 
 const SelectLanguage = () => {
   const [languages, setLanguages] = useState([]);
@@ -28,35 +29,8 @@ const SelectLanguage = () => {
   };
 
   if (loading) {
-    return (
-      <>
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-          <div className="spinner-grow text-primary" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-secondary" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-success" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only"></span>
-          </div>
-        </div>
-      </>
-    );
+    return <Loading />;
   }
-
   return (
     <>
       <div className="container border-top border-bottom mt-5 d-flex justify-content-center">

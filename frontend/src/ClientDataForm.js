@@ -2,8 +2,8 @@ import { Fragment, useEffect, useState, useContext } from "react";
 import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import LogoNavbar from "./components/LogoNavbar";
-import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Loading from "./components/Loading";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
@@ -59,13 +59,7 @@ const ClientDataForm = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          //alert('Form successfully submitted');
-          var result = window.confirm("Form successfully submitted");
-          if (result) {
-            window.location.href='/selectlanguage';
-          } else {
-            window.location.href='/selectlanguage';
-          }
+          window.location.href = "/selectlanguage";
           console.log("status", response.status);
         } else {
           console.log("unsuccessful");
@@ -124,33 +118,7 @@ const ClientDataForm = () => {
   );
 
   if (loading) {
-    return (
-      <>
-        <div className="container d-flex justify-content-center align-items-center min-vh-100">
-          <div className="spinner-grow text-primary" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-secondary" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-success" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-danger" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-warning" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-info" role="status">
-            <span className="sr-only"></span>
-          </div>
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only"></span>
-          </div>
-        </div>
-      </>
-    );
+    return <Loading />;
   }
 
   return (
@@ -165,14 +133,14 @@ const ClientDataForm = () => {
             .filter((question) => question.language_fk_id === Number(language))
             .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
-            <div className="col mb-2" align="center">            
-                <button
-                  type="submit"
-                  className={"btn btn-primary"}
-                  style={{ minWidth: "150px" }}
-                >
-                  Submit
-                </button>
+            <div className="col mb-2" align="center">
+              <button
+                type="submit"
+                className={"btn btn-primary"}
+                style={{ minWidth: "150px" }}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </form>
