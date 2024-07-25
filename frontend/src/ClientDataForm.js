@@ -1,22 +1,28 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
+import { LanguageContext } from "./Contexts/Contexts";
 import axios from "axios";
 import LogoNavbar from "./components/LogoNavbar";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import Loading from "./components/Loading";
 
 const ClientDataForm = () => {
   const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { language } = useContext(LanguageContext);
 
   useEffect(() => {
     // Fetch the JSON data
     axios
-      .get("http://127.0.0.1:8000/questions/")
+      .get("http://127.0.0.1:8000/translated_questions/")
       .then((response) => {
         setQuestions(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data", error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-    console.log("form loaded");
   }, []);
 
   const log_information = (e) => {
@@ -53,13 +59,7 @@ const ClientDataForm = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          //alert('Form successfully submitted');
-          var result = window.confirm("Form successfully submitted");
-          if (result) {
-            window.location.reload();
-          } else {
-            window.location.reload();
-          }
+          window.location.href = "/selectlanguage";
           console.log("status", response.status);
         } else {
           console.log("unsuccessful");
@@ -117,6 +117,10 @@ const ClientDataForm = () => {
     </div>
   );
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <LogoNavbar />
@@ -125,10 +129,16 @@ const ClientDataForm = () => {
           <h1>Client Form</h1>
         </div>
         <form method="post" onSubmit={log_information}>
-          {questions.map((question, index) => renderQuestion(question, index))}
+          {questions
+            .filter((question) => question.language_fk_id === Number(language))
+            .map((question, index) => renderQuestion(question, index))}
           <div className="row my-2">
             <div className="col mb-2" align="center">
-              <button className="btn btn-primary btn-lg" type="submit">
+              <button
+                type="submit"
+                className={"btn btn-primary"}
+                style={{ minWidth: "150px" }}
+              >
                 Submit
               </button>
             </div>
