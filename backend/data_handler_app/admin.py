@@ -16,7 +16,7 @@ def add_question(request):
         data = json.loads(request.body)
         try:
             # Add a Question object to Question table
-            question = data['question']
+            question = data['question'].strip()
 
             # Check for duplicated question
             if (Question.objects.filter(question=question, deleted=False).exists()):
