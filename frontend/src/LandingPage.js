@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import CompanyLogo from "./companyLogo.png";
+import LoginNavbar from "./components/LoginNavbar";
 
 const LandingPage = () => {
   return (
     <>
+    <LoginNavbar />
       <div
         style={{ display: "flex", justifyContent: "center" }}
         className="mt-5"
