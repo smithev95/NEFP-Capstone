@@ -3,7 +3,8 @@ import axios from 'axios';
 import NavbarMenu from './components/Navbar';
 import { saveAs } from 'file-saver'
 import './App.css';
-import SummaryDropdown from './components/SummaryDropdown'
+import SummaryDropdown from './components/SummaryDropdown';
+import DoughnutChart from './components/DoughnutChart';
 
 
 const ClientDataList = () => {
@@ -109,6 +110,34 @@ const ClientDataList = () => {
     saveAs(blob, 'client_data.csv')
   };
 
+  const collectChartData = (key) => {
+    const list = {};
+
+    filteredData.forEach(item => {
+      const value = item[key];
+      if (value in list) {
+        list[value]++;
+      } else {
+        list[value] = 1;
+      }
+    });
+    return list;
+  };
+/*
+  const collectChartData = () => {
+    const list = {};
+
+    filteredData.forEach(item => {
+      Object.keys(item).forEach(key => {
+        if (key !== 'client_id' && key !== 'created_timestamp') {
+          list[key] = (list[key] || 0) + 1;
+        }
+      });
+    });
+    return list;
+  };
+*/
+  const headers = filteredData.length > 0 ? Object.keys(filteredData[0]) : [];
 
 
   return (
@@ -128,6 +157,15 @@ const ClientDataList = () => {
       </div> 
       <div>
       <SummaryDropdown summaryData={summaryData} />
+      </div>
+      <div>
+        <h2>Summary Doughnut Charts</h2>
+        {headers.map(header => (
+          <div key={header}>
+            <h3>{header}</h3>
+            <DoughnutChart key={header} title={header} chartData={collectChartData(header)} />
+          </div>
+      ))}
       </div>
       <table>
         <thead>
