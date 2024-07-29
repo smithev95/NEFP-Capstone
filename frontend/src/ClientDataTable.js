@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarMenu from './components/Navbar';
 import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx';
 import './App.css';
 import './css/Chart.css';
 import SummaryDropdown from './components/SummaryDropdown';
@@ -116,6 +117,25 @@ const ClientDataList = () => {
     saveAs(blob, 'client_data.csv')
   };
 
+  const exportToExcel = () => {
+    const headers = filteredData.length > 0 ? Object.keys(data[0]).filter(key => !excludedHeaders.includes(key)) : [];
+    const rows = filteredData.map(obj => {
+      const row = {};
+      headers.forEach(header => {
+        row[header] = obj[header];
+      });
+      return row;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(rows, { header: headers });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Client Data');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+    saveAs(blob, 'client_data.xlsx');
+  };
+
   const collectChartData = (key) => {
     const list = {};
 
@@ -145,7 +165,8 @@ const ClientDataList = () => {
           <option value="week">This Week</option>
           <option value="month">This Month</option>
         </select>
-        <button onClick={exportToCSV}>Export to CSV</button>
+        <button onClick={exportToCSV}>Export as .csv file</button>
+        <button onClick={exportToExcel}>Export as .xlsx file (Excel)</button>
       </div> 
       <div>
       <SummaryDropdown summaryData={summaryData} />
