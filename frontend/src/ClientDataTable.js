@@ -3,8 +3,10 @@ import axios from 'axios';
 import NavbarMenu from './components/Navbar';
 import { saveAs } from 'file-saver'
 import './App.css';
+import './css/Chart.css';
 import SummaryDropdown from './components/SummaryDropdown';
 import DoughnutChart from './components/DoughnutChart';
+
 
 
 const ClientDataList = () => {
@@ -68,35 +70,38 @@ const ClientDataList = () => {
     setFilteredData(filtered);
   };
 
+  const excludedHeaders = ['created_timestamp'];
+  const excludedCharts = ['client_id', 'created_timestamp'];
 
-  // `map` over the first object in the array and get an array of keys and add them to TH elements
-
-
+  
   const getHeaders = (data) => {
     if (data.length !== 0) {
-      return Object.keys(data[0]).map(key => { return <th key={key}>{key}</th>; });
+      return Object.keys(data[0])
+        .filter(key => !excludedHeaders.includes(key))
+        .map(key => <th key={key}>{key}</th>);
     }
   };
-
-
-  // `map` over the data to return row data, passing in each mapped object to `getCells`
-
 
   const getRows = (data) => {
     if (data.length !== 0) {
-      return data.map(obj => { return <tr key={`${obj.client_id}`}>{getCells(obj)}</tr>; });
+      return data.map(obj => (
+        <tr key={`${obj.client_id}`}>
+          {getCells(obj)}
+        </tr>
+      ));
     }
   };
 
-
   const getCells = (obj) => {
-    return Object.values(obj).map((value, idx) => { return <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>; });
+    return Object.entries(obj)
+      .filter(([key]) => !excludedHeaders.includes(key))
+      .map(([key, value], idx) => (
+        <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>
+      ));
   };
 
-  //
-
   const exportToCSV = () => {
-    const headers = filteredData.length > 0 ? Object.keys(data[0]) : [];
+    const headers = filteredData.length > 0 ? Object.keys(data[0]).filter(key => !excludedHeaders.includes(key)) : [];
     const rows = filteredData.map(obj => headers.map(header => obj[header]));
 
 
@@ -123,22 +128,8 @@ const ClientDataList = () => {
     });
     return list;
   };
-/*
-  const collectChartData = () => {
-    const list = {};
 
-    filteredData.forEach(item => {
-      Object.keys(item).forEach(key => {
-        if (key !== 'client_id' && key !== 'created_timestamp') {
-          list[key] = (list[key] || 0) + 1;
-        }
-      });
-    });
-    return list;
-  };
-*/
-  const headers = filteredData.length > 0 ? Object.keys(filteredData[0]) : [];
-
+  const headers = filteredData.length > 0 ? Object.keys(filteredData[0]).filter(key=> !excludedCharts.includes(key)) : [];
 
   return (
     <>
@@ -161,7 +152,7 @@ const ClientDataList = () => {
       <div>
         <h2>Summary Doughnut Charts</h2>
         {headers.map(header => (
-          <div key={header}>
+          <div key={header} className="chart-container">
             <h3>{header}</h3>
             <DoughnutChart key={header} title={header} chartData={collectChartData(header)} />
           </div>

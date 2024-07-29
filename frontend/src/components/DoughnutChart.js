@@ -13,7 +13,7 @@ ChartJS.register(
   Legend
 );
 
-const DoughnutChart = ({ chartData }) => {
+const DoughnutChart = ({ title, chartData }) => {
   const data = {
     labels: Object.keys(chartData),
     datasets: [{
@@ -39,7 +39,9 @@ const DoughnutChart = ({ chartData }) => {
   };
 
   return (
+    //<div style={{ width: '200px', height: '200px', display: 'inline-block', margin: '50px' }}>
     <div>
+
       <Doughnut data={data}/>
     </div>
   );
