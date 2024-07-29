@@ -150,15 +150,17 @@ const ClientDataList = () => {
       <div>
       <SummaryDropdown summaryData={summaryData} />
       </div>
-      <div>
         <h2>Summary Doughnut Charts</h2>
-        {headers.map(header => (
-          <div key={header} className="chart-container">
-            <h3>{header}</h3>
-            <DoughnutChart key={header} title={header} chartData={collectChartData(header)} />
+        <div className="scrollable-container">
+          <div className="charts-container">
+            {headers.map(header => (
+              <div key={header} className="chart-container">
+                <h3>{header}</h3>
+                <DoughnutChart key={header} title={header} chartData={collectChartData(header)} />
+              </div>
+            ))}
           </div>
-      ))}
-      </div>
+        </div>
       <table>
         <thead>
           <tr>
