@@ -13,12 +13,9 @@ const ClientDataList = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filterPeriod, setFilterPeriod] = useState('all');
+  const [clientCount, setClientCount] = useState(0);
+  const [summaryData, setSummaryData] = useState([]);
 
-  const summaryData = [
-    'summary',
-    'data',
-    'example',
-  ]
 
 
   // Fetch data using axios
@@ -68,6 +65,10 @@ const ClientDataList = () => {
       })
     }
     setFilteredData(filtered);
+    setClientCount(filtered.length);
+    setSummaryData([
+      `Total Clients (time-period ${filterPeriod}): ${filtered.length}`
+    ]);
   };
 
   const excludedHeaders = ['created_timestamp'];
