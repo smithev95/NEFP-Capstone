@@ -49,3 +49,8 @@ class TranslatedQuestion(models.Model):
     def __str__(self):
         return self.question
     
+class ClientLanguage(models.Model):
+    created_timestamp = models.DateTimeField(auto_now_add=True)
+    language_fk = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
+    client_id_fk = models.ForeignKey("Answer", on_delete=models.SET_NULL, null=True)
+    

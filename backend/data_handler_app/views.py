@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Question, Language, TranslatedQuestion
+from .models import Answer, Question, Language, TranslatedQuestion, ClientLanguage
 import json
 import translators as ts
 
@@ -24,7 +24,13 @@ def client_data_form(request):
             current_id = Answer.objects.latest("client_id").client_id
             new_id = current_id + 1
 
+        print(data.items())
+
         for key, value in data.items():
+            if (key == 'language'):
+                new_record = ClientLanguage(language_fk=value, client_id=new_id)
+                new_record.save()
+                break
             # Get the OG question from the translated question
             translated_question = TranslatedQuestion.objects.get(question=key)
             question = Question.objects.get(question=translated_question.question_fk)
@@ -33,12 +39,13 @@ def client_data_form(request):
             # Get english answer using same index
             new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                 client_id=new_id)
-            new_answer.save()
-        return HttpResponse({'successfull'}, status=200)  
+            #new_answer.save()
+        #return HttpResponse({'successfull'}, status=200)  
+
     except Exception as e:
         return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, 
                             status=400)
-      
+
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
     questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).
