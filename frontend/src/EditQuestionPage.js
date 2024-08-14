@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import NavbarMenu from './components/Navbar.js';
 
 const EditQuestionPage = () => {
     const location = useLocation();
@@ -170,6 +171,8 @@ const EditQuestionPage = () => {
     }
 
     return (
+        <>
+        <NavbarMenu />
         <div className="container">
             <form method="post" onSubmit={handleSubmit}>
                 <div className="row gap-5">
@@ -228,6 +231,7 @@ const EditQuestionPage = () => {
                 </div>
             </form>
         </div>
+        </>
     );
 }
 
