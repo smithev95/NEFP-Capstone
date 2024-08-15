@@ -42,11 +42,6 @@ class TranslatedQuestion(models.Model):
     answer_choices = ArrayField(models.CharField(blank=False))
     other = models.CharField()
 
-    '''
-    # maybe not needed since they exist in corresponding row in 'Question'?
-    deleted = models.BooleanField(default=False)
-    has_other = models.BooleanField()
-    '''
     def __str__(self):
         return self.question
     

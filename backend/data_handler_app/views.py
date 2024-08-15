@@ -48,13 +48,13 @@ def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
     questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).
                                values_list("id", "question"))
-    client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
+    client_ids =  Answer.objects.order_by("client_fk").values("client_fk").distinct()
 
     client_data = []
     for id in client_ids:
         client_dict = {}
-        client_dict["client_id"] = id["client_id"]
-        client_answers = Answer.objects.filter(client_id=id["client_id"], deleted=False).values()
+        client_dict["client_fk"] = id["client_fk"]
+        client_answers = Answer.objects.filter(client_fk=id["client_fk"], deleted=False).values()
 
         # Add created_timestamp col using the first answer's created_timestamp 
         # of the client if the queryset is not empty
