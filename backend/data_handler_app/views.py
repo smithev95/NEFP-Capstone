@@ -17,19 +17,12 @@ def client_data_form(request):
         return JsonResponse({'error': 'not POST request'}, status=400)
     
     try:
-        new_id = 1
-        #Check if there's any entries in the table
-        if (ClientLanguage.objects.count() > 0):
-            # Get latest client_id from Answer
-            current_id = ClientLanguage.objects.latest("id").id
-            new_id = current_id + 1
-            print('new id: ', new_id)
 
         for key, value in data.items():
             if (key == 'language'):
                 lang = Language.objects.get(id=value)
                 new_record = ClientLanguage(language_id=lang)
-                #new_record.save()
+                new_record.save()
                 continue
 
             # Get the OG question from the translated question
@@ -42,7 +35,7 @@ def client_data_form(request):
             
             #Get english answer using same index
             new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
-                                client_fk=new_id)
+                                client_fk=new_record)
             
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
