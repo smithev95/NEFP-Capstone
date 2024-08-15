@@ -27,16 +27,23 @@ def client_data_form(request):
 
             # Get the OG question from the translated question
             translated_question = TranslatedQuestion.objects.get(question=key)
-
             question = Question.objects.get(question=translated_question.question_fk)
             
-            # Get index of answer from translated answer choices
-            answer_index = translated_question.answer_choices.index(value)
-            
-            #Get english answer using same index
-            new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
-                                client_fk=new_record)
-            
+            try:
+                # Get index of answer from translated answer choices
+                answer_index = translated_question.answer_choices.index(value)
+                #Get english answer using same index
+                new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
+                                    client_fk=new_record)
+                        # If value not in translated_question.answer_choices then it's from "other" field
+            except ValueError as e:
+                # Translate the answer to English
+                translation = ts.translate_text(value, translator="google", 
+                                                to_language='en')
+                new_answer = Answer(answer=translation, question_fk=question, 
+                                    client_fk=new_record)
+                new_answer.save()
+
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
 
