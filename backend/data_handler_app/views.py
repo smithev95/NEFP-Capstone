@@ -18,35 +18,32 @@ def client_data_form(request):
     
     try:
         new_id = 1
-        # Check if there's any entries in the table
-        if (Answer.objects.count() > 0):
+        #Check if there's any entries in the table
+        if (ClientLanguage.objects.count() > 0):
             # Get latest client_id from Answer
-            current_id = Answer.objects.latest("client_id").client_id
+            current_id = ClientLanguage.objects.latest("id").id
             new_id = current_id + 1
-
-        # last_key = list(data.keys())[-1]
-        # last_value = data[last_key]
-
-        # lang = Language.objects.get(id=last_value)
-        # new_record = ClientLanguage(language_fk=lang)
-        # new_record.save()
+            print('new id: ', new_id)
 
         for key, value in data.items():
             if (key == 'language'):
-                # lang = Language.objects.get(id=value)
-                # client_id = Answer.objects.get(client_id=new_id)
-                # new_record = ClientLanguage(language_fk=lang, client_fk=client_id)
-                # new_record.save()
-                break
+                lang = Language.objects.get(id=value)
+                new_record = ClientLanguage(language_id=lang)
+                #new_record.save()
+                continue
+
             # Get the OG question from the translated question
             translated_question = TranslatedQuestion.objects.get(question=key)
+
             question = Question.objects.get(question=translated_question.question_fk)
+            
             # Get index of answer from translated answer choices
             answer_index = translated_question.answer_choices.index(value)
-            # Get english answer using same index
+            
+            #Get english answer using same index
             new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
-                                client_id=new_id)
-            print(new_answer)
+                                client_fk=new_id)
+            
             new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
 

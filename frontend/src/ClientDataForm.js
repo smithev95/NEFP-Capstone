@@ -51,11 +51,11 @@ const ClientDataForm = () => {
     });
 
     const combined = {
-      ...form_data_object,
       language,
+      ...form_data_object,
     };
 
-    const json_data = JSON.stringify(form_data_object);
+    const json_data = JSON.stringify(combined);
 
     console.log(json_data);
 
