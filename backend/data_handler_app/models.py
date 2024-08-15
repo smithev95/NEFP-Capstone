@@ -16,8 +16,9 @@ class Answer(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
     question_fk = models.ForeignKey("Question", on_delete=models.SET_NULL, null=True)
     answer = models.CharField(max_length=255)
-    client_id = models.IntegerField()
+    client_fk = models.ForeignKey("ClientLanguage", on_delete=models.SET_NULL, null=True)
     deleted = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.answer
@@ -51,6 +52,8 @@ class TranslatedQuestion(models.Model):
     
 class ClientLanguage(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
-    language_fk = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
-    client_id_fk = models.ForeignKey("Answer", on_delete=models.SET_NULL, null=True)
+    language_id = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.language_id
     

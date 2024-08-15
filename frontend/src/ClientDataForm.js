@@ -55,7 +55,7 @@ const ClientDataForm = () => {
       language,
     };
 
-    const json_data = JSON.stringify(combined);
+    const json_data = JSON.stringify(form_data_object);
 
     console.log(json_data);
 

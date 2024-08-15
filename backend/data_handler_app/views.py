@@ -24,12 +24,19 @@ def client_data_form(request):
             current_id = Answer.objects.latest("client_id").client_id
             new_id = current_id + 1
 
-        print(data.items())
+        # last_key = list(data.keys())[-1]
+        # last_value = data[last_key]
+
+        # lang = Language.objects.get(id=last_value)
+        # new_record = ClientLanguage(language_fk=lang)
+        # new_record.save()
 
         for key, value in data.items():
             if (key == 'language'):
-                new_record = ClientLanguage(language_fk=value, client_id=new_id)
-                new_record.save()
+                # lang = Language.objects.get(id=value)
+                # client_id = Answer.objects.get(client_id=new_id)
+                # new_record = ClientLanguage(language_fk=lang, client_fk=client_id)
+                # new_record.save()
                 break
             # Get the OG question from the translated question
             translated_question = TranslatedQuestion.objects.get(question=key)
@@ -39,8 +46,9 @@ def client_data_form(request):
             # Get english answer using same index
             new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                 client_id=new_id)
-            #new_answer.save()
-        #return HttpResponse({'successfull'}, status=200)  
+            print(new_answer)
+            new_answer.save()
+        return HttpResponse({'successfull'}, status=200)  
 
     except Exception as e:
         return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, 
