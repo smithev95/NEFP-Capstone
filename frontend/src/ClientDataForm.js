@@ -36,9 +36,9 @@ const ClientDataForm = () => {
       form_data_object[key] = value;
     });
 
-    // Loop through to check for has_other option
+    // Loop through to check for other option
     questions.forEach((question) => {
-      if (question.has_other) {
+      if (question.other) {
         // If radio value is "Other", use the value from the text field
         if (form_data_object[question.question] === "Other") {
           form_data_object[question.question] =
@@ -67,8 +67,9 @@ const ClientDataForm = () => {
       })
       .then((response) => {
         if (response.status === 200) {
-          window.location.href = "/selectlanguage";
           console.log("status", response.status);
+          alert("Form successfully submitted!")
+          window.location.href = "/selectlanguage";
         } else {
           console.log("unsuccessful");
         }
@@ -102,7 +103,7 @@ const ClientDataForm = () => {
               <br />
             </Fragment>
           ))}
-          {question.has_other && (
+          {question.other && (
             <div className="form-outline w-25 mb-2">
               <input
                 className="form-check-input"

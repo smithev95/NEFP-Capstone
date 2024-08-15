@@ -16,7 +16,14 @@ def add_question(request):
         data = json.loads(request.body)
         try:
             # Add a Question object to Question table
-            question = data['question']
+            question = data['question'].strip()
+
+            # Check for duplicated question
+            if (Question.objects.filter(question=question, deleted=False).exists()):
+                return JsonResponse({"status": "error", 
+                                     "message": f"Question already exists in the database."}, 
+                                    status=405)
+
             answer_choices = data['answers'].split(',')
             has_other = False if data['has_other'] == 'false' else True
 
