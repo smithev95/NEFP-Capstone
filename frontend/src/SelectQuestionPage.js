@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import NavbarMenu from './components/Navbar.js';
 
 const SelectQuestionPage = () => {
   const [questions, setQuestions] = useState([]);
@@ -51,6 +52,8 @@ const SelectQuestionPage = () => {
   }
 
   return (
+    <>
+    <NavbarMenu />
     <div className="container">
       <div className="row py-3">Select a question to delete or update:</div>
       {displayQuestions(questions)}
@@ -60,6 +63,7 @@ const SelectQuestionPage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
