@@ -35,7 +35,8 @@ def client_data_form(request):
                 #Get english answer using same index
                 new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                     client_fk=new_record)
-                        # If value not in translated_question.answer_choices then it's from "other" field
+                new_answer.save()
+            # If value not in translated_question.answer_choices then it's from "other" field
             except ValueError as e:
                 # Translate the answer to English
                 translation = ts.translate_text(value, translator="google", 
@@ -44,7 +45,6 @@ def client_data_form(request):
                                     client_fk=new_record)
                 new_answer.save()
 
-            new_answer.save()
         return HttpResponse({'successfull'}, status=200)  
 
     except Exception as e:
