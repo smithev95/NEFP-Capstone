@@ -12,6 +12,7 @@ const ClientDataForm = () => {
 
   useEffect(() => {
     // Fetch the JSON data
+
     axios
       .get("http://127.0.0.1:8000/translated_questions/")
       .then((response) => {
@@ -49,7 +50,15 @@ const ClientDataForm = () => {
       }
     });
 
-    const json_data = JSON.stringify(form_data_object);
+    const combined = {
+      language,
+      ...form_data_object,
+    };
+
+    const json_data = JSON.stringify(combined);
+
+    console.log(json_data);
+
     axios
       .post("http://127.0.0.1:8000/newsubmission/", json_data, {
         headers: {

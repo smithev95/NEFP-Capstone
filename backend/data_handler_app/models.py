@@ -16,8 +16,9 @@ class Answer(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
     question_fk = models.ForeignKey("Question", on_delete=models.SET_NULL, null=True)
     answer = models.CharField(max_length=255)
-    client_id = models.IntegerField()
+    client_fk = models.ForeignKey("ClientLanguage", on_delete=models.SET_NULL, null=True)
     deleted = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.answer
@@ -41,11 +42,13 @@ class TranslatedQuestion(models.Model):
     answer_choices = ArrayField(models.CharField(blank=False))
     other = models.CharField()
 
-    '''
-    # maybe not needed since they exist in corresponding row in 'Question'?
-    deleted = models.BooleanField(default=False)
-    has_other = models.BooleanField()
-    '''
     def __str__(self):
         return self.question
+    
+class ClientLanguage(models.Model):
+    created_timestamp = models.DateTimeField(auto_now_add=True)
+    language_id = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.language_id.name
     

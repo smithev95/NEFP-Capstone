@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Answer, Question, Language, TranslatedQuestion
+from .models import Answer, Question, Language, TranslatedQuestion, ClientLanguage
 import json
 import translators as ts
 
@@ -17,24 +17,24 @@ def client_data_form(request):
         return JsonResponse({'error': 'not POST request'}, status=400)
     
     try:
-        new_id = 1
-        # Check if there's any entries in the table
-        if (Answer.objects.count() > 0):
-            # Get latest client_id from Answer
-            current_id = Answer.objects.latest("client_id").client_id
-            new_id = current_id + 1
 
         for key, value in data.items():
+            if (key == 'language'):
+                lang = Language.objects.get(id=value)
+                new_record = ClientLanguage(language_id=lang)
+                new_record.save()
+                continue
+
             # Get the OG question from the translated question
             translated_question = TranslatedQuestion.objects.get(question=key)
             question = Question.objects.get(question=translated_question.question_fk)
-
-            try: 
+            
+            try:
                 # Get index of answer from translated answer choices
                 answer_index = translated_question.answer_choices.index(value)
-                # Get English answer using same index
+                #Get english answer using same index
                 new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
-                                    client_id=new_id)
+                                    client_fk=new_record)
                 new_answer.save()
 
             # If value not in translated_question.answer_choices then it's from "other" field
@@ -43,24 +43,26 @@ def client_data_form(request):
                 translation = ts.translate_text(value, translator="google", 
                                                 to_language='en')
                 new_answer = Answer(answer=translation, question_fk=question, 
-                                    client_id=new_id)
+                                    client_fk=new_record)
                 new_answer.save()
+
         return HttpResponse({'successfull'}, status=200)  
+
     except Exception as e:
         return HttpResponse({"status": "error", "message": f"Error saving data: {str(e)}"}, 
                             status=400)
-      
+
 def client_data_list(request):
     # This converts a 'QuerySet' to a list of dictionaries.
     questions_fk_values = list(Question.objects.order_by("id").filter(deleted__exact=False).
                                values_list("id", "question"))
-    client_ids =  Answer.objects.order_by("client_id").values("client_id").distinct()
+    client_ids =  Answer.objects.order_by("client_fk").values("client_fk").distinct()
 
     client_data = []
     for id in client_ids:
         client_dict = {}
-        client_dict["client_id"] = id["client_id"]
-        client_answers = Answer.objects.filter(client_id=id["client_id"], deleted=False).values()
+        client_dict["client_fk"] = id["client_fk"]
+        client_answers = Answer.objects.filter(client_fk=id["client_fk"], deleted=False).values()
 
         # Add created_timestamp col using the first answer's created_timestamp 
         # of the client if the queryset is not empty
