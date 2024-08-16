@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .models import Question, Answer, Language, TranslatedQuestion
+from .models import Question, Answer, Language, TranslatedQuestion, ClientLanguage
 import json
 from django.views.decorators.csrf import csrf_exempt
 
@@ -9,6 +9,7 @@ admin.site.register(Question)
 admin.site.register(Answer)
 admin.site.register(Language)
 admin.site.register(TranslatedQuestion)
+admin.site.register(ClientLanguage)
 
 @csrf_exempt
 def add_question(request):
