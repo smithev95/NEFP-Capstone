@@ -36,6 +36,7 @@ def client_data_form(request):
                 new_answer = Answer(answer=question.answer_choices[answer_index], question_fk=question, 
                                     client_fk=new_record)
                 new_answer.save()
+
             # If value not in translated_question.answer_choices then it's from "other" field
             except ValueError as e:
                 # Translate the answer to English
