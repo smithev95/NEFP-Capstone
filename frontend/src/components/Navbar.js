@@ -24,8 +24,6 @@ function NavbarMenu() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavDropdown title="Editor" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/1.1">Adjust Questionnaire</NavDropdown.Item>
-                            <NavDropdown.Divider />
                             <NavDropdown.Item href="/addQuestion">Add Question</NavDropdown.Item>
                             <NavDropdown.Item href="/selectQuestion">Edit Question</NavDropdown.Item>
                             <NavDropdown.Divider />
@@ -33,8 +31,6 @@ function NavbarMenu() {
                             <NavDropdown.Item href="#action/1.6">Delete Language</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Dataviewer" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/2.1">Custom Data Viewer</NavDropdown.Item>
-                            <NavDropdown.Divider />
                             <NavDropdown.Item href="/table">Client Data</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
