@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
+import NavbarMenu from './components/Navbar.js';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import TranslateButton from './components/TranslateButton.js';
 
 const EditQuestionPage = () => {
     const location = useLocation();
@@ -12,6 +21,8 @@ const EditQuestionPage = () => {
     const [translatedQuestions, setTranslatedQuestions] = useState({});
     const [translatedAnswers, setTranslatedAnswers] = useState({});
     const [translatedOthers, setTranslatedOther] = useState({});
+    const [areQuestionsLoading, setQuestionsLoading] = useState(false);
+    const [areAnswersLoading, setAnswersLoading] = useState(false);
     let navigate = useNavigate();
 
     // Fetch language data
@@ -44,11 +55,14 @@ const EditQuestionPage = () => {
     // A function to fetch the translations after user enters a question
     const getQuestionTranslations = () => {
         if (question !== "") {
+            setQuestionsLoading(true);
             axios.get(`http://127.0.0.1:8000/translations/?question=${question}`)
             .then(response => {
                 setTranslatedQuestions(response.data);
+                setQuestionsLoading(false);
             })
             .catch(error => {
+                setQuestionsLoading(false);
                 console.error('Error fetching data:', error);
             });
         }
@@ -57,11 +71,14 @@ const EditQuestionPage = () => {
     // A function to fetch the translations after user enters answer choices
     const getAnswersTranslations = () => {
         if (answers !== "") {
+            setAnswersLoading(true);
             axios.get(`http://127.0.0.1:8000/translations/?answers=${answers}`)
             .then(response => {
                 setTranslatedAnswers(response.data);
+                setAnswersLoading(false);
             })
             .catch(error => {
+                setAnswersLoading(false);
                 console.error('Error fetching data:', error);
             });
         }
@@ -154,80 +171,112 @@ const EditQuestionPage = () => {
     function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
         if (allLanguages.length !== 0) {
             return allLanguages.map(obj => {
-                return <div className="row py-3" key={`${obj.abbreviation}`}>
-                            <label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</label>
-                            <input type="text" id={`${obj.abbreviation}-question`} name={`${obj.abbreviation}-question`}
-                            defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}/>
-                            <label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</label>
-                            <input type="text" id={`${obj.abbreviation}-other`} name={`${obj.abbreviation}-other`}
-                            defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}/>
-                            <label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</label>
-                            <input type="text" id={`${obj.abbreviation}-answers`} name={`${obj.abbreviation}-answers`}
-                            defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}/>
-                       </div>
+                return  <Card border="primary" key={`${obj.abbreviation}`}>
+                            <Card.Title className="text-center">{`${obj.name}`}</Card.Title>
+                            <Card.Body>
+                                <Form.Label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-question`}
+                                    name={`${obj.abbreviation}-question`}
+                                    defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}
+                                />
+                                <Form.Label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-other`}
+                                    name={`${obj.abbreviation}-other`}
+                                    defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}
+                                />
+                                <Form.Label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</Form.Label>
+                                <Form.Control 
+                                    type="text" 
+                                    id={`${obj.abbreviation}-answers`}
+                                    name={`${obj.abbreviation}-answers`}
+                                    defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}
+                                />
+                            </Card.Body>
+                        </Card>
             })
         }
     }
 
     return (
-        <div className="container">
-            <form method="post" onSubmit={handleSubmit}>
-                <div className="row gap-5">
-                    <div className="col">
-                        <div className="row py-3">
-                            <label htmlFor="question">Question:</label>
-                            <input type="text" id="question" name="question" 
-                            onBlur={(e) => setQuestion(e.target.value)} defaultValue={question}/>
-                            <div className="col py-3">
-                                <button type="button" onClick={getQuestionTranslations}>Get Translation</button>
-                            </div>
-                        </div>
-                        <div className="row py-3">
-                            <label htmlFor="answers">Answers (comma-separated):</label>
-                            <input type="text" id="answers" name="answers" 
-                            onBlur={(e) => setAnswers(e.target.value)} defaultValue={answers}/>
-                            <div className="col py-3">
-                                <button type="button" onClick={getAnswersTranslations}>Get Translation</button>
-                            </div>
-                        </div>
-                        <div className="row py-3">
-                            <div className="col">
-                                <div className="row">
-                                    <label htmlFor="hasOther">Has Other:</label>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <input type="radio" id="has_other_true" name="has_other" value="true" 
-                                        onChange={handleHasOtherClick}
-                                        checked={hasOther}/>
-                                        <label htmlFor="has_other_true">True</label>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <input type="radio" id="has_other_false" name="has_other" value="false" 
-                                        onChange={handleHasOtherClick} 
-                                        checked={!hasOther}/>
-                                        <label htmlFor="has_other_false">False</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row py-3">
-                            <div className="col">
-                                <button type="submit" value="update">Update</button>
-                            </div>
-                            <div className="col">
-                                <button type="submit" value="delete">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col">
+        <>
+            <NavbarMenu />
+            <Container>
+                <Form method="post" onSubmit={handleSubmit}> 
+                    <Row className="py-3">
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label htmlFor="question" column sm="2" lg="1">Question:</Form.Label>
+                            <Col sm="10" lg="6">
+                                <Form.Control className="mb-3"
+                                    type="text"
+                                    id="question"
+                                    name="question"
+                                    defaultValue={question}
+                                    onBlur={(e) => setQuestion(e.target.value)}   
+                                />
+                            </Col>
+                            <Row>
+                                <Col sm="6">
+                                    <TranslateButton loading={areQuestionsLoading} func={getQuestionTranslations} />
+                                </Col>
+                            </Row>                                
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label htmlFor="answers" column sm="2" lg="1">Answers:</Form.Label>
+                            <Col sm="10" lg="6">
+                                <Form.Control className="mb-3"
+                                    type="text"
+                                    id="answers"
+                                    name="answers"
+                                    defaultValue={answers}
+                                    onBlur={(e) => setAnswers(e.target.value)}   
+                                />
+                            </Col>
+                            <Row>
+                                <Col sm="6">
+                                    <TranslateButton loading={areAnswersLoading} func={getAnswersTranslations} />
+                                </Col>
+                            </Row>                                
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3">
+                            <Form.Label htmlFor="hasOther" column sm="4">Has Other:</Form.Label>
+                            <Form.Check
+                                checked={hasOther}
+                                type="radio"
+                                htmlFor="has_other_true"
+                                id="has_other_true"
+                                name="has_other"
+                                value="true"
+                                label="True"
+                                onClick={handleHasOtherClick}  
+                            />
+                            <Form.Check
+                                checked={!hasOther}
+                                type="radio"
+                                htmlFor="has_other_false"
+                                id="has_other_false"
+                                name="has_other"
+                                value="false"
+                                label="False"
+                                onClick={handleHasOtherClick}  
+                            />                              
+                        </Form.Group>
+                        <Row>
+                            <Col sm="6">
+                                <Button className="me-4" type="submit" value="update">Update</Button>
+                                <Button type="submit" value="delete">Delete</Button>
+                            </Col>
+                        </Row>
+                    </Row>
+                    <Row className="g-4" xs={1} lg={2} xxl={3}>
                         {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
-                    </div>
-                </div>
-            </form>
-        </div>
+                    </Row>
+                </Form>
+            </Container>
+        </>
     );
 }
 
