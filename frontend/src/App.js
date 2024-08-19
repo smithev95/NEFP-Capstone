@@ -11,6 +11,7 @@ import UpdateLanguages from "./UpdateLanguages";
 import "bootstrap/dist/css/bootstrap.css";
 import SelectQuestionPage from "./SelectQuestionPage";
 import EditQuestionPage from "./EditQuestionPage";
+import AddLanguagePage from "./AddLanguagePage";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/selectQuestion" element={<SelectQuestionPage />} />
         <Route path="/editQuestion" element={<EditQuestionPage />} />
         <Route path="/selectlanguage" element={<SelectLanguage />} />
+        <Route path="/addLanguage" element={<AddLanguagePage />} />
         <Route path="/questionaire" element={<ClientDataForm />} />
         <Route path="/table" element={<ClientDataTable />} />
         <Route path="/updatelanguage" element={<UpdateLanguages />} />

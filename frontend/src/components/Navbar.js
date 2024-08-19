@@ -27,7 +27,7 @@ function NavbarMenu() {
                             <NavDropdown.Item href="/addQuestion">Add Question</NavDropdown.Item>
                             <NavDropdown.Item href="/selectQuestion">Edit Question</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/1.5">Add Language</NavDropdown.Item>
+                            <NavDropdown.Item href="/addLanguage">Add Language</NavDropdown.Item>
                             <NavDropdown.Item href="#action/1.6">Delete Language</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Dataviewer" id="basic-nav-dropdown">
