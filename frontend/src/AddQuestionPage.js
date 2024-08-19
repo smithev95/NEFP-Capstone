@@ -108,6 +108,8 @@ const AddQuestionPage = () => {
         .then((response) => {
             if (response.status === 200) {
                 console.log("status", response.status);
+                alert("New question is successfully added!")
+                window.location.href = "/addQuestion";
             } 
             else {
                 console.log("unsuccessful");

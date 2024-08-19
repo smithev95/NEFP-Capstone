@@ -133,6 +133,7 @@ const EditQuestionPage = () => {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("status", response.status);
+                    alert("Question is successfully updated!");
                     navigate("/selectQuestion");
                 } 
                 else {
@@ -156,6 +157,7 @@ const EditQuestionPage = () => {
             .then((response) => {
                 if (response.status === 200) {
                     console.log("status", response.status);
+                    alert("Question is successfully deleted!");
                     navigate("/selectQuestion");
                 } 
                 else {
