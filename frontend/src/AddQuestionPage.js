@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import TranslateButton from './components/TranslateButton.js';
 
 const AddQuestionPage = () => {
     const [allLanguages, setallLanguages] = useState([]);
@@ -119,57 +119,6 @@ const AddQuestionPage = () => {
         });
     }
 
-    const translateQuestionButton = () =>
-    {
-        if(areQuestionsLoading)
-        {
-            return (
-                <Button variant="primary" disabled>
-                    <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                    />
-                    &nbsp;&nbsp;Loading...
-                </Button>
-            );
-        }
-        else
-        {
-            return (
-                <Button type="button" onClick={getQuestionTranslations}>Get Translation</Button>
-            );
-        }
-    }
-
-    const translateAnswersButton = () =>
-        {
-            if(areAnswersLoading)
-            {
-                return (
-                    <Button variant="primary" disabled>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        &nbsp;&nbsp;Loading...
-                    </Button>
-                );
-            }
-            else
-            {
-                return (
-                    <Button type="button" onClick={getAnswersTranslations}>Get Translation</Button>
-                );
-            }
-        }
-
-
     function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
         if (allLanguages.length !== 0) {
             return allLanguages.map(obj => {
@@ -222,7 +171,7 @@ const AddQuestionPage = () => {
                         </Col>
                         <Row>
                             <Col sm="6">
-                                {translateQuestionButton()}
+                                <TranslateButton loading={areQuestionsLoading} func={getQuestionTranslations} />
                             </Col>
                         </Row>                                
                     </Form.Group>
@@ -239,7 +188,7 @@ const AddQuestionPage = () => {
                         </Col>
                         <Row>
                             <Col sm="6">
-                                {translateAnswersButton()}
+                                <TranslateButton loading={areAnswersLoading} func={getAnswersTranslations} />
                             </Col>
                         </Row>                                
                     </Form.Group>
