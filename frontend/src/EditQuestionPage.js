@@ -8,8 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import TranslateButton from './components/TranslateButton.js';
+import TranslatedTextCards from './components/TranslatedTextCards.js';
 
 const EditQuestionPage = () => {
     const location = useLocation();
@@ -168,39 +168,6 @@ const EditQuestionPage = () => {
         }
     }
 
-    function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
-        if (allLanguages.length !== 0) {
-            return allLanguages.map(obj => {
-                return  <Card border="primary" key={`${obj.abbreviation}`}>
-                            <Card.Title className="text-center">{`${obj.name}`}</Card.Title>
-                            <Card.Body>
-                                <Form.Label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-question`}
-                                    name={`${obj.abbreviation}-question`}
-                                    defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}
-                                />
-                                <Form.Label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-other`}
-                                    name={`${obj.abbreviation}-other`}
-                                    defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}
-                                />
-                                <Form.Label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-answers`}
-                                    name={`${obj.abbreviation}-answers`}
-                                    defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}
-                                />
-                            </Card.Body>
-                        </Card>
-            })
-        }
-    }
-
     return (
         <>
             <NavbarMenu />
@@ -272,7 +239,12 @@ const EditQuestionPage = () => {
                         </Row>
                     </Row>
                     <Row className="g-4" xs={1} lg={2} xxl={3}>
-                        {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
+                        <TranslatedTextCards 
+                            langs={allLanguages} 
+                            questions={translatedQuestions}
+                            answers={translatedAnswers}
+                            others={translatedOthers}
+                        />
                     </Row>
                 </Form>
             </Container>
