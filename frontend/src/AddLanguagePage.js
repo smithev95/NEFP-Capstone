@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import NavbarMenu from './components/Navbar.js';
-import Container from 'react-bootstrap/Container';
+import { Container, Button } from 'react-bootstrap';
 import LanguageSelect from './components/LanguageDropdown';
-import LabelTextBoxForm from './components/LabelTextBoxForm';
+import QuestionDataEditor from './components/QuestionDataEditor.js';
 
 // select language
 // make sure language was not already added
 // load all questions
-// translate all questions
+// load answers for each question
+// translate all questions and answers
 // add language and question translations to the database
 // inform user whether data was added sucessfully
     // if failed, display failure + reason, allow user to edit form
@@ -18,6 +19,7 @@ const AddLanguagePage = () => {
     const [allLanguages, setallLanguages] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([]);
     const [translationStatus, setTranslationStatus] = useState(null);  // null, 'success'
     const [errorMessage, setErrorMessage] = useState('');
     const [languageAlreadyAdded, setLanguageAlreadyAdded] = useState(true);
@@ -42,17 +44,15 @@ const AddLanguagePage = () => {
 
     // fetch all questions
     useEffect(() => {
-        if(selectedLanguage) {
-            console.log("AddLanguagePage.js fetching questions.");
-            axios.get('http://127.0.0.1:8000/questions')
-            .then(response => {
-                setQuestions(response.data)
-            })
-            .catch(error => {
-                console.error('Error fetching questions', error);
-            });
-        }
-    }, [selectedLanguage]);
+        console.log("AddLanguagePage.js fetching questions.");
+        axios.get('http://127.0.0.1:8000/questions/')
+        .then(response => {
+            setQuestions(response.data)
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, []);
 
     const handleLanguageSelect = (abbreviation) => {
         const languageInList = allLanguages.some(lang => lang.abbreviation === abbreviation);
@@ -65,8 +65,13 @@ const AddLanguagePage = () => {
         setSelectedLanguage(abbreviation);
     };
 
-    // TODO: translate question
-
+    const handleSubmit = () => {
+        if(!selectedLanguage) {
+            setErrorMessage("Please select a language.");
+            return;
+        }
+        // TODO: need to finish submit handler
+    }
 
     return (
         <>
@@ -75,7 +80,15 @@ const AddLanguagePage = () => {
             <hr className="my-4" />
             <LanguageSelect onSelect={handleLanguageSelect} />
             <hr className="my-4" />
-            <LabelTextBoxForm labels={labels} />  
+            <QuestionDataEditor data={questions}/> 
+            <hr className="my-4" />
+            <Button 
+                className="btn btn-primary mt-3" 
+                onClick={handleSubmit}
+                disabled={languageAlreadyAdded || !selectedLanguage}
+            >
+                Submit
+            </Button> 
         </Container>
         </>
     );
