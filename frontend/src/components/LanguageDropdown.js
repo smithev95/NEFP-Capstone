@@ -120,7 +120,7 @@ const LanguageDropdown = () => {
                         Select Language
                     </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
+                    <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto'}}>
                         {languages.map((language) => (
                             <Dropdown.Item key={language.abbreviation} eventKey={language.abbreviation}>
                                 {language.name} ({language.abbreviation})
