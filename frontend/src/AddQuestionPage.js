@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
-import Card from 'react-bootstrap/Card';
+import TranslateButton from './components/TranslateButton.js';
+import TranslatedTextCards from './components/TranslatedTextCards.js';
 
 const AddQuestionPage = () => {
     const [allLanguages, setallLanguages] = useState([]);
@@ -108,6 +108,8 @@ const AddQuestionPage = () => {
         .then((response) => {
             if (response.status === 200) {
                 console.log("status", response.status);
+                alert("New question is successfully added!")
+                window.location.href = "/addQuestion";
             } 
             else {
                 console.log("unsuccessful");
@@ -117,90 +119,6 @@ const AddQuestionPage = () => {
             console.error("Error sending data", error);
             alert(error.response.data.message);
         });
-    }
-
-    const translateQuestionButton = () =>
-    {
-        if(areQuestionsLoading)
-        {
-            return (
-                <Button variant="primary" disabled>
-                    <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                    />
-                    &nbsp;&nbsp;Loading...
-                </Button>
-            );
-        }
-        else
-        {
-            return (
-                <Button type="button" onClick={getQuestionTranslations}>Get Translation</Button>
-            );
-        }
-    }
-
-    const translateAnswersButton = () =>
-        {
-            if(areAnswersLoading)
-            {
-                return (
-                    <Button variant="primary" disabled>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        &nbsp;&nbsp;Loading...
-                    </Button>
-                );
-            }
-            else
-            {
-                return (
-                    <Button type="button" onClick={getAnswersTranslations}>Get Translation</Button>
-                );
-            }
-        }
-
-
-    function displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers) {
-        if (allLanguages.length !== 0) {
-            return allLanguages.map(obj => {
-                return  <Card border="primary" key={`${obj.abbreviation}`}>
-                            <Card.Title className="text-center">{`${obj.name}`}</Card.Title>
-                            <Card.Body>
-                                <Form.Label htmlFor={`${obj.abbreviation}-question`}>{`${obj.name} Question:`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-question`}
-                                    name={`${obj.abbreviation}-question`}
-                                    defaultValue={translatedQuestions[obj.abbreviation] ? `${translatedQuestions[obj.abbreviation]}` : ""}
-                                />
-                                <Form.Label htmlFor={`${obj.abbreviation}-other`}>{`${obj.name} "Other":`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-other`}
-                                    name={`${obj.abbreviation}-other`}
-                                    defaultValue={translatedOthers[obj.abbreviation] ? `${translatedOthers[obj.abbreviation]}` : ""}
-                                />
-                                <Form.Label htmlFor={`${obj.abbreviation}-answers`}>{`${obj.name} Answers:`}</Form.Label>
-                                <Form.Control 
-                                    type="text" 
-                                    id={`${obj.abbreviation}-answers`}
-                                    name={`${obj.abbreviation}-answers`}
-                                    defaultValue={translatedAnswers[obj.abbreviation] ? `${translatedAnswers[obj.abbreviation]}` : ""}
-                                />
-                            </Card.Body>
-                        </Card>
-            })
-        }
     }
 
     return (
@@ -222,7 +140,7 @@ const AddQuestionPage = () => {
                         </Col>
                         <Row>
                             <Col sm="6">
-                                {translateQuestionButton()}
+                                <TranslateButton loading={areQuestionsLoading} func={getQuestionTranslations} />
                             </Col>
                         </Row>                                
                     </Form.Group>
@@ -239,7 +157,7 @@ const AddQuestionPage = () => {
                         </Col>
                         <Row>
                             <Col sm="6">
-                                {translateAnswersButton()}
+                                <TranslateButton loading={areAnswersLoading} func={getAnswersTranslations} />
                             </Col>
                         </Row>                                
                     </Form.Group>
@@ -272,7 +190,12 @@ const AddQuestionPage = () => {
                     </Row>
                 </Row>
                 <Row className="g-4" xs={1} lg={2} xxl={3}>
-                    {displayTranslatedText(allLanguages, translatedQuestions, translatedAnswers, translatedOthers)}
+                    <TranslatedTextCards 
+                        langs={allLanguages} 
+                        questions={translatedQuestions}
+                        answers={translatedAnswers}
+                        others={translatedOthers}
+                    />
                 </Row>
             </Form>
         </Container>
