@@ -17,7 +17,7 @@ const LandingPage = () => {
       </div>
       {/* <hr className="mt-5 mb-5" style={{ width: "40%", margin: "0 auto" }} /> */}
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <p style={{ color: "rgba(1,86,138,216)" }}>Place holder text</p>
+        <p style={{ color: "rgba(1,86,138,216)" }}>Client Intake Application</p>
       </div>
       <hr className="mt-5 mb-5" style={{ width: "40%", margin: "0 auto" }} />
       <div
