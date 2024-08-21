@@ -72,8 +72,8 @@ const ClientDataList = () => {
     ]);
   };
 
-  const excludedHeaders = ['created_timestamp'];
-  const excludedCharts = ['client_id', 'created_timestamp'];
+  const excludedHeaders = ['client_fk','created_timestamp'];
+  const excludedCharts = ['client_fk', 'created_timestamp'];
 
   
   const getHeaders = (data) => {
