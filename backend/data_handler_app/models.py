@@ -47,6 +47,7 @@ class TranslatedQuestion(models.Model):
     
 class ClientLanguage(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True)
+    #This should really be called `language_fk` for clarity
     language_id = models.ForeignKey("Language", on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
