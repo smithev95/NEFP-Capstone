@@ -34,7 +34,7 @@ After cloning the remote repository to your local machine:
 1. Change directory to `frontend`.
 2. Run `npm install` to install dependencies from `package.json`.
 3. Run `npm start`.
-4. A URL link fro local development should appear.
+4. A URL link for local development should appear, or React app will open in default browser automatically.
 
 ## Contributing to the project
 
@@ -53,17 +53,12 @@ After cloning the remote repository to your local machine:
 
    # Checklist before requesting a review
    [ ] I have performed a self-review of my code
-   [ ] If it is a core feature, I have added thorough tests.
-   [ ] Do we need to implement analytics?
+   [ ] If it is a core feature, I have added thorough tests or throroughly tested manually
    [ ] Will this be part of a product update? If yes, please write one phrase about this update.
    ```
 4. At least one team member has to review and approve the PR before the changes can be merged to `main`.
 5. Add the PR link to the associated ticket in the Kanban board
 6. Mark the ticket as completed.
-
-## Some git commands
-
-1.
 
 ## Project Kanban Board
 
