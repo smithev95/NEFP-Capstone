@@ -63,12 +63,21 @@ def client_data_list(request):
         client_dict = {}
         client_dict["client_fk"] = id["client_fk"]
         client_answers = Answer.objects.filter(client_fk=id["client_fk"], deleted=False).values()
+        client_language = ClientLanguage.objects.filter(id=id["client_fk"]).first()  # Assuming `id["client_fk"]` is actually the ID of `ClientLanguage`
 
         # Add created_timestamp col using the first answer's created_timestamp 
         # of the client if the queryset is not empty
         client_dict["created_timestamp"] = None
         if (client_answers):
             client_dict["created_timestamp"] = client_answers[0]["created_timestamp"]
+
+
+        language_name = None
+        if client_language:
+            language = Language.objects.filter(id=client_language.language_id_id).first()
+            if language:
+                language_name = language.name
+                client_dict["language_used"] = language_name
 
         for q_id, question in questions_fk_values:
             for answer in client_answers:

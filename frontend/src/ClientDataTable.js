@@ -72,8 +72,8 @@ const ClientDataList = () => {
     ]);
   };
 
-  const excludedHeaders = ['created_timestamp'];
-  const excludedCharts = ['client_id', 'created_timestamp'];
+  const excludedHeaders = ['client_fk','created_timestamp'];
+  const excludedCharts = ['client_fk', 'created_timestamp'];
 
   
   const getHeaders = (data) => {
@@ -86,8 +86,8 @@ const ClientDataList = () => {
 
   const getRows = (data) => {
     if (data.length !== 0) {
-      return data.map(obj => (
-        <tr key={`${obj.client_id}`}>
+      return data.map((obj,index) => (
+        <tr key={`${obj.client_fk}-${index}`}> 
           {getCells(obj)}
         </tr>
       ));
@@ -98,7 +98,7 @@ const ClientDataList = () => {
     return Object.entries(obj)
       .filter(([key]) => !excludedHeaders.includes(key))
       .map(([key, value], idx) => (
-        <td key={`${obj.client_id}-${idx}-${value}`}>{value}</td>
+        <td key={`${obj.client_fk}-${key}-${idx}`}>{value}</td> 
       ));
   };
 
